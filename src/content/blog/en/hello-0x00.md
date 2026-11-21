@@ -11,7 +11,7 @@ Welcome to the new home of the 0x00 community.
 
 ## What's here
 
-- **[Projects](/projects/)** — every project in the [0x00-Community](https://github.com/0x00-Community) organization. The [j8 book](/projects/j8/) is served right here on this site.
+- **[Projects](/projects/)** — every project in the [0x00-Community](https://github.com/0x00-Community) organization. The [j8 book](https://j8.app238.com/) has a site of its own.
 - **[Docs](/docs/)** — how the community works and how to contribute.
 - **Blog** — releases, engineering notes and community news, starting with this post.
 

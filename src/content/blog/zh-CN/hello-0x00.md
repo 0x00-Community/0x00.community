@@ -11,7 +11,7 @@ author: 0x00 社区
 
 ## 这里有什么
 
-- **[项目](/zh-CN/projects/)**：[0x00-Community](https://github.com/0x00-Community) 组织下的全部项目。[j8 之书](/zh-CN/projects/j8/)直接在本站提供。
+- **[项目](/zh-CN/projects/)**：[0x00-Community](https://github.com/0x00-Community) 组织下的全部项目。[j8 之书](https://j8.app238.com/zh-CN/)有自己的站点。
 - **[文档](/zh-CN/docs/)**：社区如何运作，以及如何参与贡献。
 - **博客**：版本发布、工程笔记和社区动态，从这篇开始。
 

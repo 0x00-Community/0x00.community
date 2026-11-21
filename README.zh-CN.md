@@ -29,15 +29,10 @@ src/content/docs/<locale>/    文档（Markdown，`order` 决定侧栏顺序）
 src/data/projects.ts          项目列表，含两种语言的简介
 src/components/               两种语言共用的页面主体
 src/pages/, src/pages/zh-CN/  每种语言的薄路由
-src/lib/book.ts               /projects/j8/ -> j8 之书 Worker 的反向代理
+src/lib/j8.ts                 /projects/j8/ 301 到 j8 站点（j8.app238.com）
 wrangler.jsonc                Worker 配置
 ```
 
-`/projects/j8/`（及 `/zh-CN/projects/j8/`）不是静态页面，而是通过服务绑定 `J8_BOOK` 代理到 `j8-mdbook` Worker。本地试用需要构建后把两个 Worker 一起跑：
-
-```sh
-bun run build
-bunx wrangler dev -c dist/server/wrangler.json -c ../j8/mdbook/wrangler.jsonc
-```
+j8 之书有自己的域名 [j8.app238.com](https://j8.app238.com/zh-CN/)（Worker `j8-mdbook`，源码在 j8 仓库的 `mdbook/`）。`/projects/j8/<路径>`（及 `/zh-CN/projects/j8/<路径>`）以 301 跳到那边的同一路径，项目列表直接链过去。
 
 部署时 `CLOUDFLARE_ACCOUNT_ID` 要指向拥有 `0x00.community` zone 的账号。

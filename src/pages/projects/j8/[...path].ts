@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { proxyBook } from '../../../lib/book';
+import { redirectJ8 } from '../../../lib/j8';
 
 export const prerender = false;
-export const ALL: APIRoute = (ctx) => proxyBook(ctx, '');
+export const ALL: APIRoute = (ctx) => redirectJ8(ctx, '');
