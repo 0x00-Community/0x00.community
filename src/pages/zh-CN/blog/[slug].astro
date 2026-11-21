@@ -1,0 +1,10 @@
+---
+import BlogPost from '../../../components/BlogPost.astro';
+import { posts, slugOf } from '../../../i18n';
+
+export const getStaticPaths = async () =>
+	(await posts('zh-CN')).map((post) => ({ params: { slug: slugOf(post) }, props: { post } }));
+const { post } = Astro.props;
+---
+
+<BlogPost locale="zh-CN" post={post} />

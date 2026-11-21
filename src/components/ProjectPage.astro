@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { href, ui, type Locale } from '../i18n';
+import { org, type Project } from '../data/projects';
+
+interface Props { locale: Locale; project: Project }
+const { locale, project } = Astro.props;
+const t = ui[locale];
+const repo = `${org}/${project.name}`;
+---
+
+<Base title={project.name} description={project.desc[locale]}>
+	<p class="eyebrow"><a href={href(locale, '/projects/')}>{t.projectsTitle}</a></p>
+	<h1 class="page-title mono">{project.name}</h1>
+	<p class="lede">{project.desc[locale]}</p>
+	<p><a class="more" href={repo}>{t.repo} →</a></p>
+</Base>
