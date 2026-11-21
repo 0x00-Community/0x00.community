@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Wordmark from './Wordmark.astro';
 import { formatDate, href, posts, slugOf, ui, type Locale } from '../i18n';
 import { projects } from '../data/projects';
 
@@ -11,7 +12,7 @@ const latest = (await posts(locale)).slice(0, 3);
 
 <Base>
 	<section class="hero">
-		<p class="mono mark">0x00</p>
+		<Wordmark class="wordmark" />
 		<h1>{t.heroTitle}</h1>
 		<p class="lede">{t.heroLede}</p>
 		<a class="more" href={href(locale, '/docs/')}>{t.readDocs}</a>
@@ -47,7 +48,7 @@ const latest = (await posts(locale)).slice(0, 3);
 
 <style>
 	.hero { padding: 24px 0 16px; }
-	.mark { color: var(--accent); font-size: 1.1rem; margin: 0 0 12px; }
+	.hero :global(.wordmark) { width: min(100%, 520px); height: auto; margin: 0 0 36px; }
 	h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1.15; margin: 0 0 20px; letter-spacing: -0.02em; }
 	section + section { margin-top: 56px; }
 </style>

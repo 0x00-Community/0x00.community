@@ -4,6 +4,10 @@ English | [简体中文](README.zh-CN.md)
 
 Website of the [0x00 Community](https://github.com/0x00-Community), built with [Astro](https://astro.build) and deployed as a [Cloudflare Worker](https://developers.cloudflare.com/workers/) (static assets + `@astrojs/cloudflare`).
 
+## Brand
+
+Logos, favicons and the social banner come from the 0x00 brand kit (hardcore edition: dot matrix with a red terminator). The wordmark and the micro mark are inlined as `src/components/Wordmark.astro` and `src/components/Mark.astro`, colored through the `--dot-on`, `--dot-off` and `--terminator` tokens so they follow the light and dark themes.
+
 ## Development
 
 | Command | Action |
