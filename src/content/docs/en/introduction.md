@@ -18,7 +18,7 @@ See [Projects](/projects/) for the full list. Some highlights:
 
 | Project | What it is |
 | --- | --- |
-| [j8](/projects/j8/) | A JavaScript engine in Rust, layered like V8 |
+| [j8](https://j8.app238.com/) | A JavaScript engine in Rust, layered like V8 |
 | [paragc](/projects/paragc/) | A parallel garbage collector for Rust |
 | [detour](/projects/detour/) | A GPU userspace driver in Rust, built on MLIR |
 

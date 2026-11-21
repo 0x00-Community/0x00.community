@@ -3,7 +3,7 @@ import ProjectPage from '../../../components/ProjectPage.astro';
 import { projects } from '../../../data/projects';
 
 export const getStaticPaths = () =>
-	projects.filter((p) => !p.book).map((project) => ({ params: { name: project.name }, props: { project } }));
+	projects.filter((p) => !p.site).map((project) => ({ params: { name: project.name }, props: { project } }));
 const { project } = Astro.props;
 ---
 

@@ -29,15 +29,10 @@ src/content/docs/<locale>/    docs pages (Markdown, `order` sets the sidebar ord
 src/data/projects.ts          project list with descriptions in both languages
 src/components/               page bodies shared by both languages
 src/pages/, src/pages/zh-CN/  thin routes per language
-src/lib/book.ts               reverse proxy for /projects/j8/ -> the j8 book Worker
+src/lib/j8.ts                 301 from /projects/j8/ to the j8 site (j8.app238.com)
 wrangler.jsonc                Worker configuration
 ```
 
-`/projects/j8/` (and `/zh-CN/projects/j8/`) is not a static page: it is proxied to the `j8-mdbook` Worker through the `J8_BOOK` service binding. To try it locally, build and run both Workers together:
-
-```sh
-bun run build
-bunx wrangler dev -c dist/server/wrangler.json -c ../j8/mdbook/wrangler.jsonc
-```
+The j8 book has its own domain, [j8.app238.com](https://j8.app238.com/) (Worker `j8-mdbook`, source in the j8 repository's `mdbook/`). `/projects/j8/<path>` (and `/zh-CN/projects/j8/<path>`) answer with a 301 to the same path there, and the project lists link to it directly.
 
 Deploying requires `CLOUDFLARE_ACCOUNT_ID` to point at the account that owns the `0x00.community` zone.

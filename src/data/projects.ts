@@ -3,8 +3,8 @@ import type { Locale } from '../i18n';
 export interface Project {
 	name: string;
 	desc: Record<Locale, string>;
-	/** Served by this site under /projects/<name>/ instead of a static detail page. */
-	book?: boolean;
+	/** The project's own website, linked instead of a detail page here. */
+	site?: Record<Locale, string>;
 }
 
 export const org = 'https://github.com/0x00-Community';
@@ -12,7 +12,7 @@ export const org = 'https://github.com/0x00-Community';
 export const projects: Project[] = [
 	{
 		name: 'j8',
-		book: true,
+		site: { en: 'https://j8.app238.com/', 'zh-CN': 'https://j8.app238.com/zh-CN/' },
 		desc: {
 			en: 'A JavaScript engine written from scratch in Rust, layered like V8: an accumulator bytecode interpreter, a JIT that lowers through MLIR to x86-64, and a garbage collector of its own.',
 			'zh-CN': '用 Rust 从零编写的 JavaScript 引擎，分层与 V8 相同：累加器字节码解释器、经 MLIR 下降到 x86-64 的 JIT，以及自研的垃圾回收器。',
