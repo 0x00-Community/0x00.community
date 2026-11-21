@@ -1,4 +1,5 @@
 ---
+import Mark from '../components/Mark.astro';
 import { href, localeOf, locales, switchLocale, ui } from '../i18n';
 
 interface Props {
@@ -25,14 +26,22 @@ const other = locales.find((l) => l !== locale)!;
 		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32.png" />
+		<link rel="apple-touch-icon" href="/brand/favicon-180.png" />
+		<meta name="theme-color" content="#0B0B0B" media="(prefers-color-scheme: dark)" />
+		<meta name="theme-color" content="#F2F0EA" media="(prefers-color-scheme: light)" />
+		<meta property="og:site_name" content="0x00 Community" />
+		<meta property="og:title" content={fullTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={new URL('/brand/banner-1500x500.png', Astro.site)} />
+		<meta name="twitter:card" content="summary_large_image" />
 		{locales.map((l) => <link rel="alternate" hreflang={l} href={new URL(switchLocale(Astro.url.pathname, l), Astro.site)} />)}
 		<title>{fullTitle}</title>
 	</head>
 	<body>
 		<header class="top">
 			<nav class="wrap">
-				<a class="brand mono" href={href(locale)}>0x00</a>
+				<a class="brand mono" href={href(locale)}><Mark class="mark" />0x00</a>
 				<div class="links">
 					{nav.map((n) => (
 						<a href={href(locale, `/${n.key}/`)} aria-current={section === n.key ? 'page' : undefined}>
@@ -56,24 +65,30 @@ const other = locales.find((l) => l !== locale)!;
 </html>
 
 <style is:global>
+	/* Palette of the 0x00 brand kit (hardcore edition). */
 	:root {
-		--bg: #0b0d10;
-		--fg: #e6e8eb;
-		--muted: #8b939e;
-		--line: #222831;
-		--code: #14181d;
-		--accent: #4ade80;
+		--bg: #0b0b0b;
+		--fg: #edede6;
+		--muted: #8f8d85;
+		--line: #222220;
+		--code: #161615;
+		--dot-on: #edede6;
+		--dot-off: #262624;
+		--terminator: #ff4a1c;
+		--accent: #ff4a1c;
 		color-scheme: dark;
 		font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Noto Sans CJK SC', sans-serif;
 	}
 	@media (prefers-color-scheme: light) {
 		:root {
-			--bg: #fbfbfa;
-			--fg: #16181c;
-			--muted: #5d6570;
-			--line: #e3e5e8;
-			--code: #f1f2f4;
-			--accent: #15803d;
+			--bg: #f2f0ea;
+			--fg: #111110;
+			--muted: #5f5d56;
+			--line: #dcd9cf;
+			--code: #e8e5dc;
+			--dot-on: #111110;
+			--dot-off: #d9d6cc;
+			--accent: #c8370f;
 			color-scheme: light;
 		}
 	}
@@ -84,7 +99,8 @@ const other = locales.find((l) => l !== locale)!;
 	.wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
 	.top { border-bottom: 1px solid var(--line); }
 	.top nav { display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 16px; }
-	.brand { color: var(--accent); font-weight: 700; text-decoration: none; font-size: 1.1rem; }
+	.brand { display: flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; font-size: 1.05rem; letter-spacing: 0.04em; }
+	.brand .mark { width: 22px; height: 22px; }
 	.links { display: flex; gap: 20px; align-items: center; font-size: 0.95rem; }
 	.links a { text-decoration: none; color: var(--muted); }
 	.links a:hover, .links a[aria-current='page'] { color: var(--fg); }

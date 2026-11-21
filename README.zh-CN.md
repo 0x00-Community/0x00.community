@@ -4,6 +4,10 @@
 
 [0x00 开源社区](https://github.com/0x00-Community)官网，使用 [Astro](https://astro.build) 构建，部署为 [Cloudflare Worker](https://developers.cloudflare.com/workers/)（静态资源 + `@astrojs/cloudflare`）。
 
+## 品牌
+
+标志、网站图标和社交横幅来自 0x00 品牌资产包（硬核版：点阵 + 红色终止符）。横版字标和小标内联为 `src/components/Wordmark.astro` 与 `src/components/Mark.astro`，通过 `--dot-on`、`--dot-off`、`--terminator` 三个色值上色，随深浅色主题切换。
+
 ## 开发
 
 | 命令 | 作用 |
