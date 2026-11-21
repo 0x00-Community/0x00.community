@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import { formatDate, href, posts, slugOf, ui, type Locale } from '../i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = ui[locale];
+const all = await posts(locale);
+---
+
+<Base title={t.blogTitle} description={t.blogLede}>
+	<h1 class="page-title">{t.blogTitle}</h1>
+	<p class="lede">{t.blogLede}</p>
+	<ul class="list">
+		{all.map((post) => (
+			<li>
+				<a class="title" href={href(locale, `/blog/${slugOf(post)}/`)}>{post.data.title}</a>
+				<p>{post.data.description}</p>
+				<span class="meta">{formatDate(locale, post.data.date)} · {post.data.author}</span>
+			</li>
+		))}
+	</ul>
+</Base>

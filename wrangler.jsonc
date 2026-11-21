@@ -8,6 +8,9 @@
 		"directory": "./dist",
 		"binding": "ASSETS"
 	},
+	"services": [
+		{ "binding": "J8_BOOK", "service": "j8-mdbook" }
+	],
 	"routes": [
 		{ "pattern": "0x00.community", "custom_domain": true }
 	],

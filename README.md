@@ -17,9 +17,23 @@ Website of the [0x00 Community](https://github.com/0x00-Community), built with [
 
 ## Layout
 
+The site is bilingual: English at the root, Simplified Chinese under `/zh-CN/`.
+
 ```
-src/layouts/   shared page shell and global styles
-src/pages/     routes (index.astro is the home page)
-public/        static files copied as-is
-wrangler.jsonc Worker configuration
+src/content/blog/<locale>/    blog posts (Markdown, one folder per language)
+src/content/docs/<locale>/    docs pages (Markdown, `order` sets the sidebar order)
+src/data/projects.ts          project list with descriptions in both languages
+src/components/               page bodies shared by both languages
+src/pages/, src/pages/zh-CN/  thin routes per language
+src/lib/book.ts               reverse proxy for /projects/j8/ -> the j8 book Worker
+wrangler.jsonc                Worker configuration
 ```
+
+`/projects/j8/` (and `/zh-CN/projects/j8/`) is not a static page: it is proxied to the `j8-mdbook` Worker through the `J8_BOOK` service binding. To try it locally, build and run both Workers together:
+
+```sh
+bun run build
+bunx wrangler dev -c dist/server/wrangler.json -c ../j8/mdbook/wrangler.jsonc
+```
+
+Deploying requires `CLOUDFLARE_ACCOUNT_ID` to point at the account that owns the `0x00.community` zone.

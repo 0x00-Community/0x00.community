@@ -1,0 +1,20 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { formatDate, href, ui, type Locale, type Post } from '../i18n';
+
+interface Props { locale: Locale; post: Post }
+const { locale, post } = Astro.props;
+const t = ui[locale];
+const { Content } = await render(post);
+---
+
+<Base title={post.data.title} description={post.data.description}>
+	<p class="eyebrow"><a href={href(locale, '/blog/')}>{t.blogTitle}</a></p>
+	<article class="prose">
+		<h1 class="page-title">{post.data.title}</h1>
+		<p class="meta">{formatDate(locale, post.data.date)} · {t.by} {post.data.author}</p>
+		<Content />
+	</article>
+	<p><a class="more" href={href(locale, '/blog/')}>{t.back}</a></p>
+</Base>

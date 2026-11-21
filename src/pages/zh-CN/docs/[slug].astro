@@ -1,0 +1,10 @@
+---
+import DocPage from '../../../components/DocPage.astro';
+import { docs, slugOf } from '../../../i18n';
+
+export const getStaticPaths = async () =>
+	(await docs('zh-CN')).map((doc) => ({ params: { slug: slugOf(doc) }, props: { doc } }));
+const { doc } = Astro.props;
+---
+
+<DocPage locale="zh-CN" doc={doc} />

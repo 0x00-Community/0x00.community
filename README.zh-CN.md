@@ -17,9 +17,23 @@
 
 ## 目录
 
+站点中英双语：英文在根路径，简体中文在 `/zh-CN/` 下。
+
 ```
-src/layouts/   公共页面外壳与全局样式
-src/pages/     路由（index.astro 为首页）
-public/        原样拷贝的静态文件
-wrangler.jsonc Worker 配置
+src/content/blog/<locale>/    博客（Markdown，每种语言一个目录）
+src/content/docs/<locale>/    文档（Markdown，`order` 决定侧栏顺序）
+src/data/projects.ts          项目列表，含两种语言的简介
+src/components/               两种语言共用的页面主体
+src/pages/, src/pages/zh-CN/  每种语言的薄路由
+src/lib/book.ts               /projects/j8/ -> j8 之书 Worker 的反向代理
+wrangler.jsonc                Worker 配置
 ```
+
+`/projects/j8/`（及 `/zh-CN/projects/j8/`）不是静态页面，而是通过服务绑定 `J8_BOOK` 代理到 `j8-mdbook` Worker。本地试用需要构建后把两个 Worker 一起跑：
+
+```sh
+bun run build
+bunx wrangler dev -c dist/server/wrangler.json -c ../j8/mdbook/wrangler.jsonc
+```
+
+部署时 `CLOUDFLARE_ACCOUNT_ID` 要指向拥有 `0x00.community` zone 的账号。
