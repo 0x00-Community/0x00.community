@@ -8,6 +8,9 @@
 		"directory": "./dist",
 		"binding": "ASSETS"
 	},
+	"routes": [
+		{ "pattern": "0x00.community", "custom_domain": true }
+	],
 	"observability": {
 		"enabled": true
 	}
