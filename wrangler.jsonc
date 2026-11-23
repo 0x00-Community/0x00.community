@@ -12,6 +12,6 @@
 		{ "pattern": "0x00.community", "custom_domain": true }
 	],
 	"observability": {
-		"enabled": true
+		"enabled": false
 	}
 }
