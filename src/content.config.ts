@@ -21,4 +21,14 @@ const docs = defineCollection({
 	}),
 });
 
-export const collections = { blog, docs };
+const covenant = defineCollection({
+	loader: glob({ pattern: '**/*.md', base: './src/content/covenant' }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		version: z.string(),
+		date: z.coerce.date(),
+	}),
+});
+
+export const collections = { blog, docs, covenant };
