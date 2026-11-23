@@ -26,6 +26,7 @@
 ```
 src/content/blog/<locale>/    博客（Markdown，每种语言一个目录）
 src/content/docs/<locale>/    文档（Markdown，`order` 决定侧栏顺序）
+src/content/covenant/<locale>/ 社区公约，每个版本一个文件（`/covenant/LICENSE4project/` 显示最新版，`/covenant/LICENSE4project/<版本>/` 是固定版本）
 src/data/projects.ts          项目列表，含两种语言的简介
 src/components/               两种语言共用的页面主体
 src/pages/, src/pages/zh-CN/  每种语言的薄路由

@@ -1,0 +1,15 @@
+---
+import CovenantPage from '../../../../components/CovenantPage.astro';
+import { covenants } from '../../../../i18n';
+
+export const getStaticPaths = async () => {
+	const all = await covenants('zh-CN');
+	return [
+		{ params: { version: undefined }, props: { covenant: all[0]! } },
+		...all.map((covenant) => ({ params: { version: covenant.data.version }, props: { covenant } })),
+	];
+};
+const { covenant } = Astro.props;
+---
+
+<CovenantPage locale="zh-CN" covenant={covenant} />

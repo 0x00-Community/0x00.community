@@ -25,6 +25,9 @@ export const ui = {
 		docsTitle: 'Docs',
 		docsLede: 'How the community works and how to take part.',
 		by: 'by',
+		covenantVersion: 'Version',
+		covenantLatest: 'Latest version',
+		covenantEffective: 'Effective',
 		back: '← Back',
 		dateLocale: 'en-US',
 	},
@@ -48,6 +51,9 @@ export const ui = {
 		docsTitle: '文档',
 		docsLede: '社区如何运作，以及如何参与。',
 		by: '作者',
+		covenantVersion: '版本',
+		covenantLatest: '最新版本',
+		covenantEffective: '生效日期',
 		back: '← 返回',
 		dateLocale: 'zh-CN',
 	},
@@ -79,8 +85,21 @@ export const posts = async (locale: Locale) =>
 export const docs = async (locale: Locale) =>
 	(await getCollection('docs', (e) => split(e.id).locale === locale)).sort((a, b) => a.data.order - b.data.order);
 
+const versionKey = (v: string) => v.split('.').map(Number);
+const newer = (a: string, b: string) => {
+	const [x, y] = [versionKey(a), versionKey(b)];
+	const i = x.findIndex((n, k) => n !== (y[k] ?? 0));
+	return i < 0 ? y.length - x.length : (y[i] ?? 0) - x[i]!;
+};
+
+export const covenants = async (locale: Locale) =>
+	(await getCollection('covenant', (e) => split(e.id).locale === locale)).sort((a, b) =>
+		newer(a.data.version, b.data.version),
+	);
+
 export const formatDate = (locale: Locale, date: Date) =>
 	date.toLocaleDateString(ui[locale].dateLocale, { year: 'numeric', month: 'long', day: 'numeric' });
 
 export type Post = CollectionEntry<'blog'>;
 export type Doc = CollectionEntry<'docs'>;
+export type Covenant = CollectionEntry<'covenant'>;

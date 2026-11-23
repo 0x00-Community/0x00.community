@@ -26,6 +26,7 @@ The site is bilingual: English at the root, Simplified Chinese under `/zh-CN/`.
 ```
 src/content/blog/<locale>/    blog posts (Markdown, one folder per language)
 src/content/docs/<locale>/    docs pages (Markdown, `order` sets the sidebar order)
+src/content/covenant/<locale>/ community covenant, one file per version (`/covenant/LICENSE4project/` shows the latest, `/covenant/LICENSE4project/<version>/` a fixed one)
 src/data/projects.ts          project list with descriptions in both languages
 src/components/               page bodies shared by both languages
 src/pages/, src/pages/zh-CN/  thin routes per language
