@@ -32,7 +32,8 @@ export const embeds = (): Plugin => ({
 	transform(code, id) {
 		const path = id.split('?')[0];
 		if (!POST.test(path)) return;
-		return code.replace(EMBED, (_, ref: string, from?: string, to?: string) => {
+		// The page renders the title itself, so drop the post's own top-level heading.
+		return code.replace(/^# .*\n/m, '').replace(EMBED, (_, ref: string, from?: string, to?: string) => {
 			const file = join(dirname(path), ref);
 			this.addWatchFile(file);
 			const source = readFileSync(file, 'utf8');

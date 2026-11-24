@@ -123,8 +123,11 @@ const other = locales.find((l) => l !== locale)!;
 	.prose h3 { margin-top: 1.6em; font-size: 1.1rem; }
 	.prose a { color: var(--accent); }
 	.prose code { background: var(--code); padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.9em; }
-	.prose pre { background: var(--code) !important; padding: 14px 16px; border-radius: 8px; overflow-x: auto; }
+	.prose pre { background: var(--code) !important; padding: 14px 16px; border-radius: 8px; overflow-x: auto; tab-size: 4; }
 	.prose pre code { background: none; padding: 0; }
+	@media (prefers-color-scheme: light) {
+		.prose .astro-code, .prose .astro-code span { color: var(--shiki-light) !important; }
+	}
 	.prose table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }
 	.prose th, .prose td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; }
 	.prose blockquote { margin: 0; padding-left: 16px; border-left: 3px solid var(--line); color: var(--muted); }
