@@ -33,6 +33,20 @@ export const projects: Project[] = [
 		},
 	},
 	{
+		name: 'libacde',
+		desc: {
+			en: 'A web runtime for desktop apps, without a browser: V8 for logic, its own DOM, layout and GPU rendering, and system access through acde: modules declared in each app manifest. Standard web APIs, never altered.',
+			'zh-CN': '不带浏览器的桌面应用 web 运行时：V8 跑逻辑，自研 DOM、排版与 GPU 绘制，系统能力经应用清单里声明的 acde: 模块提供。坚持标准 web 接口，绝不魔改。',
+		},
+	},
+	{
+		name: 'acdev',
+		desc: {
+			en: 'The developer kit for libacde apps: the acdev command line scaffolds projects from framework templates, reloads on save, tests, packages and installs, with a built-in MCP server so coding agents can see and drive the running app.',
+			'zh-CN': 'libacde 应用的开发套件：命令行 acdev 用框架模板建项目、保存即刷新、测试、打包与安装，内置 MCP，编码 agent 能直接看到并操作正在运行的应用。',
+		},
+	},
+	{
 		name: 'knovid',
 		desc: {
 			en: 'KnoVid is an AI tool that helps everyday creators make clear, beautiful knowledge videos at a lower cost and with a smoother workflow.',

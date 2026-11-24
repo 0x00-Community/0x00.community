@@ -21,6 +21,8 @@ order: 1
 | [j8](https://j8.app238.com/zh-CN/) | 用 Rust 编写、分层与 V8 相同的 JavaScript 引擎 |
 | [paragc](/zh-CN/projects/paragc/) | Rust 并行垃圾回收器 |
 | [detour](/zh-CN/projects/detour/) | 基于 MLIR、用 Rust 编写的 GPU 用户态驱动 |
+| [libacde](/zh-CN/projects/libacde/) | 不带浏览器的桌面应用 web 运行时 |
+| [acdev](/zh-CN/projects/acdev/) | libacde 应用的开发套件，内置 MCP |
 
 ## 下一步
 
