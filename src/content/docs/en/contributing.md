@@ -23,4 +23,4 @@ Each repository ships its README in English (`README.md`) and Simplified Chinese
 
 ## This website
 
-This site lives at [0x00-Community/0x00.community](https://github.com/0x00-Community/0x00.community). Blog posts and docs are Markdown files under `src/content/`, one folder per language.
+This site lives at [0x00-Foundation/0x00.community](https://github.com/0x00-Foundation/0x00.community). Blog posts and docs are Markdown files under `src/content/`, one folder per language.

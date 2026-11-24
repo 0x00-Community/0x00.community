@@ -2,7 +2,7 @@
 
 [English](README.md) | 简体中文
 
-[0x00 开源社区](https://github.com/0x00-Community)官网，使用 [Astro](https://astro.build) 构建，部署为 [Cloudflare Worker](https://developers.cloudflare.com/workers/)（静态资源 + `@astrojs/cloudflare`）。
+[0x00 开源社区](https://github.com/0x00-Foundation)官网，使用 [Astro](https://astro.build) 构建，部署为 [Cloudflare Worker](https://developers.cloudflare.com/workers/)（静态资源 + `@astrojs/cloudflare`）。
 
 ## 品牌
 

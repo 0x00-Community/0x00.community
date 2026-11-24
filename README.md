@@ -2,7 +2,7 @@
 
 English | [简体中文](README.zh-CN.md)
 
-Website of the [0x00 Community](https://github.com/0x00-Community), built with [Astro](https://astro.build) and deployed as a [Cloudflare Worker](https://developers.cloudflare.com/workers/) (static assets + `@astrojs/cloudflare`).
+Website of the [0x00 Community](https://github.com/0x00-Foundation), built with [Astro](https://astro.build) and deployed as a [Cloudflare Worker](https://developers.cloudflare.com/workers/) (static assets + `@astrojs/cloudflare`).
 
 ## Brand
 

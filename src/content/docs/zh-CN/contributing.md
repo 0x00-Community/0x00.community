@@ -23,4 +23,4 @@ order: 2
 
 ## 本网站
 
-本站源码在 [0x00-Community/0x00.community](https://github.com/0x00-Community/0x00.community)。博客和文档是 `src/content/` 下的 Markdown 文件，每种语言一个目录。
+本站源码在 [0x00-Foundation/0x00.community](https://github.com/0x00-Foundation/0x00.community)。博客和文档是 `src/content/` 下的 Markdown 文件，每种语言一个目录。
