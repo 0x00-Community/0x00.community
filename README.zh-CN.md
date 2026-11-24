@@ -10,6 +10,8 @@
 
 ## 开发
 
+社区文章来自 [blogs](https://github.com/0x00-Community/blogs) 仓库，以 `blogs` submodule 的形式检出。克隆时用 `git clone --recurse-submodules`，已有的克隆运行 `git submodule update --init`；`git submodule update --remote blogs` 拉取新文章。
+
 | 命令 | 作用 |
 | --- | --- |
 | `bun install` | 安装依赖 |
@@ -24,7 +26,9 @@
 站点中英双语：英文在根路径，简体中文在 `/zh-CN/` 下。
 
 ```
-src/content/blog/<locale>/    博客（Markdown，每种语言一个目录）
+src/content/blog/<locale>/    本仓库里写的博客（Markdown，每种语言一个目录）
+blogs/                        submodule：blogs 仓库；status 为 staged、release、archive 的文章会显示
+src/lib/embeds.ts             把这些文章里的 ![[refs/...]] 嵌入展开成代码块
 src/content/docs/<locale>/    文档（Markdown，`order` 决定侧栏顺序）
 src/data/projects.ts          项目列表，含两种语言的简介
 src/components/               两种语言共用的页面主体

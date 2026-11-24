@@ -10,6 +10,8 @@ Logos, favicons and the social banner come from the 0x00 brand kit (hardcore edi
 
 ## Development
 
+Community posts come from the [blogs](https://github.com/0x00-Community/blogs) repository, checked out as the `blogs` submodule. Clone with `git clone --recurse-submodules`, or run `git submodule update --init` in an existing clone; `git submodule update --remote blogs` picks up new posts.
+
 | Command | Action |
 | --- | --- |
 | `bun install` | Install dependencies |
@@ -24,7 +26,9 @@ Logos, favicons and the social banner come from the 0x00 brand kit (hardcore edi
 The site is bilingual: English at the root, Simplified Chinese under `/zh-CN/`.
 
 ```
-src/content/blog/<locale>/    blog posts (Markdown, one folder per language)
+src/content/blog/<locale>/    blog posts written here (Markdown, one folder per language)
+blogs/                        submodule: the blogs repository; posts with status staged, release or archive are shown
+src/lib/embeds.ts             expands ![[refs/...]] embeds in those posts into code blocks
 src/content/docs/<locale>/    docs pages (Markdown, `order` sets the sidebar order)
 src/data/projects.ts          project list with descriptions in both languages
 src/components/               page bodies shared by both languages
