@@ -21,6 +21,8 @@ See [Projects](/projects/) for the full list. Some highlights:
 | [j8](https://j8.app238.com/) | A JavaScript engine in Rust, layered like V8 |
 | [paragc](/projects/paragc/) | A parallel garbage collector for Rust |
 | [detour](/projects/detour/) | A GPU userspace driver in Rust, built on MLIR |
+| [libacde](/projects/libacde/) | A web runtime for desktop apps, without a browser |
+| [acdev](/projects/acdev/) | The developer kit for libacde apps, with built-in MCP |
 
 ## Where to go next
 
