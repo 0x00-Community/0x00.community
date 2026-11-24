@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { published } from './content.config';
 
 export const locales = ['en', 'zh-CN'] as const;
 export type Locale = (typeof locales)[number];
@@ -71,10 +72,18 @@ const split = (id: string) => {
 
 export const slugOf = (entry: { id: string }) => split(entry.id).slug;
 
-export const posts = async (locale: Locale) =>
-	(await getCollection('blog', (e) => split(e.id).locale === locale)).sort(
-		(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-	);
+const authorNames = async () =>
+	new Map((await getCollection('authors')).map((a) => [a.id, a.data.name] as const));
+
+/** Posts written in this repository plus the published ones from the blogs submodule, newest first. */
+export const posts = async (locale: Locale): Promise<Post[]> => {
+	const names = await authorNames();
+	const local = await getCollection('blog', (e) => split(e.id).locale === locale);
+	const community = (
+		await getCollection('community', (e) => split(e.id).locale === locale && published.includes(e.data.status))
+	).map((e) => ({ ...e, data: { ...e.data, author: e.data.authors.map((id) => names.get(id) ?? id).join(', ') } }));
+	return [...local, ...community].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+};
 
 export const docs = async (locale: Locale) =>
 	(await getCollection('docs', (e) => split(e.id).locale === locale)).sort((a, b) => a.data.order - b.data.order);
@@ -82,5 +91,5 @@ export const docs = async (locale: Locale) =>
 export const formatDate = (locale: Locale, date: Date) =>
 	date.toLocaleDateString(ui[locale].dateLocale, { year: 'numeric', month: 'long', day: 'numeric' });
 
-export type Post = CollectionEntry<'blog'>;
+export type Post = CollectionEntry<'blog'> | CollectionEntry<'community'>;
 export type Doc = CollectionEntry<'docs'>;
