@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0X00 品牌资产</title>
+<link rel="icon" href="dist/svg/favicon.svg">
+<style>
+  @font-face { font-family: "Major Mono"; src: url("fonts/MajorMonoDisplay-Regular.ttf") format("truetype"); font-display: swap; }
+  :root {
+    --mono: "JetBrains Mono", "Cascadia Mono", Consolas, ui-monospace, monospace;
+    --sans: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
+    --red: #FF4A1C;
+  }
+  body { --bg: #0B0B0B; --fg: #EDEDE6; --dim: #8A8A84; --line: #24241F; --panel: #131312; }
+  body.art { --bg: #F2F0EA; --fg: #0B0B0B; --dim: #6B6B66; --line: #D9D6CC; --panel: #E9E6DD; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--bg); color: var(--fg); font: 15px/1.75 var(--sans); transition: background .5s, color .5s; min-height: 100vh; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+  a { color: inherit; }
+  [hidden] { display: none !important; }
+
+  /* ---------- 开场 ---------- */
+  #intro { min-height: 100vh; display: grid; align-content: center; gap: 56px; padding: 64px 24px; max-width: 1180px; margin: 0 auto; }
+  .copy p { margin: 0; font-size: clamp(20px, 2.6vw, 30px); line-height: 1.6; opacity: 0; transform: translateY(6px); animation: rise .7s ease forwards; }
+  .copy p:nth-child(1) { animation-delay: .2s; }
+  .copy p:nth-child(2) { animation-delay: 1.1s; color: var(--dim); }
+  .copy p:nth-child(3) { animation-delay: 2.2s; }
+  .choices { display: flex; align-items: flex-start; gap: 16px; opacity: 0; animation: rise .7s ease 2.8s forwards; }
+  #intro.skip .copy p, #intro.skip .choices { animation-delay: 0s; animation-duration: .2s; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  .choice { flex: 1; transition: flex .45s ease, border-color .3s; border: 1px solid #24241F; border-radius: 12px; overflow: hidden; background: #131312; cursor: pointer; text-align: left; display: flex; flex-direction: column; outline: none; }
+  .choice:hover, .choice:focus-visible { flex: 1.3; border-color: #5E5E59; }
+  .choice .pv { aspect-ratio: 16 / 9; background: #0B0B0B; }
+  .choice iframe { width: 100%; height: 100%; border: 0; display: block; pointer-events: none; }
+  .choice .ct { padding: 18px 20px 20px; display: grid; gap: 2px; }
+  .choice .k { font-size: 20px; font-weight: 500; display: flex; justify-content: space-between; align-items: baseline; }
+  .choice .k span { font: 13px var(--mono); color: #8A8A84; transition: color .3s; }
+  .choice:hover .k span { color: #EDEDE6; }
+  .choice .d { color: #8A8A84; font-size: 14px; }
+  @media (max-width: 760px) { .choices { flex-direction: column; align-items: stretch; } .choice:hover { flex: 1; } }
+
+  /* ---------- 导览 ---------- */
+  .bar { position: sticky; top: 0; z-index: 5; background: var(--bg); transition: background .5s; border-bottom: 1px solid var(--line); }
+  .bar .in { max-width: 1180px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 20px; }
+  .bar .home { font: 500 14px var(--mono); letter-spacing: .08em; }
+  .bar .ver { font-size: 13px; color: var(--dim); }
+  .prog { display: flex; gap: 10px; align-items: center; margin-left: auto; }
+  .prog button { width: 10px; height: 10px; border-radius: 50%; background: #262624; transition: background .3s, transform .3s; }
+  .prog button.done { background: var(--fg); }
+  .prog button.cur { background: var(--red); transform: scale(1.25); }
+  body.art .prog { gap: 4px; }
+  body.art .prog button { width: auto; height: auto; border-radius: 0; background: none; font: 22px/1 "Major Mono", var(--mono); opacity: .3; transform: none; padding: 0 3px; }
+  body.art .prog button.done { opacity: 1; background: none; }
+  body.art .prog button.cur { opacity: 1; background: none; transform: none; }
+  .bar .switch { font-size: 13px; color: var(--dim); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }
+  .bar .switch:hover { color: var(--fg); border-color: var(--fg); }
+  .bar .ver, .bar .switch { white-space: nowrap; }
+  @media (max-width: 560px) { .bar .in { gap: 12px; } .bar .ver { display: none; } .nav .count { display: none; } }
+  main#host { max-width: 1180px; margin: 0 auto; padding: 48px 24px 140px; }
+  .step { animation: stepIn .45s ease; }
+  @keyframes stepIn { from { opacity: 0; transform: translateY(10px); } }
+  .num { font: 13px var(--mono); color: var(--dim); letter-spacing: .1em; }
+  body.art .num { font-family: "Major Mono", var(--mono); letter-spacing: .05em; }
+  h1 { font-size: clamp(30px, 4vw, 44px); font-weight: 500; margin: 6px 0 14px; line-height: 1.25; }
+  .lead { color: var(--dim); font-size: 16px; max-width: 760px; margin: 0 0 32px; }
+  .lead b { color: var(--fg); font-weight: 500; }
+  .nav { position: fixed; left: 0; right: 0; bottom: 0; background: var(--bg); border-top: 1px solid var(--line); transition: background .5s; }
+  .nav .in { max-width: 1180px; margin: 0 auto; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .nav button { border: 1px solid var(--line); border-radius: 999px; padding: 9px 18px; font-size: 14px; }
+  .nav button:hover { border-color: var(--fg); }
+  .nav #next { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .nav .count { font: 13px var(--mono); color: var(--dim); }
+
+  /* ---------- 资产展示 ---------- */
+  .grid { display: grid; gap: 16px; }
+  .g2 { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+  .g3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .g4 { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+  .mt { margin-top: 16px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; transition: background .5s, border-color .5s; }
+  .stage { display: grid; place-items: center; min-height: 150px; border-radius: 8px; padding: 22px; margin-bottom: 12px; }
+  .stage.dark { background: #0B0B0B; } .stage.light { background: #F2F0EA; box-shadow: inset 0 0 0 1px #D9D6CC; }
+  .stage.checker { background: repeating-conic-gradient(#1a1a19 0 25%, #222220 0 50%) 0 0 / 16px 16px; }
+  .stage.hero { min-height: 320px; padding: 48px; }
+  .stage img { max-width: 100%; max-height: 240px; }
+  .stage.hero img { max-height: 360px; }
+  .stage.bleed { padding: 0; overflow: hidden; }
+  .stage.bleed img { max-height: none; width: 100%; }
+  h3 { font-size: 16px; font-weight: 500; margin: 0 0 2px; }
+  .cap { font: 12px/1.8 var(--mono); color: var(--dim); }
+  .cap a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .cap a:hover { border-color: var(--fg); }
+  .frame { aspect-ratio: 16 / 9; width: 100%; border: 0; border-radius: 8px; display: block; background: #0B0B0B; margin-bottom: 12px; }
+  .frame.sq { aspect-ratio: 1; }
+  .swatch { height: 76px; border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--line); }
+  ul.rules { margin: 0; padding-left: 18px; color: var(--dim); font-size: 14px; }
+  ul.rules li { margin: 5px 0; } ul.rules b { color: var(--fg); font-weight: 500; }
+  .gen { display: grid; grid-template-columns: 300px 1fr; gap: 16px; }
+  @media (max-width: 760px) { .gen { grid-template-columns: 1fr; } .stage.hero { padding: 24px; min-height: 200px; } }
+  .gen textarea, .gen select, .gen .btn { font: 14px var(--mono); color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; width: 100%; }
+  .gen textarea { height: 96px; resize: vertical; text-transform: uppercase; }
+  .gen label { display: block; font-size: 13px; color: var(--dim); margin: 12px 0 6px; }
+  .gen .btn { margin-top: 12px; text-align: center; } .gen .btn:hover { border-color: var(--fg); }
+  #genOut { min-height: 260px; overflow: auto; margin: 0; }
+  #genOut svg { max-width: 100%; height: auto; }
+  .end { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+  .end button { border: 1px solid var(--line); border-radius: 999px; padding: 10px 20px; font-size: 15px; }
+  .end button.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .files h4 { font: 500 13px var(--mono); color: var(--dim); margin: 28px 0 8px; letter-spacing: .08em; }
+  .files ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 32px; font: 13px/2 var(--mono); }
+  @media (max-width: 760px) { .files ul { columns: 1; } }
+  .files a { text-decoration: none; color: var(--fg); } .files a:hover { text-decoration: underline; }
+  .files span { color: var(--dim); margin-left: 8px; }
+  .files b { font-weight: 400; }
+  html.preview .cap a { pointer-events: none; border-bottom-color: transparent; color: var(--dim); }
+</style>
+</head>
+<body>
+
+<section id="intro">
+  <div class="copy">
+    <p>0x00 是一个空字节。</p>
+    <p>它什么也不是，却决定了一句话在哪里结束。</p>
+    <p>我们给它做了两个版本，选一个开始看。</p>
+  </div>
+  <div class="choices">
+    <div class="choice" role="button" tabindex="0" data-v="hardcore">
+      <div class="pv"><iframe src="pages/ident.html?preset=horizontal&w=960&h=540&live=1" title="硬核版预览" tabindex="-1"></iframe></div>
+      <div class="ct"><div class="k">硬核版 <span>进入 →</span></div><div class="d">点阵，加一个红色的终止符</div></div>
+    </div>
+    <div class="choice" role="button" tabindex="0" data-v="art">
+      <div class="pv"><iframe src="pages/art.html?preset=word&theme=dark&w=960&h=540&live=1" title="艺术版预览" tabindex="-1"></iframe></div>
+      <div class="ct"><div class="k">艺术版 <span>进入 →</span></div><div class="d">黑白，在 0X00 和 /0// 之间变形</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="tour" hidden>
+  <header class="bar"><div class="in">
+    <button class="home" id="home" title="回到开头">0X00</button>
+    <span class="ver" id="ver"></span>
+    <nav class="prog" id="prog" aria-label="步骤"></nav>
+    <button class="switch" id="switch">换个版本</button>
+  </div></header>
+  <main id="host"></main>
+  <footer class="nav"><div class="in">
+    <button id="prev">← 上一步</button>
+    <span class="count" id="count"></span>
+    <button id="next">下一步</button>
+  </div></footer>
+</section>
+
+<!-- ================= 硬核版 ================= -->
+<template id="hc-logo">
+  <p class="lead">点阵里被关掉的点拼出 0X00。句尾那个红点是字符串的终止符 \0：一句话写完了，就在这里停下。<b>整套品牌里只有这一个红点。</b></p>
+  <div class="stage dark hero"><img src="dist/svg/0x00-horizontal-dark.svg" alt="0X00 横版深色"></div>
+  <div class="grid g3 mt">
+    <div class="card"><div class="stage light"><img src="dist/svg/0x00-horizontal-light.svg" alt=""></div><h3>浅色</h3><div class="cap"><a href="dist/svg/0x00-horizontal-light.svg">SVG</a> · <a href="dist/png/0x00-horizontal-light.png">PNG</a></div></div>
+    <div class="card"><div class="stage checker"><img src="dist/svg/0x00-horizontal-transparent.svg" alt=""></div><h3>透明底</h3><div class="cap">压在画面上用 · <a href="dist/svg/0x00-horizontal-transparent.svg">SVG</a> · <a href="dist/png/0x00-horizontal-transparent.png">PNG</a></div></div>
+    <div class="card"><div class="stage dark"><img src="dist/svg/0x00-horizontal-dark.svg" alt=""></div><h3>深色</h3><div class="cap"><a href="dist/svg/0x00-horizontal-dark.svg">SVG</a> · <a href="dist/png/0x00-horizontal-dark.png">PNG</a></div></div>
+  </div>
+</template>
+
+<template id="hc-family">
+  <p class="lead">同一套点阵可以排成不同的形状。长版用在片尾和页脚；方形当头像；3×3 的小图标只留八个亮点和右下角的红点，缩到 16 像素也认得出来。</p>
+  <div class="card"><div class="stage dark"><img src="dist/svg/0x00-long-dark.svg" alt="0X00 STUDIO 长版"></div><h3>长版 · 0X00 STUDIO</h3><div class="cap"><a href="dist/svg/0x00-long-dark.svg">深色 SVG</a> · <a href="dist/svg/0x00-long-light.svg">浅色 SVG</a> · <a href="dist/svg/0x00-long-transparent.svg">透明 SVG</a> · <a href="dist/png/0x00-long-dark.png">PNG</a></div></div>
+  <div class="grid g4 mt">
+    <div class="card"><div class="stage dark"><img src="dist/svg/0x00-square-dark.svg" alt="" style="height:180px"></div><h3>方形</h3><div class="cap"><a href="dist/svg/0x00-square-dark.svg">SVG</a> · <a href="dist/png/avatar-1024.png">头像 1024</a></div></div>
+    <div class="card"><div class="stage light"><img src="dist/svg/0x00-square-light.svg" alt="" style="height:180px"></div><h3>方形 · 浅色</h3><div class="cap"><a href="dist/svg/0x00-square-light.svg">SVG</a> · <a href="dist/png/0x00-square-light.png">PNG</a></div></div>
+    <div class="card"><div class="stage dark"><img src="dist/svg/favicon.svg" alt="" style="height:120px"></div><h3>终止符小图标</h3><div class="cap"><a href="dist/svg/favicon.svg">SVG</a> · <a href="dist/png/favicon-512.png">512</a></div></div>
+    <div class="card"><div class="stage dark" style="grid-auto-flow:column;gap:18px"><img src="dist/png/favicon-16.png" alt="" width="16"><img src="dist/png/favicon-32.png" alt="" width="32"><img src="dist/png/favicon-48.png" alt="" width="48"></div><h3>网站图标实际大小</h3><div class="cap">16 / 32 / 48 · <a href="dist/png/favicon-180.png">180</a> · <a href="dist/png/favicon-192.png">192</a></div></div>
+  </div>
+</template>
+
+<template id="hc-ident">
+  <p class="lead">先通电，点阵从左到右亮起来；再按列把字形的点一个个关掉，像在写入字节；最后红点像光标一样闪一下，停住。下面是实时播放，成片是 4K 视频。</p>
+  <div class="card"><iframe class="frame" src="pages/ident.html?preset=horizontal&w=1600&h=900&live=1" title="横版开场动画"></iframe><h3>横版</h3><div class="cap"><a href="dist/video/0x00-ident-horizontal-4k.mp4">4K MP4</a> · <a href="dist/gif/0x00-ident-horizontal.gif">GIF</a></div></div>
+  <div class="grid g2 mt">
+    <div class="card"><iframe class="frame" src="pages/ident.html?preset=long&w=1280&h=720&live=1" title="长版开场动画"></iframe><h3>长版 · 片尾标版</h3><div class="cap"><a href="dist/video/0x00-ident-studio-4k.mp4">4K MP4</a></div></div>
+    <div class="card"><iframe class="frame" src="pages/ident.html?preset=square&w=1280&h=720&live=1" title="方形开场动画"></iframe><h3>方形 · 社交媒体</h3><div class="cap"><a href="dist/video/0x00-ident-square-1080.mp4">1080 方形</a> · <a href="dist/video/0x00-ident-vertical-1080x1920.mp4">竖版 1080×1920</a></div></div>
+  </div>
+</template>
+
+<template id="hc-loaders">
+  <p class="lead">四个加载动画都是纯 SVG，直接当图片放进网页就能动，不需要脚本。每一个里面，红点都有自己的角色。</p>
+  <div class="grid g4">
+    <div class="card"><div class="stage dark"><img src="dist/loaders/loader-byte-dark.svg" alt=""></div><h3>字节计数</h3><div class="cap">8 位二进制在数数，红点是终止符 · <a href="dist/loaders/loader-byte-dark.svg">深</a> · <a href="dist/loaders/loader-byte-light.svg">浅</a> · <a href="dist/gif/loader-byte.gif">GIF</a></div></div>
+    <div class="card"><div class="stage dark"><img src="dist/loaders/loader-orbit-dark.svg" alt="" style="height:84px"></div><h3>红点巡游</h3><div class="cap">代替转圈 · <a href="dist/loaders/loader-orbit-dark.svg">深</a> · <a href="dist/loaders/loader-orbit-light.svg">浅</a> · <a href="dist/gif/loader-orbit.gif">GIF</a></div></div>
+    <div class="card"><div class="stage dark"><img src="dist/loaders/loader-progress-dark.svg" alt=""></div><h3>进度条</h3><div class="cap">红点是写到哪了，写完停在末尾 · <a href="dist/loaders/loader-progress-dark.svg">深</a> · <a href="dist/loaders/loader-progress-light.svg">浅</a> · <a href="dist/gif/loader-progress.gif">GIF</a></div></div>
+    <div class="card"><div class="stage dark"><img src="dist/loaders/loader-cursor-dark.svg" alt=""></div><h3>光标等待</h3><div class="cap">红点像终端光标一样闪 · <a href="dist/loaders/loader-cursor-dark.svg">深</a> · <a href="dist/loaders/loader-cursor-light.svg">浅</a> · <a href="dist/gif/loader-cursor.gif">GIF</a></div></div>
+  </div>
+  <div class="grid g4 mt">
+    <div class="card"><div class="stage light"><img src="dist/loaders/loader-byte-light.svg" alt=""></div><div class="cap">字节计数 · 浅色</div></div>
+    <div class="card"><div class="stage light"><img src="dist/loaders/loader-orbit-light.svg" alt="" style="height:84px"></div><div class="cap">红点巡游 · 浅色</div></div>
+    <div class="card"><div class="stage light"><img src="dist/loaders/loader-progress-light.svg" alt=""></div><div class="cap">进度条 · 浅色</div></div>
+    <div class="card"><div class="stage light"><img src="dist/loaders/loader-cursor-light.svg" alt=""></div><div class="cap">光标等待 · 浅色</div></div>
+  </div>
+</template>
+
+<template id="hc-ext">
+  <p class="lead">点阵可以铺满任何尺寸：字永远落在中间，红点永远在句尾。</p>
+  <div class="grid g2">
+    <div class="card"><div class="stage dark bleed"><img src="dist/png/banner-1500x500.png" alt=""></div><h3>社交横幅 1500×500</h3><div class="cap"><a href="dist/png/banner-1500x500.png">PNG</a> · <a href="dist/svg/banner-1500x500.svg">SVG</a></div></div>
+    <div class="card"><div class="stage dark bleed"><img src="dist/png/wallpaper-3840x2160.png" alt=""></div><h3>桌面壁纸 / 片头底图 4K</h3><div class="cap"><a href="dist/png/wallpaper-3840x2160.png">PNG</a> · <a href="dist/svg/wallpaper-3840x2160.svg">SVG</a></div></div>
+  </div>
+  <div class="grid g4 mt">
+    <div class="card"><div class="stage dark" style="padding:12px"><img src="dist/png/wallpaper-phone-1170x2532.png" alt="" style="max-height:280px"></div><h3>手机壁纸</h3><div class="cap"><a href="dist/png/wallpaper-phone-1170x2532.png">1170×2532</a></div></div>
+    <div class="card"><div class="stage checker"><img src="dist/png/watermark-600.png" alt="" style="width:160px"></div><h3>视频角标</h3><div class="cap">透明底 · <a href="dist/png/watermark-600.png">PNG</a></div></div>
+  </div>
+</template>
+
+<template id="hc-gen">
+  <p class="lead">任何词都能用这套点阵写出来，比如项目名、片名、周边上的字，句尾会自动加上红点。可以换行，支持 A–Z、0–9 和常用标点。</p>
+  <div class="gen">
+    <div class="card">
+      <label for="genText">文字</label>
+      <textarea id="genText">READBUDDY</textarea>
+      <label for="genTheme">样式</label>
+      <select id="genTheme"><option value="dark">深色</option><option value="light">浅色</option><option value="transparent">透明底</option></select>
+      <label for="genTerm">终止符</label>
+      <select id="genTerm"><option value="1">句尾加红点</option><option value="0">不加</option></select>
+      <button class="btn" id="dlSvg">下载 SVG</button>
+      <button class="btn" id="dlPng">下载 PNG（4 倍）</button>
+    </div>
+    <div class="card" style="display:grid"><div id="genOut" class="stage dark"></div></div>
+  </div>
+</template>
+
+<template id="hc-rules">
+  <p class="lead">只有四个颜色，一个比例，一条红点规则。</p>
+  <div class="grid g4">
+    <div class="card"><div class="swatch" style="background:#0B0B0B"></div><h3>底色</h3><div class="cap">#0B0B0B</div></div>
+    <div class="card"><div class="swatch" style="background:#EDEDE6"></div><h3>亮点</h3><div class="cap">#EDEDE6</div></div>
+    <div class="card"><div class="swatch" style="background:#262624"></div><h3>关掉的点</h3><div class="cap">#262624 · 浅色版 #D9D6CC</div></div>
+    <div class="card"><div class="swatch" style="background:#FF4A1C"></div><h3>终止符红</h3><div class="cap">#FF4A1C · 全套唯一的彩色</div></div>
+  </div>
+  <div class="grid g2 mt">
+    <div class="card"><h3>构成</h3><ul class="rules">
+      <li><b>点距 14，半径 5</b>，即半径 = 点距 × 0.357。放大缩小都保持这个比例。</li>
+      <li><b>字形</b>：5×7 点阵，字间空一列。数字 0 带斜线，字母 O 不带。</li>
+      <li><b>留白</b>：字的四周至少保留 2 个点；方形版左右各 3 个点。</li>
+      <li><b>红点位置</b>：最后一个字后面空一列，落在基线那一行。</li>
+    </ul></div>
+    <div class="card"><h3>不要这样做</h3><ul class="rules">
+      <li>不要出现第二个红点，也不要把红点挪到别处。</li>
+      <li>不要拉伸、旋转，不要把圆点改成方块。</li>
+      <li>不要加阴影、渐变、发光。</li>
+      <li>横版宽度小于 96 像素时，改用终止符小图标。</li>
+    </ul></div>
+  </div>
+</template>
+
+<!-- ================= 艺术版 ================= -->
+<template id="art-word">
+  <p class="lead">字形来自 Major Mono Display。它的 0 本身就是一条圆角跑道加一道斜线，<b>0 里天生带着 /</b>；X 是一个沙漏。动画只用字体自己的几何：0 沿着斜线压扁成 /，沙漏的“/”留下来当斜线，“\”从腰部撑开成跑道。于是 0X00 变成 /0//，再变回来。</p>
+  <div class="card"><iframe class="frame" src="pages/art.html?preset=word&theme=light&w=1600&h=900&live=1" title="艺术版字标动画"></iframe><h3>字标动画 · 7 秒一圈</h3><div class="cap">浅色 <a href="dist/art/video/0x00-art-word-light-4k.mp4">4K</a> · <a href="dist/art/video/0x00-art-word-light-1080.mp4">1080</a> · <a href="dist/art/gif/0x00-art-word-light.gif">GIF</a> ／ 深色 <a href="dist/art/video/0x00-art-word-dark-4k.mp4">4K</a> · <a href="dist/art/video/0x00-art-word-dark-1080.mp4">1080</a> · <a href="dist/art/gif/0x00-art-word-dark.gif">GIF</a></div></div>
+</template>
+
+<template id="art-states">
+  <p class="lead">平时是 0X00，变形到最远是 /0//。两种状态都可以单独当字标用，各有黑白两版。</p>
+  <div class="grid g2">
+    <div class="card"><div class="stage light"><img src="dist/art/svg/0x00-art-word-light.svg" alt="0X00"></div><h3>0X00</h3><div class="cap"><a href="dist/art/svg/0x00-art-word-light.svg">浅</a> · <a href="dist/art/svg/0x00-art-word-transparent.svg">透明黑</a> · <a href="dist/art/png/0x00-art-word-light.png">PNG</a></div></div>
+    <div class="card"><div class="stage dark"><img src="dist/art/svg/0x00-art-word-dark.svg" alt="0X00 深色"></div><h3>0X00 · 深色</h3><div class="cap"><a href="dist/art/svg/0x00-art-word-dark.svg">深</a> · <a href="dist/art/svg/0x00-art-word-transparent-white.svg">透明白</a> · <a href="dist/art/png/0x00-art-word-dark.png">PNG</a></div></div>
+    <div class="card"><div class="stage light"><img src="dist/art/svg/0x00-art-word-slash-light.svg" alt="/0//"></div><h3>/0//</h3><div class="cap"><a href="dist/art/svg/0x00-art-word-slash-light.svg">浅</a> · <a href="dist/art/svg/0x00-art-word-slash-transparent.svg">透明黑</a> · <a href="dist/art/png/0x00-art-word-slash-light.png">PNG</a></div></div>
+    <div class="card"><div class="stage dark"><img src="dist/art/svg/0x00-art-word-slash-dark.svg" alt="/0// 深色"></div><h3>/0// · 深色</h3><div class="cap"><a href="dist/art/svg/0x00-art-word-slash-dark.svg">深</a> · <a href="dist/art/svg/0x00-art-word-slash-transparent-white.svg">透明白</a> · <a href="dist/art/png/0x00-art-word-slash-dark.png">PNG</a></div></div>
+  </div>
+</template>
+
+<template id="art-mark">
+  <p class="lead">标志是一个 ∅ 加三条细线。细线是 0 压扁到四分之一、一半、四分之三时的轮廓，<b>整个变形过程凝在一个图形里</b>。动起来时，粗的 ∅ 跟着压扁，细线不动。小尺寸用不带细线的简化版。</p>
+  <div class="grid g3">
+    <div class="card"><div class="stage dark"><img src="dist/art/svg/0x00-art-mark-dark.svg" alt="" style="height:220px"></div><h3>标志</h3><div class="cap"><a href="dist/art/svg/0x00-art-mark-dark.svg">深</a> · <a href="dist/art/svg/0x00-art-mark-light.svg">浅</a> · <a href="dist/art/png/0x00-art-avatar-1024.png">头像 1024</a></div></div>
+    <div class="card"><iframe class="frame sq" src="pages/art.html?preset=mark&theme=dark&w=720&h=720&live=1" title="标志动画" style="margin:0 0 12px"></iframe><h3>标志动画</h3><div class="cap"><a href="dist/art/video/0x00-art-mark-dark-1080.mp4">1080 MP4</a></div></div>
+    <div class="card"><div class="stage light"><img src="dist/art/svg/0x00-art-mark-simple-light.svg" alt="" style="height:120px"></div><h3>简化标志</h3><div class="cap">小于 48 像素时用 · <a href="dist/art/svg/0x00-art-mark-simple-light.svg">浅</a> · <a href="dist/art/svg/0x00-art-mark-simple-dark.svg">深</a></div></div>
+  </div>
+</template>
+
+<template id="art-lockup">
+  <p class="lead">标志在上、字标在下，是竖排组合；长版在字标后面接上同一款字体的 STUDIO。</p>
+  <div class="grid g3">
+    <div class="card"><div class="stage light"><img src="dist/art/svg/0x00-art-lockup-light.svg" alt="" style="height:240px"></div><h3>竖排组合</h3><div class="cap"><a href="dist/art/svg/0x00-art-lockup-light.svg">浅</a> · <a href="dist/art/svg/0x00-art-lockup-dark.svg">深</a> · <a href="dist/art/png/0x00-art-lockup-light.png">PNG</a></div></div>
+    <div class="card"><iframe class="frame sq" src="pages/art.html?preset=lockup&theme=light&w=720&h=720&live=1" title="组合动画" style="margin:0 0 12px"></iframe><h3>组合动画</h3><div class="cap"><a href="dist/art/video/0x00-art-lockup-light-1080.mp4">浅</a> · <a href="dist/art/video/0x00-art-lockup-dark-1080.mp4">深</a> · <a href="dist/art/video/0x00-art-lockup-vertical-1080x1920.mp4">竖版</a></div></div>
+    <div class="card"><div class="stage dark"><img src="dist/art/svg/0x00-art-lockup-dark.svg" alt="" style="height:240px"></div><h3>竖排组合 · 深色</h3><div class="cap"><a href="dist/art/png/0x00-art-lockup-dark.png">PNG</a></div></div>
+  </div>
+  <div class="card mt"><div class="stage dark"><img src="dist/art/svg/0x00-art-long-dark.svg" alt="0X00 STUDIO"></div><h3>长版 · 0X00 STUDIO</h3><div class="cap"><a href="dist/art/svg/0x00-art-long-dark.svg">深</a> · <a href="dist/art/svg/0x00-art-long-light.svg">浅</a> · <a href="dist/art/png/0x00-art-long-dark.png">PNG</a></div></div>
+</template>
+
+<template id="art-rules">
+  <p class="lead">只有黑和白，只用一款字体，只做一种变形。</p>
+  <div class="grid g4">
+    <div class="card"><div class="swatch" style="background:#0B0B0B"></div><h3>墨</h3><div class="cap">#0B0B0B</div></div>
+    <div class="card"><div class="swatch" style="background:#F2F0EA"></div><h3>纸</h3><div class="cap">#F2F0EA</div></div>
+  </div>
+  <div class="grid g2 mt">
+    <div class="card"><h3>构成</h3><ul class="rules">
+      <li><b>字体</b>：Major Mono Display（SIL OFL 1.1，可用于 logo，许可证在 fonts/OFL.txt）。</li>
+      <li><b>字距</b>：比原字体收紧 90 个单位（满宽是 1000）。</li>
+      <li><b>变形</b>：0 只沿自己的斜线压扁；X 只在沙漏和 0 之间变。</li>
+      <li><b>节奏</b>：7 秒一圈，大部分时间停在 0X00。</li>
+    </ul></div>
+    <div class="card"><h3>不要这样做</h3><ul class="rules">
+      <li>不要加颜色，不要加阴影、渐变、发光。</li>
+      <li>不要换成别的字体重画，不要加粗或描边。</li>
+      <li>不要拉伸、倾斜，不要改变 0 里斜线的角度。</li>
+      <li>标志小于 48 像素时用简化版。</li>
+    </ul></div>
+  </div>
+</template>
+
+<template id="end">
+  <p class="lead" id="endLead"></p>
+  <div class="end">
+    <button class="primary" id="other"></button>
+    <button id="restart">回到开头</button>
+  </div>
+  <div class="files" id="files"></div>
+</template>
+
+<script src="dist/manifest.js"></script>
+<script src="./lib/dotfont.js"></script>
+<script>
+(() => {
+'use strict';
+
+const TOURS = {
+  hardcore: {
+    name: '硬核版',
+    steps: [
+      ['hc-logo', '主标'],
+      ['hc-family', '长版、方形和小图标'],
+      ['hc-ident', '开场动画'],
+      ['hc-loaders', '加载动画'],
+      ['hc-ext', '延展物料'],
+      ['hc-gen', '点阵字生成器'],
+      ['hc-rules', '使用规范'],
+      ['end', '全部文件'],
+    ],
+  },
+  art: {
+    name: '艺术版',
+    steps: [
+      ['art-word', '一个会变形的字标'],
+      ['art-states', '两种状态'],
+      ['art-mark', '标志 ∅'],
+      ['art-lockup', '组合'],
+      ['art-rules', '使用规范'],
+      ['end', '全部文件'],
+    ],
+  },
+};
+const OTHER = { hardcore: 'art', art: 'hardcore' };
+
+const $ = (id) => document.getElementById(id);
+const intro = $('intro'), tour = $('tour'), host = $('host');
+
+// 预览版（发布到网页的那份）不能下载文件，下载链接改成纯文字，生成器改成复制
+const PREVIEW = window.BRAND_PREVIEW === true;
+
+// ---------- 路由：#hardcore-3、#art-1，空就是开场（只用字母、数字和连字符，网页预览里也能用） ----------
+function parseHash() {
+  const m = location.hash.slice(1).match(/^([a-z]+)(?:-(\d+))?$/);
+  return m ? [m[1], m[2]] : [];
+}
+function go(version, step = 1) { location.hash = `${version}-${step}`; }
+function home() { history.pushState('', '', location.pathname); route(); }
+window.addEventListener('hashchange', route);
+
+// 开场的两个预览在离开开场后停掉，省得在后台一直跑
+function previews(on) {
+  for (const f of intro.querySelectorAll('iframe')) {
+    f.dataset.src ??= f.src;
+    const want = on ? f.dataset.src : 'about:blank';
+    if (f.src !== want) f.src = want;
+  }
+}
+
+function route() {
+  const [v, s] = parseHash();
+  const t = TOURS[v];
+  previews(!t);
+  if (!t) {
+    tour.hidden = true;
+    intro.hidden = false;
+    document.body.className = '';
+    host.textContent = '';
+    window.scrollTo(0, 0);
+    return;
+  }
+  const i = Math.min(Math.max(1, Number(s) || 1), t.steps.length) - 1;
+  intro.hidden = true;
+  tour.hidden = false;
+  document.body.className = v === 'art' ? 'art' : 'hc';
+  renderStep(v, i);
+}
+
+function renderStep(v, i) {
+  const t = TOURS[v];
+  const [tplId, title] = t.steps[i];
+  const n = t.steps.length;
+  $('ver').textContent = t.name;
+  // 进度：硬核版是一排点（当前那个是红点），艺术版是一排 /（当前那个是 0）
+  const prog = $('prog');
+  prog.textContent = '';
+  t.steps.forEach(([, label], k) => {
+    const b = document.createElement('button');
+    b.title = label;
+    b.setAttribute('aria-label', `第 ${k + 1} 步：${label}`);
+    if (k < i) b.className = 'done';
+    if (k === i) { b.className = 'cur'; b.setAttribute('aria-current', 'step'); }
+    if (v === 'art') b.textContent = k === i ? '0' : '/';
+    b.onclick = () => go(v, k + 1);
+    prog.appendChild(b);
+  });
+
+  const step = document.createElement('div');
+  step.className = 'step';
+  step.innerHTML = `<div class="num">${String(i + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}</div><h1>${title}</h1>`;
+  step.appendChild($(tplId).content.cloneNode(true));
+  host.textContent = '';
+  host.appendChild(step);
+  window.scrollTo(0, 0);
+
+  $('count').textContent = `${i + 1} / ${n}`;
+  $('prev').hidden = i === 0;
+  $('prev').onclick = () => go(v, i);
+  const next = t.steps[i + 1];
+  $('next').hidden = !next;
+  if (next) { $('next').textContent = `下一步：${next[1]} →`; $('next').onclick = () => go(v, i + 2); }
+
+  if (tplId === 'hc-gen') initGenerator();
+  if (tplId === 'end') initEnd(v);
+}
+
+// ---------- 开场 ----------
+intro.addEventListener('click', (e) => {
+  const c = e.target.closest('.choice');
+  if (c) { go(c.dataset.v); return; }
+  intro.classList.add('skip');
+});
+intro.addEventListener('keydown', (e) => {
+  const c = e.target.closest('.choice');
+  if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); go(c.dataset.v); }
+});
+$('home').onclick = home;
+$('switch').onclick = () => { const [v] = parseHash(); go(OTHER[v] || 'hardcore'); };
+document.addEventListener('keydown', (e) => {
+  if (tour.hidden || e.target.closest('textarea, select, input')) return;
+  if (e.key === 'ArrowRight' && !$('next').hidden) $('next').click();
+  if (e.key === 'ArrowLeft' && !$('prev').hidden) $('prev').click();
+  if (e.key === 'Escape') home();
+});
+
+// ---------- 最后一步：全部文件 ----------
+let manifest;
+const GROUPS = { svg: '矢量 SVG', png: 'PNG 图片', loaders: '加载动画 SVG', video: '视频', gif: 'GIF' };
+const fmt = (b) => (b > 1e6 ? `${(b / 1e6).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1e3))} KB`);
+async function initEnd(v) {
+  $('endLead').textContent = (v === 'art' ? '艺术版就是这些。' : '硬核版就是这些。')
+    + (PREVIEW ? '下面是这个版本的全部文件，文件本身在资产包的 dist 文件夹里。' : '下面是这个版本的全部文件，点文件名就能打开。')
+    + `也可以接着看${TOURS[OTHER[v]].name}。`;
+  $('other').textContent = `看${TOURS[OTHER[v]].name} →`;
+  $('other').onclick = () => go(OTHER[v]);
+  $('restart').onclick = home;
+  try {
+    manifest ??= window.MANIFEST ?? await (await fetch('dist/manifest.json')).json();
+  } catch {
+    $('files').textContent = '文件清单还没生成：运行 node marketing/brand/0x00/tools/manifest.js';
+    return;
+  }
+  const mine = manifest.files.filter((f) => (v === 'art') === f.path.startsWith('dist/art/'));
+  const byGroup = {};
+  for (const f of mine) {
+    const parts = f.path.split('/');
+    const g = parts[parts.length - 2];
+    (byGroup[g] ??= []).push(f);
+  }
+  const box = $('files');
+  box.textContent = '';
+  for (const g of Object.keys(GROUPS)) {
+    if (!byGroup[g]) continue;
+    const h = document.createElement('h4');
+    h.textContent = `${GROUPS[g]} · ${byGroup[g].length}`;
+    const ul = document.createElement('ul');
+    for (const f of byGroup[g]) {
+      const li = document.createElement('li');
+      const a = document.createElement(PREVIEW ? 'b' : 'a');
+      if (!PREVIEW) a.href = f.path;
+      a.textContent = f.path.split('/').pop();
+      const s = document.createElement('span');
+      s.textContent = fmt(f.size);
+      li.append(a, s);
+      ul.appendChild(li);
+    }
+    box.append(h, ul);
+  }
+}
+
+// ---------- 点阵字生成器 ----------
+function initGenerator() {
+  const text = $('genText'), theme = $('genTheme'), term = $('genTerm'), out = $('genOut');
+  let current = '';
+  const render = () => {
+    const lines = text.value.toUpperCase().split('\n').map((l) => l.trimEnd()).filter((l) => l.length);
+    if (!lines.length) { out.textContent = '输入一些文字'; current = ''; return; }
+    const t = theme.value;
+    current = toSVG(layout(lines, { terminator: term.value === '1' }), { theme: t === 'light' ? 'light' : 'dark', plate: t !== 'transparent' });
+    out.className = 'stage ' + (t === 'light' ? 'light' : t === 'transparent' ? 'checker' : 'dark');
+    out.innerHTML = current;
+  };
+  const download = (blob, name) => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+  const fileName = () => (text.value.trim().split('\n')[0] || '0x00').replace(/[^\w-]+/g, '-').toLowerCase();
+  $('dlSvg').onclick = () => current && download(new Blob([current], { type: 'image/svg+xml' }), `${fileName()}.svg`);
+  $('dlPng').onclick = () => {
+    if (!current) return;
+    const [, w, h] = current.match(/width="([\d.]+)" height="([\d.]+)"/).map(Number);
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas');
+      c.width = w * 4; c.height = h * 4;
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob((b) => download(b, `${fileName()}.png`), 'image/png');
+    };
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(current);
+  };
+  if (PREVIEW) {
+    // 网页预览里不能下载：改成复制 SVG 代码
+    $('dlPng').hidden = true;
+    $('dlSvg').textContent = '复制 SVG 代码';
+    $('dlSvg').onclick = async () => {
+      if (!current) return;
+      try { await navigator.clipboard.writeText(current); $('dlSvg').textContent = '已复制'; }
+      catch { $('dlSvg').textContent = '复制失败，请用资产包里的版本下载'; }
+      setTimeout(() => { $('dlSvg').textContent = '复制 SVG 代码'; }, 1800);
+    };
+  }
+  for (const el of [text, theme, term]) el.addEventListener('input', render);
+  render();
+}
+
+route();
+})();
+</script>
+</body>
+</html>

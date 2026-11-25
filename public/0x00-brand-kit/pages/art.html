@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0X00 艺术版动画</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  canvas { display: block; width: 100%; height: 100%; object-fit: contain; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script src="../lib/artglyphs.js"></script>
+<script>
+(() => {
+'use strict';
+// 艺术版动画：0X00 ⇄ /0//。0 沿斜线压扁成 /，沙漏 X 撑开成 0；标志里粗的 ∅ 同步压扁，细线不动。
+// 参数：?preset=word|mark|lockup&theme=dark|light&w=3840&h=2160&live=1&t=0
+
+const q = new URLSearchParams(location.search);
+const preset = q.get('preset') || 'word';
+const theme = q.get('theme') || 'dark';
+const W = Number(q.get('w') || 1920);
+const H = Number(q.get('h') || 1080);
+const live = q.get('live') === '1';
+const INK = '#0B0B0B', PAPER = '#F2F0EA';
+const BG = theme === 'light' ? PAPER : INK;
+const FG = theme === 'light' ? INK : PAPER;
+document.body.style.background = BG;
+
+const cvs = document.getElementById('c');
+cvs.width = W;
+cvs.height = H;
+const ctx = cvs.getContext('2d');
+
+// 节奏沿用原版：7 秒一圈，大部分时间停在 0X00，中间变到 /0// 再回来
+const CYCLE = 7;
+window.DURATION = CYCLE;
+const morph = (t) => {
+  const u = (((t % CYCLE) + CYCLE) % CYCLE) / CYCLE;
+  return Math.pow((1 - Math.cos(2 * Math.PI * u)) / 2, 3);
+};
+
+const WB = wordBox();
+const wordW = WB.x1 - WB.x0, wordH = WB.y1 - WB.y0;
+const markW = MARK_BOX.x1 - MARK_BOX.x0, markH = MARK_BOX.y1 - MARK_BOX.y0;
+
+function layout() {
+  if (preset === 'word') {
+    const s = Math.min((W * 0.56) / wordW, (H * 0.5) / wordH);
+    return { word: { s, ox: (W - wordW * s) / 2 - WB.x0 * s, oy: (H - wordH * s) / 2 + WB.y1 * s } };
+  }
+  if (preset === 'mark') {
+    const s = (Math.min(W, H) * 0.56) / markH;
+    return { mark: { s, ox: (W - markW * s) / 2 - MARK_BOX.x0 * s, oy: (H - markH * s) / 2 + MARK_BOX.y1 * s } };
+  }
+  // lockup：标志在上，字标在下（和静态竖排组合同一比例）
+  const ks = 0.42, gap = 210;
+  const totalH = markH + gap + wordH * ks;
+  const s = (Math.min(W, H) * 0.62) / totalH;
+  const top = (H - totalH * s) / 2;
+  return {
+    mark: { s, ox: (W - markW * s) / 2 - MARK_BOX.x0 * s, oy: top + MARK_BOX.y1 * s },
+    word: { s: s * ks, ox: (W - wordW * s * ks) / 2 - WB.x0 * s * ks, oy: top + (markH + gap) * s + WB.y1 * s * ks },
+  };
+}
+const L = layout();
+
+function renderAt(t) {
+  const m = morph(t);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.fillStyle = BG;
+  ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = FG;
+  if (L.mark) {
+    const layers = markAt(m);
+    strokeLoops(ctx, layers.hair, { scale: L.mark.s, ox: L.mark.ox, oy: L.mark.oy, width: HAIR });
+    strokeLoops(ctx, layers.bold, { scale: L.mark.s, ox: L.mark.ox, oy: L.mark.oy, width: STROKE });
+  }
+  if (L.word) strokeLoops(ctx, wordAt(m), { scale: L.word.s, ox: L.word.ox, oy: L.word.oy, width: STROKE });
+}
+window.renderAt = renderAt;
+
+if (live) {
+  const t0 = performance.now();
+  const tick = (now) => { renderAt((now - t0) / 1000); requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+} else {
+  renderAt(Number(q.get('t') || 0));
+}
+window.ready = true;
+})();
+</script>
+</body>
+</html>
