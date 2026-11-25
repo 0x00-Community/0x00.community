@@ -2,6 +2,8 @@
 	"$schema": "./node_modules/wrangler/config-schema.json",
 	"compatibility_date": "2026-11-17",
 	"compatibility_flags": ["global_fetch_strictly_public"],
+	// Cloudflare account "0x00-Foundation", which owns the 0x00.community zone
+	"account_id": "d312beb1fd9f9902bb0d9c1394eeecbb",
 	"name": "0x00-community",
 	"main": "@astrojs/cloudflare/entrypoints/server",
 	"assets": {

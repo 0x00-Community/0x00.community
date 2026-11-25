@@ -39,4 +39,4 @@ wrangler.jsonc                Worker 配置
 
 j8 之书有自己的域名 [j8.app238.com](https://j8.app238.com/zh-CN/)（Worker `j8-mdbook`，源码在 j8 仓库的 `mdbook/`）。`/projects/j8/<路径>`（及 `/zh-CN/projects/j8/<路径>`）以 301 跳到那边的同一路径，项目列表直接链过去。
 
-部署时 `CLOUDFLARE_ACCOUNT_ID` 要指向拥有 `0x00.community` zone 的账号。
+Worker 位于 Cloudflare 账号 `0x00-Foundation`（拥有 `0x00.community` zone），`wrangler.jsonc` 里固定了它的 `account_id`。
