@@ -253,7 +253,10 @@ const other = locales.find((l) => l !== locale)!;
 		/* no room beside the links: the switch takes a line of its own under them, with buttons a thumb can hit */
 		.top nav { height: auto; padding-block: 12px 0; flex-wrap: wrap; row-gap: 10px; }
 		.top .pick { flex-basis: 100%; justify-content: flex-end; padding-bottom: 10px; }
-		.top .skins button, .foot .skins button { padding: 4px 16px; font-size: 0.88rem; }
+		.top .skins button, .foot .skins button { padding: 10px 16px; font-size: 0.88rem; }
+		/* a link's tap area reaches 44px high without the link itself growing */
+		.top .links a { position: relative; }
+		.top .links a::after { content: ''; position: absolute; inset: -10px -4px; }
 	}
 	@media (max-width: 520px) {
 		.links { font-size: 1.02rem; gap: 0; }

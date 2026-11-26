@@ -1,6 +1,7 @@
 import type { APIContext } from 'astro';
 
-/** The j8 book moved to its own domain; old /projects/j8/ links land on the same page there. */
+/** The j8 book moved to its own domain; old /projects/j8/<page> links land on the same page there. /projects/j8/ itself
+ *  is j8's project page on this site (pages/projects/j8/index.astro). */
 export const J8_SITE = 'https://j8.app238.com';
 
 export const redirectJ8 = ({ url }: APIContext, sitePrefix: string) => {

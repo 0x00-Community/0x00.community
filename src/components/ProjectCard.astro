@@ -15,7 +15,7 @@ const tone: Record<Kind, string> = { runtime: 'green', gc: 'blue', gpu: 'amber',
 		{bytes.map((b) => <span class="byte"><i>{b.ch}</i>{b.hex}</span>)}<span class="byte end"><i>\0</i>00</span>
 	</span>
 	<span class:list={['chip', 'disp', tone[p.kind]]}>{ui[locale].kinds[p.kind]}</span>
-	<a class="name mono" href={p.site?.[locale] ?? href(locale, `/projects/${p.name}/`)}>{p.name}</a>
+	<a class="name mono" href={href(locale, `/projects/${p.name}/`)}>{p.name}</a>
 	<p>{p.desc[locale]}</p>
 	{repo && <a class="repo mono" href={`${org}/${p.name}`}>github.com/0x00-Community/{p.name}</a>}
 </article>

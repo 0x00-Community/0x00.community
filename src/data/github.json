@@ -1,0 +1,66 @@
+{
+	"fetched": "2026-11-26",
+	"repos": {
+		"j8": {
+			"language": "Rust",
+			"license": "MIT",
+			"topics": [
+				"garbage-collector",
+				"interpreter",
+				"javascript",
+				"javascript-engine",
+				"jit",
+				"mlir",
+				"no-std",
+				"rust",
+				"test262",
+				"v8"
+			]
+		},
+		"paragc": {
+			"language": "Rust",
+			"license": "MIT",
+			"topics": [
+				"garbage-collector",
+				"gc",
+				"immix",
+				"lock-free",
+				"memory-management",
+				"parallel",
+				"rust"
+			]
+		},
+		"detour": {
+			"language": "Rust",
+			"license": null,
+			"topics": [
+				"gpu",
+				"gpu-driver",
+				"graphics",
+				"mlir",
+				"rust",
+				"shader-compiler"
+			]
+		},
+		"libacde": {
+			"language": "Rust",
+			"license": "AGPL-3.0",
+			"topics": []
+		},
+		"acdev": {
+			"language": "TypeScript",
+			"license": "AGPL-3.0",
+			"topics": []
+		},
+		"knovid": {
+			"language": null,
+			"license": null,
+			"topics": []
+		},
+		"marktext-dopame": {
+			"language": "TypeScript",
+			"license": "MIT",
+			"topics": []
+		}
+	}
+}
