@@ -2,7 +2,7 @@
 // NUL, the mascot: a quarter rest, softened. In numbered notation a rest is written 0, one beat of nothing that still
 // holds its place, which is what the byte 0x00 (NUL in ASCII) is. A proposal on top of the brand kit, not part of it.
 // The outline is the quarter rest (U+1D13D) of Noto Music, SIL OFL 1.1 (licence in /fonts/NotoMusic-OFL.txt), with
-// every corner rounded: a round-joined stroke takes the points off, a blur and a threshold fill in the notches.
+// its points taken off by a round-joined stroke of the same colour.
 // It is one colour, --nul-line.
 interface Props { class?: string; label?: string }
 const { label } = Astro.props;
@@ -10,22 +10,13 @@ const rest = 'M51 303Q51 346 78.0 366.0Q105 386 143 386Q173 386 221 363V365L67 5
 ---
 
 <svg class:list={['nul', Astro.props.class]} viewBox="0 0 340 840" role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
-	<filter id="nul-soft" x="-20%" y="-5%" width="140%" height="110%" color-interpolation-filters="sRGB">
-		<feGaussianBlur in="SourceAlpha" stdDeviation="13" />
-		<feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 26 -12" result="shape" />
-		<feFlood flood-color="currentColor" />
-		<feComposite in2="shape" operator="in" />
-	</filter>
 	<!-- the font's outline has y pointing up -->
 	<g transform="translate(-9 920) scale(1 -1)">
-		<!-- a halo in the ground's colour, for when NUL stands on a field of dots; invisible unless --nul-halo is set -->
-		<path class="halo" d={rest} />
-		<g filter="url(#nul-soft)"><path class="rest" d={rest} /></g>
+		<path class="rest" d={rest} />
 	</g>
 </svg>
 
 <style>
 	.nul { display: block; overflow: visible; color: var(--nul-line); }
-	.halo { fill: var(--nul-halo, none); stroke: var(--nul-halo, none); stroke-width: 110; stroke-linejoin: round; }
-	.rest { fill: currentColor; stroke: currentColor; stroke-width: 44; stroke-linejoin: round; }
+	.rest { fill: currentColor; stroke: currentColor; stroke-width: 46; stroke-linejoin: round; }
 </style>

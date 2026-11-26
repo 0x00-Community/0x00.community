@@ -13,9 +13,9 @@
 
 @font-face { font-family: 'Major Mono Display'; src: url('/fonts/MajorMonoDisplay-Regular.ttf') format('truetype'); font-display: swap; }
 
-.only-hardcore, .only-art { display: none; }
+:root:not([data-skin='hardcore'], #x) .only-hardcore { display: none; }
 :root:not([data-skin='color'], #x) .only-color { display: none; }
-:root[data-skin='hardcore'] .only-hardcore, :root[data-skin='art'] .only-art { display: block; }
+:root:not([data-skin='art'], #x) .only-art { display: none; }
 
 /* ---------- what both editions drop from the colour look ---------- */
 
@@ -116,11 +116,19 @@
 :root[data-skin='hardcore']:not(#x) .led .field { fill: var(--dot-on); }
 :root[data-skin='hardcore']:not(#x) .led .lit { fill: var(--dot-off); opacity: 1; animation: none; }
 
-:root[data-skin='hardcore']:not(#x) .ribbon { transform: none; max-width: 1072px; margin: 0 auto; padding: 14px 18px; justify-content: flex-start; gap: 4px 14px; background: var(--raise); color: var(--fg); border: 0; border-radius: 8px; font-size: 0.95rem; font-weight: 400; }
+/* what is on right now: the one inverted strip on the page, with the terminator blinking in front of it */
+:root[data-skin='hardcore']:not(#x) .ribbon { transform: none; max-width: 1072px; margin: 0 auto; padding: 16px 16px 16px 22px; justify-content: flex-start; gap: 6px 16px; background: var(--inv-bg); color: var(--inv-fg); border: 0; border-radius: 10px; font-size: 1.08rem; font-weight: 400; }
+:root[data-skin='hardcore']:not(#x) .ribbon { width: calc(100% - 48px); }
+:root[data-skin='hardcore']:not(#x) .ribbon > span:nth-child(2) { font-weight: 700; }
+:root[data-skin='hardcore']:not(#x) .ribbon > span:nth-child(4) { color: var(--inv-muted); }
 :root[data-skin='hardcore']:not(#x) .ribbon .star { display: none; }
-:root[data-skin='hardcore']:not(#x) .ribbon::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--terminator); }
-:root[data-skin='hardcore']:not(#x) .ribbon b { margin-left: auto; background: none; color: var(--accent); font-weight: 600; padding: 0; }
-:root[data-skin='hardcore']:not(#x) .ribbon:hover b { background: none; color: var(--accent); }
+:root[data-skin='hardcore']:not(#x) .ribbon::before { content: ''; width: 11px; height: 11px; border-radius: 50%; background: var(--terminator); animation: ribbon-blink 1.6s steps(2, jump-none) infinite; }
+@keyframes ribbon-blink { 50% { opacity: 0.25; } }
+@media (prefers-reduced-motion: reduce) {
+	:root[data-skin='hardcore']:not(#x) .ribbon::before { animation: none; }
+}
+:root[data-skin='hardcore']:not(#x) .ribbon b { margin-left: auto; padding: 6px 16px; border-radius: 6px; background: var(--terminator); color: #fff; font-size: 0.98rem; font-weight: 600; }
+:root[data-skin='hardcore']:not(#x) .ribbon:hover b { background: var(--inv-fg); color: var(--inv-bg); }
 
 /* projects as a hex dump: the bytes of the name, ending in 00 like every C string */
 :root[data-skin='hardcore']:not(#x) .cards:has(.project) { display: block; border-top: 1px solid var(--line); }
@@ -141,6 +149,8 @@
 :root[data-skin='hardcore']:not(#x) .list { border-top-width: 1px; }
 :root[data-skin='hardcore']:not(#x) .foot { background: var(--bg); color: var(--muted); border-top: 1px solid var(--line); }
 :root[data-skin='hardcore']:not(#x) .foot .skins { color: var(--muted); --sw-on: var(--fg); --sw-on-fg: var(--bg); }
+/* The headline is set in the colour look's display face. */
+:root[data-skin='hardcore']:not(#x) .hero .say h1 { font-family: 'Smiley Sans', 'PingFang SC', 'Noto Sans CJK SC', system-ui, sans-serif; font-weight: 400; font-size: clamp(2.5rem, 5.2vw, 4.3rem); line-height: 1.12; }
 /* NUL in the text colour: it has none of its own. It still stands where the page ends. */
 :root[data-skin='hardcore']:not(#x) .foot { --nul-line: var(--fg); }
 :root[data-skin='hardcore']:not(#x) .foot .wrap { padding-block: 20px; }
@@ -157,6 +167,8 @@
 	:root[data-skin='hardcore']:not(#x) .card.project :is(.bytes, .name) { grid-row: auto; }
 	:root[data-skin='hardcore']:not(#x) .card.project .repo { grid-column: 1; }
 	:root[data-skin='hardcore']:not(#x) .top .links { gap: 14px; }
+	:root[data-skin='hardcore']:not(#x) .ribbon { width: calc(100% - 32px); padding: 14px 16px; font-size: 1rem; }
+	:root[data-skin='hardcore']:not(#x) .ribbon b { margin-left: 27px; }
 }
 
 /* ---------- art: ink, paper, one typeface, the slash ---------- */
