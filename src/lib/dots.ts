@@ -107,6 +107,12 @@ export function panel(text: string, margin = 2): Panel {
 	};
 }
 
+/** A word as rows of 0 and 1 (seven rows, one empty column between letters): what a script needs to redraw it. */
+export function rows(text: string): string[] {
+	const glyphs = [...text.toUpperCase()].map((ch) => FONT[ch] ?? UNKNOWN);
+	return Array.from({ length: 7 }, (_, r) => glyphs.map((g) => g[r]).join('0'));
+}
+
 /** 7×7 pictograms for the areas the community works in. */
 const ICONS = {
 	// an arrow: source in, machine code out
@@ -122,12 +128,21 @@ const ICONS = {
 } as const;
 export type Icon = keyof typeof ICONS;
 
+/** The order in which a pictogram's dots pulse, so each one moves the way the thing it stands for does. */
+const ORDER: Record<Icon, (col: number, row: number) => number> = {
+	compiler: (c) => c, // left to right, along the arrow
+	runtime: (c) => c, // left to right: play
+	gc: (c, r) => Math.floor(c / 3) + 2 * Math.floor(r / 3), // block by block, like a sweep
+	gpu: (_c, r) => 6 - r, // from the base to the apex
+	ai: (c, r) => Math.hypot(c - 3, r - 3) * 1.4, // out from the core to the pins
+};
+
 export function icon(name: Icon) {
-	let on = '';
+	const on: { x: number; y: number; order: number }[] = [];
 	let off = '';
 	ICONS[name].split(' ').forEach((row, r) =>
 		[...row].forEach((bit, c) => {
-			if (bit === '1') on += dot(c, r);
+			if (bit === '1') on.push({ x: c * PITCH + PITCH / 2, y: r * PITCH + PITCH / 2, order: ORDER[name](c, r) });
 			else off += dot(c, r);
 		}),
 	);

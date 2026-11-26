@@ -1,15 +1,28 @@
 ---
-// A 7×7 dot-matrix pictogram for one of the areas the community works in. The lit dots take `currentColor`.
-import { icon, type Icon } from '../lib/dots';
+// A 7×7 dot-matrix pictogram for one of the areas the community works in. The lit dots take `currentColor`, and each
+// pulses in turn (in size only, like the dots of the hardcore hero), in an order that suits what it stands for.
+import { icon, RADIUS, type Icon } from '../lib/dots';
 
 interface Props { name: Icon; class?: string }
 const i = icon(Astro.props.name);
 ---
 
-<svg aria-hidden="true" class:list={['dot-icon', Astro.props.class]} viewBox={`0 0 ${i.size} ${i.size}`}><path class="off" d={i.off} /><path class="on" d={i.on} /></svg>
+<svg aria-hidden="true" class:list={['dot-icon', Astro.props.class]} viewBox={`0 0 ${i.size} ${i.size}`}>
+	<path class="off" d={i.off} />
+	<g class="on">{i.on.map((d) => <circle cx={d.x} cy={d.y} r={RADIUS} style={`--o:${d.order.toFixed(2)}`} />)}</g>
+</svg>
 
 <style>
 	.dot-icon { display: block; }
 	.off { fill: var(--dot-off); }
 	.on { fill: currentColor; }
+	/* a quiet ripple: each dot dips to two thirds and comes back, then the pictogram rests for most of the cycle */
+	.on circle { transform-box: fill-box; transform-origin: center; animation: dot-pulse 4.8s ease-in-out infinite; animation-delay: calc(var(--o) * 150ms); }
+	@keyframes dot-pulse {
+		0%, 30%, 100% { transform: scale(1); }
+		14% { transform: scale(0.64); }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.on circle { animation: none; }
+	}
 </style>

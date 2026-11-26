@@ -1,28 +1,22 @@
 ---
-// NUL, the mascot: the brand's red terminator dot (the byte 0x00, called NUL in ASCII) with legs. A proposal on top of
-// the brand kit, not part of it. The outline follows --nul-line so it reads on light and on dark ground.
+// NUL, the mascot: a quarter rest, softened. In numbered notation a rest is written 0, one beat of nothing that still
+// holds its place, which is what the byte 0x00 (NUL in ASCII) is. A proposal on top of the brand kit, not part of it.
+// The outline is the quarter rest (U+1D13D) of Noto Music, SIL OFL 1.1 (licence in /fonts/NotoMusic-OFL.txt), with
+// its points taken off by a round-joined stroke of the same colour.
+// It is one colour, --nul-line.
 interface Props { class?: string; label?: string }
 const { label } = Astro.props;
+const rest = 'M51 303Q51 346 78.0 366.0Q105 386 143 386Q173 386 221 363V365L67 570Q168 659 168 736Q168 797 104 878H147L307 683Q257 624 230.0 581.0Q203 538 203 494Q203 457 227.0 416.5Q251 376 303 314L287 292Q243 320 205 320Q177 320 163.0 301.5Q149 283 149 257Q149 225 162.5 196.5Q176 168 199 142L186 123Q117 173 84.0 214.0Q51 255 51 303Z';
 ---
 
-<svg class:list={['nul', Astro.props.class]} viewBox="0 0 140 138" role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
-	<g class="limb">
-		<path d="M55 106v24H43M85 106v24h12" />
-		<path d="M112 58q20-8 18-32" />
-		<path d="M27 72q-15 4-19 20" />
+<svg class:list={['nul', Astro.props.class]} viewBox="0 0 340 840" role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
+	<!-- the font's outline has y pointing up -->
+	<g transform="translate(-9 920) scale(1 -1)">
+		<path class="rest" d={rest} />
 	</g>
-	<circle class="body" cx="70" cy="66" r="46" />
-	<ellipse class="shine" cx="49" cy="42" rx="12" ry="6.5" transform="rotate(-32 49 42)" />
-	<ellipse class="eye" cx="57" cy="66" rx="5" ry="7.5" />
-	<ellipse class="eye" cx="85" cy="66" rx="5" ry="7.5" />
-	<path class="smile" d="M63 83q8 7 16 0" />
 </svg>
 
 <style>
-	.nul { display: block; overflow: visible; }
-	.limb { fill: none; stroke: var(--nul-line); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
-	.body { fill: var(--terminator); stroke: var(--nul-line); stroke-width: 5; }
-	.shine { fill: #fff; opacity: 0.85; }
-	.eye { fill: #111110; }
-	.smile { fill: none; stroke: #111110; stroke-width: 4.5; stroke-linecap: round; }
+	.nul { display: block; overflow: visible; color: var(--nul-line); }
+	.rest { fill: currentColor; stroke: currentColor; stroke-width: 46; stroke-linejoin: round; }
 </style>

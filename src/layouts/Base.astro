@@ -2,6 +2,7 @@
 import Mark from '../components/Mark.astro';
 import Nul from '../components/Nul.astro';
 import SkinSwitch from '../components/SkinSwitch.astro';
+import '../styles/smiley-sans.css';
 import '../styles/skins.css';
 import { href, localeOf, locales, switchLocale, ui } from '../i18n';
 
@@ -44,10 +45,15 @@ const other = locales.find((l) => l !== locale)!;
 		<meta property="og:image" content={new URL('/brand/banner-1500x500.png', Astro.site)} />
 		<meta name="twitter:card" content="summary_large_image" />
 		{locales.map((l) => <link rel="alternate" hreflang={l} href={new URL(switchLocale(Astro.url.pathname, l), Astro.site)} />)}
+		<!-- the slice of the display face that holds the site's own headings: on the first screen of the two looks most
+		     visitors see, so it is fetched early -->
+		<link rel="preload" href="/fonts/smiley/smiley-sans-core.woff2" as="font" type="font/woff2" crossorigin />
 		<title>{fullTitle}</title>
-		<!-- the visitor's chosen look, applied before the first paint -->
+		<!-- the visitor's chosen look, and whether motion is welcome, known before the first paint -->
 		<script is:inline>
 			try { const s = localStorage.getItem('skin'); if (s === 'color' || s === 'art') document.documentElement.dataset.skin = s; } catch {}
+			// lets a part that is about to animate start from its first frame instead of its finished picture
+			if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion');
 		</script>
 	</head>
 	<body>
@@ -67,15 +73,15 @@ const other = locales.find((l) => l !== locale)!;
 					<a class="lang" href={switchLocale(Astro.url.pathname, other)} hreflang={other} lang={other}>
 						{ui[other].langName}
 					</a>
-					<span class="pick"><SkinSwitch /></span>
 				</div>
+				<span class="pick"><SkinSwitch /></span>
 			</nav>
 		</header>
 		<slot name="band" />
 		<main class:list={{ wrap: !wide, narrow }}>
 			<slot />
 		</main>
-		<!-- NUL is the terminator: it stands where the page ends. -->
+		<!-- NUL is a rest: it stands where the page ends. -->
 		<footer class="foot">
 			<div class="wrap">
 				<Nul class="nul" label={t.nul} />
@@ -92,8 +98,8 @@ const other = locales.find((l) => l !== locale)!;
 </html>
 
 <style is:global>
-	/* Smiley Sans (得意黑), SIL OFL 1.1: the display face. Licence in /fonts/SmileySans-OFL.txt. */
-	@font-face { font-family: 'Smiley Sans'; src: url('/fonts/SmileySans-Oblique.woff2') format('woff2'); font-display: swap; }
+	/* Smiley Sans (得意黑), SIL OFL 1.1, is the display face. It is served in slices: src/styles/smiley-sans.css,
+	   made by scripts/split-smiley.py. Licence in /fonts/SmileySans-OFL.txt. */
 
 	/* Ink, paper and the terminator red are the brand kit's (hardcore edition). Amber, blue and green are the colours
 	   LED matrices come in: the same dot matrix, in colour. */
@@ -160,7 +166,8 @@ const other = locales.find((l) => l !== locale)!;
 	.brand { display: flex; align-items: center; gap: 10px; padding: 7px 14px 7px 10px; border-radius: 10px; background: var(--ink); color: var(--paper); border: 2px solid var(--line); --dot-on: #edede6; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; }
 	.brand .mark { width: 22px; height: 22px; }
 	.brand .zero { width: 20px; height: 30px; fill: none; stroke: currentColor; stroke-width: 3.4; }
-	.links .pick { display: inline-flex; margin-left: 10px; }
+	.top .links { margin-left: auto; }
+	.top .pick { display: inline-flex; }
 	.links { display: flex; align-items: center; gap: 4px; font-size: 1.15rem; }
 	.links a { text-decoration: none; white-space: nowrap; padding: 3px 14px; border-radius: var(--r-pill); }
 	.links a:hover, .links a[aria-current='page'] { background: var(--fg); color: var(--bg); }
@@ -172,7 +179,7 @@ const other = locales.find((l) => l !== locale)!;
 	/* footer: always the dark plate */
 	.foot { background: #0b0b0b; color: #edede6; --nul-line: #edede6; border-top: var(--bw) solid var(--line); }
 	.foot .wrap { display: flex; align-items: center; gap: 18px; padding-block: 28px; }
-	.foot .nul { width: 58px; flex: none; }
+	.foot .nul { height: 58px; width: auto; flex: none; }
 	.foot .end { font-size: 1.35rem; }
 	.foot .right { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 20px; color: #8f8d85; font-size: 0.88rem; }
 	.foot .skins { color: #edede6; --sw-on: #edede6; --sw-on-fg: #0b0b0b; }
@@ -243,7 +250,10 @@ const other = locales.find((l) => l !== locale)!;
 		.section-head h2 { font-size: 1.9rem; }
 		.foot .wrap { flex-wrap: wrap; }
 		.foot .right { margin-left: 0; flex-basis: 100%; justify-content: flex-start; }
-		.links .pick { display: none; }
+		/* no room beside the links: the switch takes a line of its own under them, with buttons a thumb can hit */
+		.top nav { height: auto; padding-block: 12px 0; flex-wrap: wrap; row-gap: 10px; }
+		.top .pick { flex-basis: 100%; justify-content: flex-end; padding-bottom: 10px; }
+		.top .skins button, .foot .skins button { padding: 4px 16px; font-size: 0.88rem; }
 	}
 	@media (max-width: 520px) {
 		.links { font-size: 1.02rem; gap: 0; }
