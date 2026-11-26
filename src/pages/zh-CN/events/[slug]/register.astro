@@ -1,0 +1,9 @@
+---
+import EventRegister from '../../../../components/EventRegister.astro';
+import { starHunter } from '../../../../data/events';
+
+export const getStaticPaths = () => [{ params: { slug: starHunter.slug }, props: { event: starHunter } }];
+const { event } = Astro.props;
+---
+
+<EventRegister locale="zh-CN" event={event} api="/api/star-hunter" />

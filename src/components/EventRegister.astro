@@ -1,0 +1,273 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from './PageHead.astro';
+import { href, ui, type Locale } from '../i18n';
+import type { Event } from '../data/events';
+import { signupWindow, TEAM_MAX } from '../lib/signup';
+
+interface Props { locale: Locale; event: Event; api: string }
+const { locale, event, api } = Astro.props;
+const t = ui[locale];
+const win = signupWindow(event)!;
+const zh = locale === 'zh-CN';
+const fmt = (d: Date) =>
+	d.toLocaleString(zh ? 'zh-CN' : 'en-US', { timeZone: 'Asia/Shanghai', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+
+const c = zh
+	? {
+			title: '报名',
+			lede: `${event.fullName[locale]}。一人一份报名，可以单人参赛，也可以 1–${TEAM_MAX} 人组队。`,
+			name: '姓名或昵称',
+			email: '邮箱',
+			emailHint: '主办方用它联系你，一个邮箱只能报一次。',
+			github: 'GitHub 用户名',
+			githubHint: '个人账号，不是组织。领取应用仓库要用它。',
+			status: '身份',
+			statuses: { student: '在校学生', work: '在职', other: '其他' },
+			org: '学校或公司（选填）',
+			contact: '微信号（选填）',
+			contactHint: '拉答疑群用。',
+			team: '组队',
+			teams: { solo: '单人参赛', create: '创建队伍，我是队长', join: '用邀请码加入队伍' },
+			teamName: '队名',
+			code: '邀请码',
+			codeHint: '队长报名后拿到的 6 位邀请码。',
+			minor: '我未满 18 岁',
+			minorHint: '需要交监护人同意书，主办方会发邮件联系你。',
+			agree: '我已阅读赛事说明，同意主办方收录、分发通过验收的应用。',
+			submit: '提交报名',
+			sending: '提交中…',
+			notOpen: `报名 ${fmt(win.open)} 开放（北京时间）。`,
+			closed: '报名已截止。',
+			window: `报名时间：${fmt(win.open)} – ${fmt(win.close)}（北京时间）`,
+			done: '报名成功',
+			doneSolo: '你已报名，单人参赛。',
+			doneCreate: '队伍已创建。把邀请码发给队友，他们报名时选「用邀请码加入队伍」。',
+			doneJoin: '你已加入队伍',
+			copy: '复制',
+			copied: '已复制',
+			next: '下一步看选手指南 →',
+		}
+	: {
+			title: 'Register',
+			lede: `${event.fullName[locale]}. One registration per person: enter alone or in a team of 1–${TEAM_MAX}.`,
+			name: 'Name or nickname',
+			email: 'Email',
+			emailHint: 'How the organizers reach you. One registration per address.',
+			github: 'GitHub username',
+			githubHint: 'A personal account, not an organization. Your app repositories are claimed with it.',
+			status: 'You are',
+			statuses: { student: 'A student', work: 'Working', other: 'Other' },
+			org: 'School or company (optional)',
+			contact: 'WeChat ID (optional)',
+			contactHint: 'For the Q&A group.',
+			team: 'Team',
+			teams: { solo: 'Enter alone', create: 'Create a team, as captain', join: 'Join a team with a code' },
+			teamName: 'Team name',
+			code: 'Invite code',
+			codeHint: 'The 6-character code your captain got on registering.',
+			minor: 'I am under 18',
+			minorHint: 'You need a consent form signed by a guardian; the organizers will email you.',
+			agree: 'I have read the event page and agree that the organizers may list and distribute apps that pass review.',
+			submit: 'Register',
+			sending: 'Sending…',
+			notOpen: `Registration opens ${fmt(win.open)} (Beijing time).`,
+			closed: 'Registration is closed.',
+			window: `Registration: ${fmt(win.open)} – ${fmt(win.close)} (Beijing time)`,
+			done: 'You are registered',
+			doneSolo: 'You are entered on your own.',
+			doneCreate: 'Your team is created. Send the code to your teammates; they choose "Join a team with a code" when they register.',
+			doneJoin: 'You joined',
+			copy: 'Copy',
+			copied: 'Copied',
+			next: 'Next: the participant guide →',
+		};
+
+const errors = zh
+	? {
+			notOpen: c.notOpen, closed: c.closed, badRequest: '提交的内容不对，请刷新页面重试。', tooLarge: '内容太长。',
+			nameMissing: '请填姓名或昵称。', emailInvalid: '邮箱格式不对。', githubInvalid: 'GitHub 用户名格式不对。',
+			statusMissing: '请选身份。', agreeMissing: '请勾选同意。', teamMissing: '请选组队方式。', teamNameMissing: '请填队名。',
+			codeInvalid: '邀请码是 6 位字母和数字。', codeUnknown: '没有这个邀请码。', teamFull: `这个队已经 ${TEAM_MAX} 人了。`,
+			emailTaken: '这个邮箱已经报过名了。要改报名信息请联系主办方。', githubTaken: '这个 GitHub 账号已经报过名了。',
+			teamNameTaken: '这个队名已经有人用了。', retry: '没生成邀请码，请再提交一次。', server: '服务器出错了，请稍后再试。', network: '网络出错了，请再提交一次。',
+		}
+	: {
+			notOpen: c.notOpen, closed: c.closed, badRequest: 'Something is wrong with the form; reload the page and try again.', tooLarge: 'Too long.',
+			nameMissing: 'Fill in your name.', emailInvalid: 'That email address does not look right.', githubInvalid: 'That is not a valid GitHub username.',
+			statusMissing: 'Choose one.', agreeMissing: 'Tick the agreement.', teamMissing: 'Choose how you enter.', teamNameMissing: 'Fill in a team name.',
+			codeInvalid: 'An invite code is 6 letters and digits.', codeUnknown: 'There is no team with that code.', teamFull: `That team already has ${TEAM_MAX} people.`,
+			emailTaken: 'This email address is already registered. To change your details, contact the organizers.', githubTaken: 'This GitHub account is already registered.',
+			teamNameTaken: 'That team name is taken.', retry: 'No code could be made; submit again.', server: 'The server failed; try again in a while.', network: 'Network error; submit again.',
+		};
+
+const guideHref = href(locale, `/events/${event.slug}/guide/`);
+const config = { api, locale, open: win.open.getTime(), close: win.close.getTime(), errors, copied: c.copied, zh, max: TEAM_MAX };
+---
+
+<Base title={`${c.title} · ${event.name}`} description={c.lede}>
+	<PageHead slot="band" tone="amber" title={c.title} lede={c.lede} word="SIGN-UP">
+		<p slot="crumb" class="eyebrow">
+			<a href={href(locale, '/events/')}>{t.eventsTitle}</a> / <a href={href(locale, `/events/${event.slug}/`)}>{event.name}</a>
+		</p>
+	</PageHead>
+
+	<div class="reg" data-config={JSON.stringify(config)}>
+		<p class="window">{c.window}</p>
+		<p class="gate" hidden data-not-open>{c.notOpen}</p>
+		<p class="gate" hidden data-closed>{c.closed}</p>
+
+		<form class="card" novalidate>
+			<label><span>{c.name}</span><input name="name" required maxlength="40" autocomplete="name" /></label>
+			<label><span>{c.email}</span><input name="email" type="email" required maxlength="120" autocomplete="email" /><small>{c.emailHint}</small></label>
+			<label><span>{c.github}</span><input name="github" required maxlength="40" autocomplete="username" spellcheck="false" autocapitalize="off" /><small>{c.githubHint}</small></label>
+			<fieldset>
+				<legend>{c.status}</legend>
+				{Object.entries(c.statuses).map(([v, l]) => <label class="choice"><input type="radio" name="status" value={v} required /> {l}</label>)}
+			</fieldset>
+			<label><span>{c.org}</span><input name="org" maxlength="80" autocomplete="organization" /></label>
+			<label><span>{c.contact}</span><input name="contact" maxlength="60" /><small>{c.contactHint}</small></label>
+			<fieldset>
+				<legend>{c.team}</legend>
+				{Object.entries(c.teams).map(([v, l]) => <label class="choice"><input type="radio" name="team" value={v} checked={v === 'solo'} /> {l}</label>)}
+				<label data-for="create" hidden><span>{c.teamName}</span><input name="teamName" maxlength="40" /></label>
+				<label data-for="join" hidden>
+					<span>{c.code}</span><input name="code" maxlength="7" class="code" spellcheck="false" autocapitalize="characters" autocomplete="off" />
+					<small data-team-info>{c.codeHint}</small>
+				</label>
+			</fieldset>
+			<label class="choice"><input type="checkbox" name="minor" /> {c.minor}</label>
+			<small class="sub" data-minor hidden>{c.minorHint}</small>
+			<label class="choice"><input type="checkbox" name="agree" required /> {c.agree}</label>
+			<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+			<p class="error" role="alert" hidden></p>
+			<p><button class="btn primary disp" type="submit" data-label={c.submit} data-sending={c.sending}>{c.submit} →</button></p>
+		</form>
+
+		<section class="card done" hidden aria-live="polite">
+			<h2>{c.done}</h2>
+			<p data-msg-solo hidden>{c.doneSolo}</p>
+			<p data-msg-create hidden>{c.doneCreate}</p>
+			<p data-msg-join hidden>{c.doneJoin} <strong data-team-name></strong></p>
+			<p class="code-box" data-code-box hidden>
+				<code data-code></code>
+				<button class="btn" type="button" data-copy data-label={c.copy}>{c.copy}</button>
+			</p>
+			<p><a class="btn primary disp" href={guideHref}>{c.next}</a></p>
+		</section>
+	</div>
+</Base>
+
+<script>
+	const root = document.querySelector<HTMLElement>('.reg')!;
+	const cfg = JSON.parse(root.dataset.config!);
+	const form = root.querySelector('form')!;
+	const err = form.querySelector<HTMLElement>('.error')!;
+	const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+	const done = root.querySelector<HTMLElement>('.done')!;
+	const $ = <T extends HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+	const teamOf = (name: string, size: number) =>
+		cfg.zh ? `「${name}」，现在 ${size}/${cfg.max} 人` : `"${name}", now ${size}/${cfg.max}`;
+
+	const now = Date.now();
+	if (now < cfg.open || now > cfg.close) {
+		$(now < cfg.open ? '[data-not-open]' : '[data-closed]').hidden = false;
+		for (const el of form.elements) (el as HTMLInputElement).disabled = true;
+	}
+
+	const sync = () => {
+		const mode = (form.elements.namedItem('team') as RadioNodeList).value;
+		for (const el of form.querySelectorAll<HTMLElement>('[data-for]')) el.hidden = el.dataset.for !== mode;
+		$('[data-minor]').hidden = !(form.elements.namedItem('minor') as HTMLInputElement).checked;
+	};
+	form.addEventListener('change', sync);
+	sync();
+
+	const codeInput = form.elements.namedItem('code') as HTMLInputElement;
+	const info = $('[data-team-info]');
+	const hint = info.textContent;
+	codeInput.addEventListener('input', async () => {
+		const code = codeInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+		if (code.length !== 6) return void (info.textContent = hint);
+		try {
+			const r = await (await fetch(`${cfg.api}/team?code=${code}`)).json();
+			info.textContent = r.ok ? teamOf(r.name, r.size) : cfg.errors[r.error] ?? hint;
+		} catch {
+			info.textContent = hint;
+		}
+	});
+
+	const show = (key: string) => {
+		err.textContent = cfg.errors[key] ?? cfg.errors.server;
+		err.hidden = false;
+	};
+
+	form.addEventListener('submit', async (ev) => {
+		ev.preventDefault();
+		err.hidden = true;
+		const f = new FormData(form);
+		const body = {
+			name: f.get('name'), email: f.get('email'), github: f.get('github'), status: f.get('status'), org: f.get('org'),
+			contact: f.get('contact'), team: f.get('team'), teamName: f.get('teamName'), code: f.get('code'),
+			minor: f.get('minor') === 'on', agree: f.get('agree') === 'on', website: f.get('website'), locale: cfg.locale,
+		};
+		button.disabled = true;
+		button.textContent = button.dataset.sending!;
+		let r;
+		try {
+			r = await (await fetch(`${cfg.api}/register`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })).json();
+		} catch {
+			r = { ok: false, error: 'network' };
+		}
+		button.disabled = false;
+		button.textContent = `${button.dataset.label} →`;
+		if (!r.ok) return show(r.error);
+		form.hidden = true;
+		done.hidden = false;
+		$(`[data-msg-${body.team}]`).hidden = false;
+		if (r.team) {
+			$('[data-team-name]').textContent = teamOf(r.team.name, r.team.size);
+			$('[data-code]').textContent = r.team.code;
+			$('[data-code-box]').hidden = body.team !== 'create';
+		}
+		done.scrollIntoView({ block: 'start' });
+	});
+
+	$('[data-copy]').addEventListener('click', async (ev) => {
+		const b = ev.currentTarget as HTMLButtonElement;
+		await navigator.clipboard.writeText($('[data-code]').textContent!);
+		b.textContent = cfg.copied;
+		setTimeout(() => (b.textContent = b.dataset.label!), 1500);
+	});
+</script>
+
+<style>
+	.reg { max-width: 720px; display: grid; gap: 20px; }
+	.window { margin: 0; color: var(--muted); }
+	.gate { margin: 0; padding: 14px 20px; border: var(--bw) dashed var(--line); border-radius: var(--r, 16px); font-size: 1.1rem; }
+	form { gap: 20px; padding: 28px; }
+	label, fieldset { display: grid; gap: 6px; }
+	fieldset { border: 0; padding: 0; margin: 0; }
+	legend, label > span { font-weight: 700; padding: 0; margin-bottom: 6px; color: var(--card-fg, var(--fg)); }
+	input:not([type='radio'], [type='checkbox']) {
+		font: inherit; font-size: 1.05rem; padding: 10px 14px; border: var(--bw-s) solid var(--line); border-radius: 10px;
+		background: var(--bg); color: var(--fg); width: 100%; box-sizing: border-box;
+	}
+	input:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+	input.code { font-family: ui-monospace, monospace; letter-spacing: 0.2em; text-transform: uppercase; max-width: 12em; }
+	.choice { display: flex; gap: 10px; align-items: baseline; font-weight: 400; color: var(--card-fg, var(--fg)); }
+	.choice input { accent-color: var(--red); transform: translateY(1px); }
+	small, .sub { color: var(--card-muted, var(--muted)); font-size: 0.92rem; }
+	.sub { margin-top: -14px; padding-left: 26px; }
+	.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+	.error { margin: 0; padding: 10px 14px; border-radius: 10px; background: var(--red); color: #fff; font-weight: 600; }
+	button.btn { font: inherit; font-size: 1.2rem; cursor: pointer; }
+	button.btn:disabled { opacity: 0.55; cursor: default; }
+	.btn.primary { background: var(--red); color: #fff; }
+	.done { gap: 14px; padding: 28px; }
+	.done h2 { margin: 0; font-size: 1.6rem; color: var(--card-fg, var(--fg)); }
+	.done p { margin: 0; font-size: 1.05rem; color: var(--card-fg, var(--fg)); }
+	.code-box { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+	.code-box code { font-size: 2.2rem; font-weight: 800; letter-spacing: 0.25em; padding: 6px 16px; border: var(--bw) solid var(--line); border-radius: 12px; background: var(--amber); color: #111110; }
+	[hidden] { display: none !important; }
+</style>
