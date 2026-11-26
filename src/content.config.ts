@@ -53,4 +53,13 @@ const docs = defineCollection({
 	}),
 });
 
-export const collections = { blog, community, authors, docs };
+/** An event's participant guide: guides/<lang>/<event slug>.md, shown at /events/<slug>/guide/. */
+const guides = defineCollection({
+	loader: glob({ pattern: '**/*.md', base: './src/content/guides' }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+	}),
+});
+
+export const collections = { blog, community, authors, docs, guides };

@@ -1,0 +1,29 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHead from './PageHead.astro';
+import { guide, href, ui, type Locale } from '../i18n';
+import type { Event } from '../data/events';
+
+interface Props { locale: Locale; event: Event }
+const { locale, event } = Astro.props;
+const t = ui[locale];
+const doc = (await guide(locale, event.slug))!;
+const { Content } = await render(doc);
+---
+
+<Base title={`${doc.data.title} · ${event.name}`} description={doc.data.description}>
+	<PageHead slot="band" tone="amber" title={doc.data.title} lede={doc.data.description} word="GUIDE">
+		<p slot="crumb" class="eyebrow">
+			<a href={href(locale, '/events/')}>{t.eventsTitle}</a> / <a href={href(locale, `/events/${event.slug}/`)}>{event.name}</a>
+		</p>
+	</PageHead>
+	<article class="prose">
+		<Content />
+	</article>
+</Base>
+
+<style>
+	.prose { max-width: 720px; }
+	.prose > :global(:first-child) { margin-top: 0; }
+</style>

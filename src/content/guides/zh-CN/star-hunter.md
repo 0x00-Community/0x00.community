@@ -1,7 +1,6 @@
 ---
-title: Star Hunter 选手指南
+title: 选手指南
 description: 领取仓库、安装 acdev、开发和提交 Dopame 应用。
-order: 4
 ---
 
 你在 Dopame 上开发应用，我们在 GitHub 组织 [0x00-Migration](https://github.com/0x00-Migration) 下给每个应用分配一个公开仓库。你把代码推到这个仓库，审核员人工审核。

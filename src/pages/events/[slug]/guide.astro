@@ -1,0 +1,13 @@
+---
+import EventGuide from '../../../components/EventGuide.astro';
+import { events } from '../../../data/events';
+import { guide } from '../../../i18n';
+
+export const getStaticPaths = async () => {
+	const withGuide = await Promise.all(events.map(async (event) => ((await guide('en', event.slug)) ? [event] : [])));
+	return withGuide.flat().map((event) => ({ params: { slug: event.slug }, props: { event } }));
+};
+const { event } = Astro.props;
+---
+
+<EventGuide locale="en" event={event} />
