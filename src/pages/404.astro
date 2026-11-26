@@ -2,21 +2,38 @@
 // One page for every address that is not there, whatever its language: it cannot know which one was asked for, so it
 // answers in both.
 import Base from '../layouts/Base.astro';
+import DotPanel from '../components/DotPanel.astro';
+import Nul from '../components/Nul.astro';
 import { href, locales, ui } from '../i18n';
 ---
 
 <Base title="404">
-	<p class="eyebrow mono">404</p>
-	{locales.map((l) => (
-		<section lang={l}>
-			<h1 class="page-title">{ui[l].notFound}</h1>
-			<p class="lede">{ui[l].notFoundLede}</p>
-			<p><a class="more" href={href(l)}>{ui[l].backHome}</a></p>
-		</section>
-	))}
+	<div class="lost">
+		<div class="stage">
+			<DotPanel class="sign" text="404" end="socket" label="404" />
+			<Nul class="nul" />
+		</div>
+		<div>
+			{locales.map((l) => (
+				<section lang={l}>
+					<h1 class="page-title">{ui[l].notFound}</h1>
+					<p class="lede">{ui[l].notFoundLede}</p>
+					<p><a class="more" href={href(l)}>{ui[l].backHome}</a></p>
+				</section>
+			))}
+		</div>
+	</div>
 </Base>
 
 <style>
-	section + section { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--line); }
+	.lost { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 64px; align-items: center; padding-top: 40px; }
+	.stage { position: relative; padding-top: 70px; transform: rotate(-2deg); }
+	.stage :global(.sign) { --led: var(--amber); --glow: var(--blue); }
+	.stage :global(.nul) { position: absolute; width: 27%; left: 70%; top: 0; transform: rotate(6deg); }
+	section + section { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--soft); }
 	.lede { margin-bottom: 16px; }
+	@media (max-width: 720px) {
+		.lost { grid-template-columns: 1fr; gap: 36px; padding-top: 0; }
+		.stage { max-width: 300px; }
+	}
 </style>

@@ -1,7 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
-import { href, ui, type Locale } from '../i18n';
-import { org, projects } from '../data/projects';
+import PageHead from './PageHead.astro';
+import ProjectCard from './ProjectCard.astro';
+import { ui, type Locale } from '../i18n';
+import { projects } from '../data/projects';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
@@ -9,15 +11,8 @@ const t = ui[locale];
 ---
 
 <Base title={t.projectsTitle} description={t.projectsLede}>
-	<h1 class="page-title">{t.projectsTitle}</h1>
-	<p class="lede">{t.projectsLede}</p>
-	<ul class="list">
-		{projects.map((p) => (
-			<li>
-				<a class="title mono" href={p.site?.[locale] ?? href(locale, `/projects/${p.name}/`)}>{p.name}</a>
-				<p>{p.desc[locale]}</p>
-				<a class="meta" href={`${org}/${p.name}`}>github.com/0x00-Community/{p.name}</a>
-			</li>
-		))}
+	<PageHead slot="band" tone="blue" title={t.projectsTitle} lede={t.projectsLede} word="PROJECTS" />
+	<ul class="cards">
+		{projects.map((p) => <li><ProjectCard locale={locale} project={p} repo /></li>)}
 	</ul>
 </Base>

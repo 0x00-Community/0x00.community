@@ -1,17 +1,31 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHead from './PageHead.astro';
+import ProjectCard from './ProjectCard.astro';
 import { href, ui, type Locale } from '../i18n';
-import { org, type Project } from '../data/projects';
+import { org, projects, type Project } from '../data/projects';
 
 interface Props { locale: Locale; project: Project }
 const { locale, project } = Astro.props;
 const t = ui[locale];
 const repo = `${org}/${project.name}`;
+const others = projects.filter((p) => p.name !== project.name).slice(0, 3);
 ---
 
 <Base title={project.name} description={project.desc[locale]}>
-	<p class="eyebrow"><a href={href(locale, '/projects/')}>{t.projectsTitle}</a></p>
-	<h1 class="page-title mono">{project.name}</h1>
-	<p class="lede">{project.desc[locale]}</p>
-	<p><a class="more" href={repo}>{t.repo} →</a></p>
+	<PageHead slot="band" tone="blue" title={project.name} lede={project.desc[locale]} word={project.name} mono>
+		<p slot="crumb" class="eyebrow"><a href={href(locale, '/projects/')}>{t.projectsTitle}</a> / {t.kinds[project.kind]}</p>
+		<p class="acts disp"><a class="btn go" href={repo}>{t.repo} →</a></p>
+	</PageHead>
+	<div class="section-head">
+		<h2 class="disp">{t.featured}</h2>
+		<a class="more" href={href(locale, '/projects/')}>{t.allProjects}</a>
+	</div>
+	<ul class="cards">
+		{others.map((p) => <li><ProjectCard locale={locale} project={p} /></li>)}
+	</ul>
 </Base>
+
+<style>
+	.acts { margin: 24px 0 0; }
+</style>

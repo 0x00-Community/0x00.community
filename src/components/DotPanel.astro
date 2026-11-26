@@ -1,0 +1,42 @@
+---
+// An LED panel that spells a word in the brand's dot matrix: the field is dark, the letters are lit, and the terminator
+// closes the word. `end="socket"` leaves the terminator's place empty, for when NUL (the terminator, walking about)
+// is drawn next to the panel. `animate` writes the word column by column, once, when the page loads.
+import { panel, RADIUS } from '../lib/dots';
+
+interface Props {
+	text: string;
+	end?: 'dot' | 'socket';
+	animate?: boolean;
+	label?: string;
+	class?: string;
+}
+const { text, end = 'dot', animate = false, label = text } = Astro.props;
+const p = panel(text);
+---
+
+<div class:list={['led', Astro.props.class]}>
+	<svg role="img" aria-label={label} viewBox={`0 0 ${p.width} ${p.height}`} class:list={{ animate }}>
+		<path class="field" d={p.field} />
+		{animate
+			? p.columns.map((d, i) => <path class="lit" style={`--i:${i}`} d={d} />)
+			: <path class="lit" d={p.columns.join('')} />}
+		{end === 'dot'
+			? <circle class="end" style={`--i:${p.columns.length}`} cx={p.end.x} cy={p.end.y} r={RADIUS} />
+			: <circle class="socket" cx={p.end.x} cy={p.end.y} r={RADIUS - 1} />}
+	</svg>
+</div>
+
+<style>
+	.led { background: #0b0b0b; border: 3px solid var(--line); border-radius: 16px; padding: 12px; box-shadow: 8px 8px 0 var(--glow, var(--shadow)); }
+	svg { display: block; width: 100%; height: auto; }
+	.field { fill: #2a2a28; }
+	.lit { fill: var(--led, #edede6); }
+	.end { fill: var(--terminator); }
+	.socket { fill: none; stroke: var(--terminator); stroke-width: 2; stroke-dasharray: 3 2.5; }
+	.animate .lit, .animate .end { opacity: 0; animation: led-on 0.01s linear forwards; animation-delay: calc(var(--i) * 42ms + 350ms); }
+	@keyframes led-on { to { opacity: 1; } }
+	@media (prefers-reduced-motion: reduce) {
+		.animate .lit, .animate .end { opacity: 1; animation: none; }
+	}
+</style>

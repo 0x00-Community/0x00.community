@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHead from './PageHead.astro';
 import { formatDate, href, posts, slugOf, ui, type Locale } from '../i18n';
 
 interface Props { locale: Locale }
@@ -9,15 +10,31 @@ const all = await posts(locale);
 ---
 
 <Base title={t.blogTitle} description={t.blogLede}>
-	<h1 class="page-title">{t.blogTitle}</h1>
-	<p class="lede">{t.blogLede}</p>
-	<ul class="list">
+	<PageHead slot="band" tone="green" title={t.blogTitle} lede={t.blogLede} word="BLOG" />
+	<ul class="posts">
 		{all.map((post) => (
 			<li>
-				<a class="title" href={href(locale, `/blog/${slugOf(post)}/`)}>{post.data.title}</a>
-				<p>{post.data.description}</p>
-				<span class="meta">{formatDate(locale, post.data.date)} · {post.data.author}</span>
+				<time class="chip dark mono" datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(locale, post.data.date)}</time>
+				<div>
+					<a class="title disp" href={href(locale, `/blog/${slugOf(post)}/`)}>{post.data.title}</a>
+					<p>{post.data.description}</p>
+					<span class="meta">{t.by} {post.data.author}</span>
+				</div>
 			</li>
 		))}
 	</ul>
 </Base>
+
+<style>
+	.posts { list-style: none; padding: 0; margin: 0; border-top: 3px solid var(--line); }
+	.posts li { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 24px; padding: 26px 0; border-bottom: 1px solid var(--soft); align-items: start; }
+	.posts time { justify-self: start; font-size: 0.82rem; margin-top: 8px; }
+	.title { font-size: 1.7rem; line-height: 1.3; text-decoration: none; }
+	.title:hover { color: var(--accent); }
+	.posts p { margin: 6px 0 8px; color: var(--muted); max-width: 46em; }
+	@media (max-width: 720px) {
+		.posts li { grid-template-columns: 1fr; gap: 6px; padding: 20px 0; }
+		.posts time { margin: 0; }
+		.title { font-size: 1.45rem; }
+	}
+</style>

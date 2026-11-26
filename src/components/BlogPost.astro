@@ -9,12 +9,21 @@ const t = ui[locale];
 const { Content } = await render(post);
 ---
 
-<Base title={post.data.title} description={post.data.description}>
+<Base title={post.data.title} description={post.data.description} narrow>
 	<p class="eyebrow"><a href={href(locale, '/blog/')}>{t.blogTitle}</a></p>
 	<article class="prose">
 		<h1 class="page-title">{post.data.title}</h1>
-		<p class="meta">{formatDate(locale, post.data.date)} · {t.by} {post.data.author}</p>
+		<p class="by">
+			<time class="chip green mono" datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(locale, post.data.date)}</time>
+			<span class="meta">{t.by} {post.data.author}</span>
+		</p>
 		<Content />
 	</article>
-	<p><a class="more" href={href(locale, '/blog/')}>{t.back}</a></p>
+	<p class="back"><a class="more" href={href(locale, '/blog/')}>{t.back}</a></p>
 </Base>
+
+<style>
+	.by { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 14px 0 36px; }
+	.by time { font-size: 0.82rem; }
+	.back { margin-top: 56px; }
+</style>
