@@ -13,7 +13,7 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 ---
 
 <Base title={`${event.name} · ${event.fullName[locale]}`} description={event.summary[locale]}>
-	<header slot="band" class:list={['band', 'edge', 'hero', event.banner ? 'plate poster' : 'amber']}>
+	<header slot="band" class:list={['band', 'amber', 'edge', 'hero', { poster: event.banner }]}>
 		<div class="wrap">
 			{event.banner ? (
 				<>
@@ -226,7 +226,7 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 	.full { margin: 12px 0 0; font-size: 1.9rem; line-height: 1.25; }
 	.tagline { margin: 8px 0 0; font-weight: 600; }
 	.hero .lede { margin: 28px 0 24px; max-width: 48em; color: inherit; }
-	/* the banner, framed like a poster on the dark plate; never cropped, it is drawn to be seen whole */
+	/* the banner, framed like a poster on the events' own amber; never cropped, it is drawn to be seen whole */
 	.poster { padding-top: 28px; }
 	.banner { display: block; border: var(--bw) solid var(--line); border-radius: var(--r); overflow: hidden; box-shadow: 8px 8px 0 var(--red); }
 	.banner img { display: block; width: 100%; height: auto; }

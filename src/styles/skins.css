@@ -249,12 +249,6 @@
 
 /* ---------- event banners ---------- */
 
-/* A banner is drawn in full colour, for the colour look. The two editions print it in black and white, like a poster
-   run through their own press, and give the colour back while it is pointed at or focused. The file is never touched. */
+/* A banner keeps its own colours in every look; only its frame follows the look. */
 :root:not([data-skin='color'], #x) .banner { box-shadow: none; }
-:root:not([data-skin='color'], #x) :is(.banner img, .cover .art) { filter: grayscale(1) contrast(1.12); transition: filter 0.25s; }
-:root:not([data-skin='color'], #x) :is(.banner:is(:hover, :focus-visible) img, .cover:hover .art, .cover:focus-within .art) { filter: none; }
 :root[data-skin='hardcore']:not(#x) .events li.cover { border-color: var(--line); }
-@media (prefers-reduced-motion: reduce) {
-	:root:not([data-skin='color'], #x) :is(.banner img, .cover .art) { transition: none; }
-}
