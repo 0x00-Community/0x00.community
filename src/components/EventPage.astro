@@ -13,7 +13,7 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 ---
 
 <Base title={`${event.name} · ${event.fullName[locale]}`} description={event.summary[locale]}>
-	<header slot="band" class:list={['band', 'amber', 'edge', 'hero', { poster: event.banner }]}>
+	<header slot="band" class:list={event.banner ? ['hero', 'poster'] : ['band', 'amber', 'edge', 'hero']}>
 		<div class="wrap">
 			{event.banner ? (
 				<>
@@ -226,7 +226,8 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 	.full { margin: 12px 0 0; font-size: 1.9rem; line-height: 1.25; }
 	.tagline { margin: 8px 0 0; font-weight: 600; }
 	.hero .lede { margin: 28px 0 24px; max-width: 48em; color: inherit; }
-	/* the banner, framed like a poster on the events' own amber; never cropped, it is drawn to be seen whole */
+	/* the banner, framed like a poster on the page's own ground, with no band behind it; never cropped, it is drawn to
+	   be seen whole */
 	.poster { padding-top: 28px; }
 	.banner { display: block; border: var(--bw) solid var(--line); border-radius: var(--r); overflow: hidden; box-shadow: 8px 8px 0 var(--red); }
 	.banner img { display: block; width: 100%; height: auto; }
@@ -241,10 +242,10 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 	.tbd { color: var(--muted); font-style: italic; }
 
 	.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 36px 0 0; }
-	.facts div { padding: 12px 16px; border: var(--bw) solid var(--line); border-radius: var(--r); background: var(--card); color: var(--card-fg); box-shadow: 4px 4px 0 var(--shadow); }
-	.facts dt { font-size: 0.85rem; color: var(--card-muted); }
+	.facts div { padding: 12px 16px; border: var(--bw) solid var(--line); border-radius: var(--r); background: var(--card); color: var(--card-fg, var(--fg)); box-shadow: 4px 4px 0 var(--shadow); }
+	.facts dt { font-size: 0.85rem; color: var(--card-muted, var(--muted)); }
 	.facts dd { margin: 2px 0 0; font-weight: 700; }
-	.facts .tbd { color: var(--card-muted); }
+	.facts .tbd { color: var(--card-muted, var(--muted)); }
 
 	.tabs { position: sticky; top: 0; z-index: 2; display: flex; gap: 4px; margin: -48px 0 0; padding: 12px 0; background: var(--bg); border-bottom: var(--bw) solid var(--line); overflow-x: auto; white-space: nowrap; font-size: 1.1rem; scrollbar-width: none; }
 	.tabs::-webkit-scrollbar { display: none; }
