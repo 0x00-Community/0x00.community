@@ -1,0 +1,43 @@
+---
+// The coloured band that opens a section's pages: title and lede on the left, the section's word on an LED panel on the
+// right. Each section keeps one colour everywhere: projects blue, events amber, blog green, docs the dark plate.
+import DotPanel from './DotPanel.astro';
+
+interface Props {
+	tone: 'blue' | 'amber' | 'green' | 'plate';
+	title: string;
+	lede?: string;
+	/** What the LED panel spells: A–Z, 0–9 and - only. */
+	word?: string;
+	mono?: boolean;
+}
+const { tone, title, lede, word, mono = false } = Astro.props;
+---
+
+<header class:list={['band', 'edge', 'head', tone]}>
+	<div class="wrap">
+		<div class="text">
+			<slot name="crumb" />
+			<h1 class:list={[mono ? 'mono' : 'disp']}>{title}</h1>
+			{lede && <p>{lede}</p>}
+			<slot />
+		</div>
+		{word && <DotPanel class="word" text={word} />}
+	</div>
+</header>
+
+<style>
+	.head { padding-block: 44px 52px; border-top-width: 0; }
+	.wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 48px; align-items: center; }
+	.text:only-child { grid-column: 1 / -1; }
+	h1 { font-size: clamp(2.4rem, 5.4vw, 4rem); line-height: 1.12; margin: 0; text-wrap: balance; overflow-wrap: anywhere; }
+	h1.mono { font-weight: 800; letter-spacing: -0.03em; font-size: clamp(2.1rem, 5vw, 3.6rem); }
+	p { margin: 12px 0 0; font-size: 1.1rem; max-width: 36em; color: var(--muted); }
+	.head :global(.word) { transform: rotate(1.6deg); --glow: #111110; }
+	.head.plate :global(.word) { --glow: var(--blue); --led: var(--amber); }
+	@media (max-width: 860px) {
+		.head { padding-block: 32px 40px; }
+		.wrap { grid-template-columns: 1fr; gap: 28px; }
+		.head :global(.word) { max-width: 340px; }
+	}
+</style>

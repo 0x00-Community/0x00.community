@@ -1,0 +1,30 @@
+---
+// A project as a card: what kind of thing it is, its name, one paragraph. `repo` adds the address of its repository.
+import { href, ui, type Locale } from '../i18n';
+import { org, type Kind, type Project } from '../data/projects';
+
+interface Props { locale: Locale; project: Project; repo?: boolean }
+const { locale, project: p, repo = false } = Astro.props;
+// the name as a C string: its bytes, then the terminator. The hardcore look shows them beside the name.
+const bytes = [...p.name].map((ch) => ({ ch, hex: ch.charCodeAt(0).toString(16).padStart(2, '0') }));
+const tone: Record<Kind, string> = { runtime: 'green', gc: 'blue', gpu: 'amber', appRuntime: 'green', tooling: '', app: 'red' };
+---
+
+<article class="card link project">
+	<span class="bytes mono only-hardcore" aria-hidden="true">
+		{bytes.map((b) => <span class="byte"><i>{b.ch}</i>{b.hex}</span>)}<span class="byte end"><i>\0</i>00</span>
+	</span>
+	<span class:list={['chip', 'disp', tone[p.kind]]}>{ui[locale].kinds[p.kind]}</span>
+	<a class="name mono" href={p.site?.[locale] ?? href(locale, `/projects/${p.name}/`)}>{p.name}</a>
+	<p>{p.desc[locale]}</p>
+	{repo && <a class="repo mono" href={`${org}/${p.name}`}>github.com/0x00-Community/{p.name}</a>}
+</article>
+
+<style>
+	.card { position: relative; height: 100%; }
+	.name { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; overflow-wrap: anywhere; text-decoration: none; }
+	/* the whole card is the link to the project; the repository link stays clickable above it */
+	.name::after { content: ''; position: absolute; inset: 0; border-radius: 15px; }
+	.repo { position: relative; z-index: 1; align-self: flex-start; margin-top: auto; padding-top: 8px; font-size: 0.8rem; color: var(--card-muted, var(--muted)); overflow-wrap: anywhere; }
+	.repo:hover { color: inherit; }
+</style>

@@ -40,6 +40,11 @@ export interface Event {
 	tagline: L;
 	summary: L;
 	host: L;
+	/**
+	 * The banner drawn for the event: the page's title as a picture, in each language, wide (1600×720) and upright
+	 * (800×1000, for a phone). The files are in public/events/. Without one the page sets the name in type.
+	 */
+	banner?: { alt: L; wide: L; tall: L };
 	/** Where teams sign up, claim, submit and see the leaderboard: the contest's own site. Empty until it is public. */
 	registerUrl: string;
 	registerNote: L;
@@ -67,11 +72,19 @@ export const starHunter: Event = {
 	fullName: { en: 'The Thousand-Star Migration Challenge', 'zh-CN': '千星项目迁移挑战赛' },
 	tagline: { en: 'Hunt a star. Bring it home.', 'zh-CN': '猎一颗千星，让它在 Dopame OS 上再亮一次。' },
 	summary: {
-		en: 'Migrate an open-source project with a thousand GitHub stars or more to Dopame OS: package its web front end and back end as a Dopame app that installs and opens on Dopame OS, with the core features of the original all working.',
+		en: 'Migrate an open-source project with a thousand GitHub stars or more to Dopame OS: package its web front end and back end as a Dopame OS app that installs and opens on Dopame OS, with the core features of the original all working.',
 		'zh-CN':
-			'把 GitHub 上一千星以上的开源项目迁移到 Dopame OS：把项目的网页前端和后端打包成 Dopame 应用，在 Dopame OS 上装得上、打得开，原项目的核心功能都能用。',
+			'把 GitHub 上一千星以上的开源项目迁移到 Dopame OS：把项目的网页前端和后端打包成 Dopame OS 应用，在 Dopame OS 上装得上、打得开，原项目的核心功能都能用。',
 	},
-	host: { en: 'Hosted by Dopame, co-branded with BoHack', 'zh-CN': 'Dopame 主办，BoHack 联名' },
+	host: { en: 'Hosted by 0x00, co-branded with BoHack', 'zh-CN': '0x00 主办，BoHack 联名' },
+	banner: {
+		alt: {
+			en: 'Star Hunter, the Thousand-Star Migration Challenge. Starts December 1, fully online. Register now.',
+			'zh-CN': 'Star Hunter 千星项目迁移挑战赛，12 月 1 日开赛，全程线上。立即报名。',
+		},
+		wide: { en: '/events/star-hunter.en.svg', 'zh-CN': '/events/star-hunter.zh-CN.svg' },
+		tall: { en: '/events/star-hunter.en.tall.svg', 'zh-CN': '/events/star-hunter.zh-CN.tall.svg' },
+	},
 	registerUrl: '',
 	registerNote: { en: 'Registration opens November 27', 'zh-CN': '报名入口 11 月 27 日开放' },
 	rulesUrl: '',
@@ -89,7 +102,7 @@ export const starHunter: Event = {
 	],
 	criteria: [
 		{
-			title: { en: 'Packaged as a Dopame app', 'zh-CN': '打包成 Dopame 应用' },
+			title: { en: 'Packaged as a Dopame OS app', 'zh-CN': '打包成 Dopame OS 应用' },
 			body: {
 				en: 'The web front end and the back end both go into the app and run on Dopame OS. A shell around a remote website does not count.',
 				'zh-CN': '网页前端和后端都装进这个应用、在 Dopame OS 上跑。只套远程网页的壳不算。',
@@ -198,8 +211,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Get your machine', 'zh-CN': '领开发环境' },
 			body: {
-				en: 'Dopame gives each team a remote machine or cloud host with Dopame OS and the developer tools installed. Push your code to your own repository as you go; do not keep it only on the remote machine.',
-				'zh-CN': 'Dopame 给每队一台远程机器或云主机，装好 Dopame OS 和开发工具。代码要及时推到本队的仓库，别只存在远程机器上。',
+				en: 'The organizers give each team a remote machine or cloud host with Dopame OS and the developer tools installed. Push your code to your own repository as you go; do not keep it only on the remote machine.',
+				'zh-CN': '主办方给每队一台远程机器或云主机，装好 Dopame OS 和开发工具。代码要及时推到本队的仓库，别只存在远程机器上。',
 			},
 		},
 		{
@@ -219,8 +232,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Migrate and submit', 'zh-CN': '迁移、提交' },
 			body: {
-				en: 'Four things per project: the repository of the migrated code, a download link to the packaged Dopame app, a write-up (what you changed, how to check the core features) and a demo video. The last submission before the deadline is the one reviewed.',
-				'zh-CN': '每个项目交四样：迁移后的代码仓库地址、打包好的 Dopame 应用的下载链接、一份说明（改了什么、核心功能怎么验）、一段演示视频。以截止前最后一次提交为准。',
+				en: 'Four things per project: the repository of the migrated code, a download link to the packaged Dopame OS app, a write-up (what you changed, how to check the core features) and a demo video. The last submission before the deadline is the one reviewed.',
+				'zh-CN': '每个项目交四样：迁移后的代码仓库地址、打包好的 Dopame OS 应用的下载链接、一份说明（改了什么、核心功能怎么验）、一段演示视频。以截止前最后一次提交为准。',
 			},
 			state: 'tentative',
 		},
@@ -240,8 +253,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'The recommended list', 'zh-CN': '推荐清单' },
 			body: {
-				en: 'Every project is claimed from one list: projects picked by Dopame, plus projects nominated by participants and approved. Each entry states its difficulty tier and its core feature checklist. First version on November 29, final on November 30.',
-				'zh-CN': '所有项目都从推荐清单里认领：Dopame 给的项目，加上选手提名、审核通过的项目。每个项目写明难度档和核心功能清单。11 月 29 日公开第一版，11 月 30 日定版。',
+				en: 'Every project is claimed from one list: projects picked by the organizers, plus projects nominated by participants and approved. Each entry states its difficulty tier and its core feature checklist. First version on November 29, final on November 30.',
+				'zh-CN': '所有项目都从推荐清单里认领：主办方给的项目，加上选手提名、审核通过的项目。每个项目写明难度档和核心功能清单。11 月 29 日公开第一版，11 月 30 日定版。',
 			},
 			state: 'tentative',
 		},
@@ -311,8 +324,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Who pays', 'zh-CN': '谁发奖金' },
 			body: {
-				en: "Prizes are paid directly to the winners by Dopame's company, with individual income tax withheld. BoHack does not handle prize money.",
-				'zh-CN': '奖金由 Dopame 的公司直接发给获奖选手，代扣个税；BoHack 不经手奖金。',
+				en: 'Prizes are paid directly to the winners by the organizers, with individual income tax withheld. BoHack does not handle prize money.',
+				'zh-CN': '奖金由主办方直接发给获奖选手，代扣个税；BoHack 不经手奖金。',
 			},
 		},
 	],
@@ -322,8 +335,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'The code is yours', 'zh-CN': '代码和应用归选手' },
 			body: {
-				en: 'The migrated code and the app belong to you. By registering you agree that Dopame may list and distribute apps that pass review.',
-				'zh-CN': '迁移后的代码和应用归选手；报名时写明 Dopame 可以收录、分发通过验收的应用。',
+				en: 'The migrated code and the app belong to you. By registering you agree that the organizers may list and distribute apps that pass review.',
+				'zh-CN': '迁移后的代码和应用归选手；报名时写明主办方可以收录、分发通过验收的应用。',
 			},
 		},
 		{
@@ -343,12 +356,12 @@ export const starHunter: Event = {
 		},
 		{
 			title: { en: 'acdev, the developer kit', 'zh-CN': 'acdev 开发工具' },
-			body: { en: 'Create, run, test and package a Dopame app.', 'zh-CN': '新建、运行、测试、打包 Dopame 应用。' },
+			body: { en: 'Create, run, test and package a Dopame OS app.', 'zh-CN': '新建、运行、测试、打包 Dopame OS 应用。' },
 			href: { en: 'https://dopame.ai/en/acde', 'zh-CN': 'https://dopame.ai/zh/acde' },
 		},
 		{
 			title: { en: 'App development docs', 'zh-CN': '应用开发文档' },
-			body: { en: 'How to package an app and what it must satisfy.', 'zh-CN': '怎么打包成 Dopame 应用、应用要满足什么要求。' },
+			body: { en: 'How to package an app and what it must satisfy.', 'zh-CN': '怎么打包成 Dopame OS 应用、应用要满足什么要求。' },
 			href: { en: 'https://docs.dopame.ai/en/', 'zh-CN': 'https://docs.dopame.ai/zh/' },
 		},
 		{
@@ -361,8 +374,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Questions', 'zh-CN': '答疑' },
 			body: {
-				en: "Technical questions are answered in public by Dopame's engineers, and collected into an FAQ that is updated daily, so every team gets the same answer. How to join comes with registration.",
-				'zh-CN': '技术问题由 Dopame 的工程师公开答，并补进每天更新的「常见问题」，答案对每队都一样。怎么进群随报名公布。',
+				en: "Technical questions are answered in public by the organizers' engineers, and collected into an FAQ that is updated daily, so every team gets the same answer. How to join comes with registration.",
+				'zh-CN': '技术问题由主办方的工程师公开答，并补进每天更新的「常见问题」，答案对每队都一样。怎么进群随报名公布。',
 			},
 		},
 	],
@@ -385,7 +398,7 @@ export const starHunter: Event = {
 			q: { en: 'I do not have a machine running Dopame OS.', 'zh-CN': '我没有装 Dopame OS 的机器怎么办？' },
 			a: {
 				en: 'You do not need one. Each team gets a remote machine or cloud host with Dopame OS and the developer tools installed.',
-				'zh-CN': '不需要。Dopame 给每队一台远程机器或云主机，装好 Dopame OS 和开发工具。',
+				'zh-CN': '不需要。主办方给每队一台远程机器或云主机，装好 Dopame OS 和开发工具。',
 			},
 		},
 		{
@@ -403,8 +416,8 @@ export const starHunter: Event = {
 		{
 			q: { en: 'Who owns what I build?', 'zh-CN': '做出来的东西归谁？' },
 			a: {
-				en: "You do. The original project's license still applies, and Dopame may list and distribute apps that pass review.",
-				'zh-CN': '归选手。迁移后的代码照样要守原项目的开源许可证；Dopame 可以收录、分发通过验收的应用。',
+				en: "You do. The original project's license still applies, and the organizers may list and distribute apps that pass review.",
+				'zh-CN': '归选手。迁移后的代码照样要守原项目的开源许可证；主办方可以收录、分发通过验收的应用。',
 			},
 		},
 		{

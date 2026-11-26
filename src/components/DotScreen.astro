@@ -1,0 +1,32 @@
+---
+// The hardcore edition as the brand kit draws it, across the full width of the page: every dot is lit, the letters are
+// the dots switched off, and one red terminator closes the word. The field of dots is a CSS pattern; only the letters
+// are SVG, set on the same grid.
+import { panel, RADIUS } from '../lib/dots';
+
+interface Props { text: string; label?: string; class?: string }
+const { text, label = text } = Astro.props;
+const p = panel(text, 0);
+---
+
+<div class:list={['screen', Astro.props.class]}>
+	<svg role="img" aria-label={label} viewBox={`0 0 ${p.width} ${p.height}`}>
+		<rect class="ground" width={p.width} height={p.height} />
+		<path class="on" d={p.field} />
+		<path class="off" d={p.columns.join('')} />
+		<circle class="end" cx={p.end.x} cy={p.end.y} r={RADIUS} />
+	</svg>
+</div>
+
+<style>
+	/* --p is the pitch; the pattern starts where the page's text column starts, so the word lines up with the text */
+	.screen { --p: 22px; --x: max(24px, calc((100vw - 1120px) / 2 + 24px)); position: relative; height: calc(var(--p) * 11); background: radial-gradient(circle closest-side, var(--dot-on) 71%, transparent 75%) var(--x) 0 / var(--p) var(--p); }
+	svg { position: absolute; left: var(--x); top: calc(var(--p) * 2); height: calc(var(--p) * 7); width: auto; }
+	.ground { fill: var(--bg); }
+	.on { fill: var(--dot-on); }
+	.off { fill: var(--dot-off); }
+	.end { fill: var(--terminator); }
+	@media (max-width: 860px) {
+		.screen { --p: calc((100vw - 32px) / 29); --x: 16px; }
+	}
+</style>

@@ -1,0 +1,20 @@
+---
+// The art-edition mark: a bold ∅ over three hairlines, the outlines of the 0 a quarter, half and three quarters of the
+// way to a slash. Drawn from the brand kit's own geometry.
+import { HAIR, MARK_BOX, STROKE, loopsToPath, markAt } from '../lib/artglyphs.js';
+
+interface Props { class?: string }
+const pad = 24;
+const at = { ox: pad - MARK_BOX.x0, oy: MARK_BOX.y1 + pad };
+const mark = markAt(0);
+---
+
+<svg aria-hidden="true" class:list={['art-mark', Astro.props.class]} viewBox={`0 0 ${MARK_BOX.x1 - MARK_BOX.x0 + pad * 2} ${MARK_BOX.y1 - MARK_BOX.y0 + pad * 2}`}>
+	<path d={loopsToPath(mark.hair, at)} stroke-width={HAIR} />
+	<path d={loopsToPath(mark.bold, at)} stroke-width={STROKE} />
+</svg>
+
+<style>
+	.art-mark { display: block; overflow: visible; }
+	path { fill: none; stroke: currentColor; stroke-linejoin: miter; stroke-miterlimit: 2.4; }
+</style>

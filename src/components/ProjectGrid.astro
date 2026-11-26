@@ -1,0 +1,19 @@
+---
+// A list of projects. In the hardcore look it reads as a hex dump, so it opens with one line saying what the left
+// column is.
+import ProjectCard from './ProjectCard.astro';
+import { ui, type Locale } from '../i18n';
+import type { Project } from '../data/projects';
+
+interface Props { locale: Locale; projects: Project[]; repo?: boolean }
+const { locale, projects, repo = false } = Astro.props;
+---
+
+<p class="bytes-note only-hardcore">{ui[locale].bytesNote}</p>
+<ul class="cards">
+	{projects.map((p) => <li><ProjectCard locale={locale} project={p} repo={repo} /></li>)}
+</ul>
+
+<style>
+	.bytes-note { margin: -8px 0 16px; color: var(--muted); font-size: 0.88rem; }
+</style>

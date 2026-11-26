@@ -1,6 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import Wordmark from './Wordmark.astro';
+import DotIcon from './DotIcon.astro';
+import ArtMark from './ArtMark.astro';
+import ArtWord from './ArtWord.astro';
+import DotPanel from './DotPanel.astro';
+import DotScreen from './DotScreen.astro';
+import Nul from './Nul.astro';
+import ProjectGrid from './ProjectGrid.astro';
 import { formatDate, href, posts, slugOf, ui, type Locale } from '../i18n';
 import { projects } from '../data/projects';
 import { events } from '../data/events';
@@ -10,58 +16,163 @@ const { locale } = Astro.props;
 const t = ui[locale];
 const latest = (await posts(locale)).slice(0, 3);
 const event = events[0];
+const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
 ---
 
-<Base>
+<Base wide>
+	<!-- one opening per look: the dot matrix across the page, the LED panel with NUL, or the art wordmark -->
+	<DotScreen class="only-hardcore" text="0X00" label="0x00" />
+	<div class="wrap art only-art">
+		<ArtWord class="word" />
+		<ArtMark class="mark" />
+	</div>
+	<section class="wrap hero">
+		<div class="say">
+			<h1 class="disp">{t.heroTitle}</h1>
+			<p class="lede">{t.heroLede}</p>
+			<p class="acts disp">
+				<a class="btn go" href={href(locale, '/docs/')}>{t.readDocs}</a>
+				<a class="btn" href="https://github.com/0x00-Community">{t.seeCode}</a>
+			</p>
+		</div>
+		<!-- The terminator has left its place on the panel (the dashed socket) and stands on top of it: that is NUL. -->
+		<div class="stage only-color">
+			<span class="spark s1" aria-hidden="true"></span>
+			<span class="spark s2" aria-hidden="true"></span>
+			<span class="spark s3" aria-hidden="true"></span>
+			<DotPanel class="logo" text="0X00" end="socket" animate label="0x00" />
+			<Nul class="nul" label={t.nul} />
+			<span class="zero mono" aria-hidden="true">\0</span>
+		</div>
+	</section>
+
 	{event && (
-		<a class="notice" href={href(locale, `/events/${event.slug}/`)}>
-			<span class="dot" aria-hidden="true"></span>
-			<span><b class="mono">{event.name}</b> · {event.fullName[locale]} · {event.facts[1]?.value?.[locale]}</span>
-			<span class="go">{t.event.details}</span>
+		<a class="ribbon disp" href={href(locale, `/events/${event.slug}/`)}>
+			<span class="star" aria-hidden="true">✦</span>
+			<span>{event.name} {event.fullName[locale]}</span>
+			<span class="star" aria-hidden="true">✦</span>
+			<span>{event.facts[1]?.value?.[locale]}</span>
+			<span class="star" aria-hidden="true">✦</span>
+			<b>{t.event.details}</b>
 		</a>
 	)}
-	<section class="hero">
-		<Wordmark class="wordmark" />
-		<h1>{t.heroTitle}</h1>
-		<p class="lede">{t.heroLede}</p>
-		<a class="more" href={href(locale, '/docs/')}>{t.readDocs}</a>
+
+	<section class="band blue areas">
+		<div class="wrap">
+			<h2 class="disp">{t.areasTitle}</h2>
+			<ul class="disp">
+				{areas.map(([key, label]) => (
+					<li class={key}><DotIcon name={key} class="icon" /><strong>{label}</strong></li>
+				))}
+			</ul>
+		</div>
 	</section>
 
-	<section>
-		<h2 class="eyebrow">{t.featured}</h2>
-		<ul class="list">
-			{projects.map((p) => (
-				<li>
-					<a class="title mono" href={p.site?.[locale] ?? href(locale, `/projects/${p.name}/`)}>{p.name}</a>
-					<p>{p.desc[locale]}</p>
-				</li>
-			))}
-		</ul>
-		<p><a class="more" href={href(locale, '/projects/')}>{t.allProjects}</a></p>
+	<section class="wrap block">
+		<div class="section-head">
+			<h2 class="disp">{t.featured}</h2>
+			<a class="more" href={href(locale, '/projects/')}>{t.allProjects}</a>
+		</div>
+		<ProjectGrid locale={locale} projects={projects.slice(0, 6)} />
 	</section>
 
-	<section>
-		<h2 class="eyebrow">{t.latest}</h2>
-		<ul class="list">
+	{event && (
+		<section class="band amber edge">
+			<div class="wrap event">
+				<div>
+					<h2 class="disp">{t.eventsTitle}</h2>
+					<h3 class="disp">{event.fullName[locale]}</h3>
+					<p>{event.facts[1]?.value?.[locale]} · {event.host[locale]}</p>
+					<p class="acts disp">
+						<a class="btn" href={href(locale, `/events/${event.slug}/`)}>{t.event.details}</a>
+						<a class="more" href={href(locale, '/events/')}>{t.allEvents}</a>
+					</p>
+				</div>
+				<DotPanel class="sign" text={event.name} />
+			</div>
+		</section>
+	)}
+
+	<section class="wrap block">
+		<div class="section-head">
+			<h2 class="disp">{t.latest}</h2>
+			<a class="more" href={href(locale, '/blog/')}>{t.allPosts}</a>
+		</div>
+		<ul class="posts">
 			{latest.map((post) => (
 				<li>
-					<a class="title" href={href(locale, `/blog/${slugOf(post)}/`)}>{post.data.title}</a>
-					<p>{post.data.description}</p>
-					<span class="meta">{formatDate(locale, post.data.date)}</span>
+					<a href={href(locale, `/blog/${slugOf(post)}/`)}>
+						<time class="chip dark mono" datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(locale, post.data.date)}</time>
+						<strong class="disp">{post.data.title}</strong>
+						<span>{post.data.description}</span>
+					</a>
 				</li>
 			))}
 		</ul>
-		<p><a class="more" href={href(locale, '/blog/')}>{t.allPosts}</a></p>
 	</section>
 </Base>
 
 <style>
-	.notice { display: flex; align-items: center; gap: 10px; padding: 10px 14px; margin: -16px 0 24px; border: 1px solid var(--line); border-radius: 8px; text-decoration: none; font-size: 0.92rem; }
-	.notice:hover { border-color: var(--accent); }
-	.notice .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--terminator); flex: none; }
-	.notice .go { margin-left: auto; color: var(--accent); font-weight: 600; white-space: nowrap; }
-	.hero { padding: 24px 0 16px; }
-	.hero :global(.wordmark) { width: min(100%, 520px); height: auto; margin: 0 0 36px; }
-	h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1.15; margin: 0 0 20px; letter-spacing: -0.02em; }
-	section + section { margin-top: 56px; }
+	.art { position: relative; padding-top: 28px; }
+	.art :global(.word) { width: min(100%, 780px); margin-left: -1.2%; }
+	.art :global(.mark) { position: absolute; right: -150px; top: 8px; width: 440px; pointer-events: none; }
+	.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 48px; align-items: center; padding-block: 36px 84px; }
+	.hero h1 { font-size: clamp(2.5rem, 5.2vw, 4.3rem); line-height: 1.12; margin: 0 0 20px; text-wrap: balance; }
+	.hero .lede { margin-bottom: 28px; max-width: 30em; }
+
+	.stage { position: relative; padding-top: 84px; transform: rotate(-1.5deg); }
+	.stage :global(.logo) { --led: var(--amber); --glow: var(--blue); border-radius: var(--r); padding: 14px; }
+	/* NUL stands above the socket it came out of: the terminator is the 27th of the panel's 29 columns */
+	.stage :global(.nul) { position: absolute; width: 25%; left: 78.5%; top: -8px; transform: rotate(5deg); animation: hop 0.5s 1.5s cubic-bezier(0.3, 1.6, 0.5, 1) backwards; }
+	.zero { position: absolute; left: 64%; top: 10px; padding: 2px 12px; border: var(--bw) solid var(--line); border-radius: 12px 12px 2px 12px; background: var(--card); font-size: 1.05rem; transform: rotate(-4deg); animation: hop 0.4s 1.8s ease-out backwards; }
+	@keyframes hop { from { opacity: 0; translate: 0 70px; scale: 0.4; } }
+	.spark { position: absolute; z-index: 1; width: var(--w); aspect-ratio: 1; background: var(--c); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+	.s1 { --w: 38px; --c: var(--amber); left: -3%; top: 62px; }
+	.s2 { --w: 22px; --c: var(--green); left: 22%; top: 38px; }
+	.s3 { --w: 28px; --c: var(--amber); right: -2%; bottom: -16px; }
+	@media (prefers-reduced-motion: reduce) {
+		.stage :global(.nul), .zero { animation: none; }
+	}
+
+	/* the one loud line on the page: what is on right now */
+	.ribbon { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 30px; margin-inline: -24px; padding: 12px 40px; background: var(--red); color: #fff; border-block: 3px solid #111110; transform: rotate(-1.2deg); font-size: 1.3rem; text-decoration: none; }
+	.ribbon b { font-weight: var(--disp-w); background: #111110; padding: 0 12px; border-radius: 8px; }
+	.ribbon:hover b { background: var(--amber); color: #111110; }
+
+	.areas { margin-top: -14px; padding-top: 86px; }
+	.areas h2, .event h2 { font-size: 2.3rem; line-height: 1.2; margin: 0 0 26px; }
+	.areas ul { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; list-style: none; padding: 0; margin: 0; }
+	.areas li { padding: 18px 16px 16px; border: var(--bw) solid var(--line); border-radius: var(--r); background: var(--card); color: var(--card-fg); box-shadow: 5px 5px 0 var(--shadow); }
+	.areas li:nth-child(odd) { transform: rotate(-1.5deg); }
+	.areas li:nth-child(even) { transform: rotate(1.2deg) translateY(8px); }
+	.areas :global(.icon) { width: 56px; margin-bottom: 12px; }
+	.areas strong { display: block; font-size: 1.3rem; font-weight: var(--disp-w); line-height: 1.3; }
+	.areas .compiler { color: #e2330a; } .areas .runtime { color: #0f9d5b; } .areas .gc { color: #2148e0; } .areas .gpu { color: #c98600; }
+	.areas li strong { color: var(--card-fg); }
+
+	.block { padding-block: 72px; }
+
+	.event { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 44px; align-items: center; }
+	.event h3 { font-size: 1.9rem; margin: 0 0 6px; font-weight: var(--disp-w); line-height: 1.25; }
+	.event p { margin: 0 0 22px; font-size: 1.05rem; }
+	.event .acts { align-items: center; margin: 0; }
+	.event :global(.sign) { --glow: var(--red); transform: rotate(1.2deg); }
+
+	.posts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; list-style: none; padding: 0; margin: 0; }
+	.posts a { display: block; height: 100%; padding-top: 14px; border-top: var(--bw) solid var(--line); text-decoration: none; }
+	.posts time { font-size: 0.82rem; }
+	.posts strong { display: block; margin: 10px 0 6px; font-size: 1.4rem; font-weight: var(--disp-w); line-height: 1.35; }
+	.posts span { color: var(--muted); font-size: 0.95rem; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+	.posts a:hover strong { color: var(--accent); }
+
+	@media (max-width: 860px) {
+		.hero { grid-template-columns: 1fr; gap: 12px; padding-block: 16px 60px; }
+		.art :global(.mark) { display: none; }
+		.ribbon { margin-inline: -16px; font-size: 1.05rem; gap: 2px 14px; }
+		.ribbon .star { display: none; }
+		.areas ul { grid-template-columns: 1fr 1fr; }
+		.areas h2, .event h2 { font-size: 1.9rem; }
+		.block { padding-block: 52px; }
+		.event, .posts { grid-template-columns: 1fr; }
+	}
 </style>

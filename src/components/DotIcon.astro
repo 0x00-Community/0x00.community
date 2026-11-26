@@ -1,0 +1,15 @@
+---
+// A 7×7 dot-matrix pictogram for one of the areas the community works in. The lit dots take `currentColor`.
+import { icon, type Icon } from '../lib/dots';
+
+interface Props { name: Icon; class?: string }
+const i = icon(Astro.props.name);
+---
+
+<svg aria-hidden="true" class:list={['dot-icon', Astro.props.class]} viewBox={`0 0 ${i.size} ${i.size}`}><path class="off" d={i.off} /><path class="on" d={i.on} /></svg>
+
+<style>
+	.dot-icon { display: block; }
+	.off { fill: var(--dot-off); }
+	.on { fill: currentColor; }
+</style>
