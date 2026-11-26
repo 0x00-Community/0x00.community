@@ -39,4 +39,4 @@ wrangler.jsonc                Worker configuration
 
 The j8 book has its own domain, [j8.app238.com](https://j8.app238.com/) (Worker `j8-mdbook`, source in the j8 repository's `mdbook/`). `/projects/j8/` is j8's project page here, like every project's, with a button to the book; deeper paths (`/projects/j8/<path>`, `/zh-CN/projects/j8/<path>`) answer with a 301 to the same path there.
 
-Deploying requires `CLOUDFLARE_ACCOUNT_ID` to point at the account that owns the `0x00.community` zone.
+Every push to `main` deploys (`.github/workflows/deploy.yml`): it builds with Node, applies the D1 migrations in `migrations/<database name>/`, then runs `wrangler deploy`. It needs the repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`, the account that owns the `0x00.community` zone; deploying by hand needs the same account.

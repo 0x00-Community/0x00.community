@@ -39,4 +39,4 @@ wrangler.jsonc                Worker 配置
 
 j8 之书有自己的域名 [j8.app238.com](https://j8.app238.com/zh-CN/)（Worker `j8-mdbook`，源码在 j8 仓库的 `mdbook/`）。`/projects/j8/` 是 j8 在本站的项目页，和其他项目一样，页内有按钮去 j8 之书；更深的路径（`/projects/j8/<路径>`、`/zh-CN/projects/j8/<路径>`）以 301 跳到那边的同一路径。
 
-部署时 `CLOUDFLARE_ACCOUNT_ID` 要指向拥有 `0x00.community` zone 的账号。
+每次推送 `main` 都会自动部署（`.github/workflows/deploy.yml`）：用 Node 构建，应用 `migrations/<数据库名>/` 里的 D1 迁移，再 `wrangler deploy`。需要仓库 secret `CLOUDFLARE_API_TOKEN` 和 `CLOUDFLARE_ACCOUNT_ID`，后者是拥有 `0x00.community` zone 的账号；手动部署也要用这个账号。
