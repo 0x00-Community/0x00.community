@@ -44,6 +44,8 @@ const other = locales.find((l) => l !== locale)!;
 		<meta property="og:image" content={new URL('/brand/banner-1500x500.png', Astro.site)} />
 		<meta name="twitter:card" content="summary_large_image" />
 		{locales.map((l) => <link rel="alternate" hreflang={l} href={new URL(switchLocale(Astro.url.pathname, l), Astro.site)} />)}
+		<!-- the display face is in the first screen of the two looks most visitors see: fetch it early -->
+		<link rel="preload" href="/fonts/SmileySans-Oblique.woff2" as="font" type="font/woff2" crossorigin />
 		<title>{fullTitle}</title>
 		<!-- the visitor's chosen look, applied before the first paint -->
 		<script is:inline>

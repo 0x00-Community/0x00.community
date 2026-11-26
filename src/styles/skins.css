@@ -81,7 +81,7 @@
 	--x-fg: var(--fg); --x-muted: var(--muted); --x-line: var(--line); --x-accent: var(--accent); --x-off: var(--dot-off);
 	/* the kit's other plate, for the one band that is inverted */
 	--inv-bg: #f2f0ea; --inv-fg: #111110; --inv-muted: #5f5d56; --inv-line: #d9d6cc; --inv-accent: #c8370f;
-	--disp: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Noto Sans CJK SC', sans-serif;
+	--disp: 'Smiley Sans', 'PingFang SC', 'Noto Sans CJK SC', system-ui, sans-serif;
 	--bw: 1px;
 	--r: 8px;
 	--r-pill: 6px;
@@ -151,13 +151,22 @@
 :root[data-skin='hardcore']:not(#x) .list { border-top-width: 1px; }
 :root[data-skin='hardcore']:not(#x) .foot { background: var(--bg); color: var(--muted); border-top: 1px solid var(--line); }
 :root[data-skin='hardcore']:not(#x) .foot .skins { color: var(--muted); --sw-on: var(--fg); --sw-on-fg: var(--bg); }
-/* The headline is set in the colour look's display face. */
-:root[data-skin='hardcore']:not(#x) .hero .say h1 { font-family: 'Smiley Sans', 'PingFang SC', 'Noto Sans CJK SC', system-ui, sans-serif; font-weight: 400; font-size: clamp(2.5rem, 5.2vw, 4.3rem); line-height: 1.12; }
+/* Headings are set in the colour look's display face, Smiley Sans, at its sizes; the small working parts of the page
+   (links, buttons, tabs, tags) stay in the system face, where an oblique condensed face would be hard to read. */
+:root[data-skin='hardcore']:not(#x) { --disp-w: 400; }
+:root[data-skin='hardcore']:not(#x) :is(.top .links, .btn, .more, .tabs, .ribbon, aside ul) { font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Noto Sans CJK SC', sans-serif; }
+:root[data-skin='hardcore']:not(#x) .hero .say h1 { font-size: clamp(2.5rem, 5.2vw, 4.3rem); line-height: 1.12; }
+:root[data-skin='hardcore']:not(#x) .head h1.disp { font-size: clamp(2.4rem, 5.4vw, 4rem); }
+:root[data-skin='hardcore']:not(#x) :is(.areas h2, .event h2, .section-head h2) { font-size: 2.1rem; }
+:root[data-skin='hardcore']:not(#x) .areas strong { font-size: 1.25rem; }
+:root[data-skin='hardcore']:not(#x) .posts strong { font-size: 1.4rem; }
+:root[data-skin='hardcore']:not(#x) .events .title { font-size: 1.8rem; }
+:root[data-skin='hardcore']:not(#x) .full { font-size: 1.7rem; }
 /* NUL in the text colour: it has none of its own. It still stands where the page ends. */
 :root[data-skin='hardcore']:not(#x) .foot { --nul-line: var(--fg); }
 :root[data-skin='hardcore']:not(#x) .foot .wrap { padding-block: 20px; }
 :root[data-skin='hardcore']:not(#x) .foot .nul { height: 48px; }
-:root[data-skin='hardcore']:not(#x) .foot .end { font-size: 1rem; color: var(--fg); }
+:root[data-skin='hardcore']:not(#x) .foot .end { font-size: 1.2rem; color: var(--fg); }
 :root[data-skin='hardcore']:not(#x) .stage .nul { --nul-line: var(--fg); }
 :root[data-skin='hardcore']:not(#x) .prose pre { border-color: var(--line); border-radius: 8px; }
 :root[data-skin='hardcore']:not(#x) .prose blockquote { border-left-color: var(--line); }
