@@ -1,15 +1,18 @@
 ---
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { formatDate, href, ui, type Locale, type Post } from '../i18n';
+import { formatDate, href, locales, posts, slugOf, ui, type Locale, type Post } from '../i18n';
 
 interface Props { locale: Locale; post: Post }
 const { locale, post } = Astro.props;
 const t = ui[locale];
 const { Content } = await render(post);
+// Posts are written per language and some are in one only: then the language switch goes to the other blog.
+const other = locales.find((l) => l !== locale)!;
+const translated = (await posts(other)).some((p) => slugOf(p) === slugOf(post));
 ---
 
-<Base title={post.data.title} description={post.data.description} narrow>
+<Base title={post.data.title} description={post.data.description} narrow untranslated={translated ? undefined : '/blog/'}>
 	<p class="eyebrow"><a href={href(locale, '/blog/')}>{t.blogTitle}</a></p>
 	<article class="prose">
 		<h1 class="page-title">{post.data.title}</h1>

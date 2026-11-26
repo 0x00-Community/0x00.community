@@ -13,10 +13,15 @@ interface Props {
 	wide?: boolean;
 	/** A narrower column, for pages that are mostly running text. */
 	narrow?: boolean;
+	/** The page has no version in the other language: where the language switch takes the reader instead (a path
+	 *  without the language prefix, such as '/blog/'). No alternate link is announced for that language. */
+	untranslated?: string;
+	/** A page that is not a place of its own (the 404 page): it announces no language versions. */
+	nowhere?: boolean;
 }
 const locale = localeOf(Astro.url.pathname);
 const t = ui[locale];
-const { title, description = t.siteDescription, wide = false, narrow = false } = Astro.props;
+const { title, description = t.siteDescription, wide = false, narrow = false, untranslated, nowhere = false } = Astro.props;
 const fullTitle = title ? `${title} · 0x00 Community` : '0x00 Community';
 const section = Astro.url.pathname.replace(/^\/zh-CN/, '').split('/')[1] ?? '';
 const nav = [
@@ -26,6 +31,7 @@ const nav = [
 	{ key: 'docs', label: t.nav.docs },
 ] as const;
 const other = locales.find((l) => l !== locale)!;
+const switchTo = untranslated ? href(other, untranslated) : switchLocale(Astro.url.pathname, other);
 ---
 
 <html lang={locale} data-skin="hardcore">
@@ -44,7 +50,7 @@ const other = locales.find((l) => l !== locale)!;
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={new URL('/brand/banner-1500x500.png', Astro.site)} />
 		<meta name="twitter:card" content="summary_large_image" />
-		{locales.map((l) => <link rel="alternate" hreflang={l} href={new URL(switchLocale(Astro.url.pathname, l), Astro.site)} />)}
+		{!nowhere && locales.filter((l) => l === locale || !untranslated).map((l) => <link rel="alternate" hreflang={l} href={new URL(switchLocale(Astro.url.pathname, l), Astro.site)} />)}
 		<!-- the slice of the display face that holds the site's own headings: on the first screen of the two looks most
 		     visitors see, so it is fetched early -->
 		<link rel="preload" href="/fonts/smiley/smiley-sans-core.woff2" as="font" type="font/woff2" crossorigin />
@@ -70,7 +76,7 @@ const other = locales.find((l) => l !== locale)!;
 							{n.label}
 						</a>
 					))}
-					<a class="lang" href={switchLocale(Astro.url.pathname, other)} hreflang={other} lang={other}>
+					<a class="lang" href={switchTo} hreflang={other} lang={other}>
 						{ui[other].langName}
 					</a>
 				</div>
