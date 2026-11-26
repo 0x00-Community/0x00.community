@@ -2,7 +2,7 @@
 // The hardcore edition as the brand kit draws it, across the full width of the page: every dot is lit, the letters are
 // the dots switched off, and one red terminator closes the word. The field of dots is a CSS pattern; only the letters
 // are SVG, set on the same grid.
-// With `mascot`, the terminator has left its place (a dashed socket) and stands beside it: that is NUL.
+// With `mascot`, NUL (the rest) stands in the field beside the terminator.
 import Nul from './Nul.astro';
 import { panel, PITCH, RADIUS } from '../lib/dots';
 
@@ -16,9 +16,7 @@ const p = panel(text, 0);
 		<rect class="ground" width={p.width} height={p.height} />
 		<path class="on" d={p.field} />
 		<path class="off" d={p.columns.join('')} />
-		{mascot
-			? <circle class="socket" cx={p.end.x} cy={p.end.y} r={RADIUS - 1} />
-			: <circle class="end" cx={p.end.x} cy={p.end.y} r={RADIUS} />}
+		<circle class="end" cx={p.end.x} cy={p.end.y} r={RADIUS} />
 	</svg>
 	{mascot && <Nul class="walker" label={mascot} />}
 </div>
@@ -31,11 +29,10 @@ const p = panel(text, 0);
 	.on { fill: var(--dot-on); }
 	.off { fill: var(--dot-off); }
 	.end { fill: var(--terminator); }
-	.socket { fill: none; stroke: var(--terminator); stroke-width: 2; stroke-dasharray: 3 2.5; }
-	/* NUL stands on the terminator's row, three dots to the right of the socket it came out of */
-	.screen :global(.walker) { --nul-halo: var(--bg); --nul-line: var(--fg); position: absolute; width: auto; height: calc(var(--p) * 6.2); top: calc(var(--p) * 2.4); left: calc(var(--x) + var(--p) * (var(--end) + 3.4)); translate: -50% 0; }
+	/* NUL stands on the terminator's row, a few dots to its right */
+	.screen :global(.walker) { --nul-halo: var(--bg); --nul-line: var(--fg); position: absolute; width: auto; height: calc(var(--p) * 7.6); top: calc(var(--p) * 1.3); left: calc(var(--x) + var(--p) * (var(--end) + 3.6)); translate: -50% 0; }
 	@media (max-width: 860px) {
-		.screen :global(.walker) { height: calc(var(--p) * 4.4); top: calc(var(--p) * 4.2); left: calc(var(--x) + var(--p) * (var(--end) + 2.3)); }
+		.screen :global(.walker) { height: calc(var(--p) * 6.6); top: calc(var(--p) * 2.2); left: calc(var(--x) + var(--p) * (var(--end) + 2.6)); }
 		.screen { --p: calc((100vw - 32px) / 29); --x: 16px; }
 	}
 </style>
