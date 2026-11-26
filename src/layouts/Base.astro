@@ -67,8 +67,8 @@ const other = locales.find((l) => l !== locale)!;
 					<a class="lang" href={switchLocale(Astro.url.pathname, other)} hreflang={other} lang={other}>
 						{ui[other].langName}
 					</a>
-					<span class="pick"><SkinSwitch /></span>
 				</div>
+				<span class="pick"><SkinSwitch /></span>
 			</nav>
 		</header>
 		<slot name="band" />
@@ -160,7 +160,8 @@ const other = locales.find((l) => l !== locale)!;
 	.brand { display: flex; align-items: center; gap: 10px; padding: 7px 14px 7px 10px; border-radius: 10px; background: var(--ink); color: var(--paper); border: 2px solid var(--line); --dot-on: #edede6; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; }
 	.brand .mark { width: 22px; height: 22px; }
 	.brand .zero { width: 20px; height: 30px; fill: none; stroke: currentColor; stroke-width: 3.4; }
-	.links .pick { display: inline-flex; margin-left: 10px; }
+	.top .links { margin-left: auto; }
+	.top .pick { display: inline-flex; }
 	.links { display: flex; align-items: center; gap: 4px; font-size: 1.15rem; }
 	.links a { text-decoration: none; white-space: nowrap; padding: 3px 14px; border-radius: var(--r-pill); }
 	.links a:hover, .links a[aria-current='page'] { background: var(--fg); color: var(--bg); }
@@ -243,7 +244,10 @@ const other = locales.find((l) => l !== locale)!;
 		.section-head h2 { font-size: 1.9rem; }
 		.foot .wrap { flex-wrap: wrap; }
 		.foot .right { margin-left: 0; flex-basis: 100%; justify-content: flex-start; }
-		.links .pick { display: none; }
+		/* no room beside the links: the switch takes a line of its own under them, with buttons a thumb can hit */
+		.top nav { height: auto; padding-block: 12px 0; flex-wrap: wrap; row-gap: 10px; }
+		.top .pick { flex-basis: 100%; justify-content: flex-end; padding-bottom: 10px; }
+		.top .skins button, .foot .skins button { padding: 4px 16px; font-size: 0.88rem; }
 	}
 	@media (max-width: 520px) {
 		.links { font-size: 1.02rem; gap: 0; }
