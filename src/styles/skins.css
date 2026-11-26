@@ -1,0 +1,248 @@
+/*
+ * The two other looks of the site. The default look (colour) lives in Base.astro and the components; this file turns
+ * the same pages into the brand kit's two editions:
+ *
+ *   hardcore   the dot matrix as the kit draws it: four colours, hairlines, one red terminator
+ *   art        ink and paper only, Major Mono Display, the slash
+ *
+ * Pieces that exist for one look only carry .only-hardcore / .only-color / .only-art.
+ *
+ * The :not(#x) in the selectors matches everything; it is there to outrank the components' scoped styles.
+ */
+
+@font-face { font-family: 'Major Mono Display'; src: url('/fonts/MajorMonoDisplay-Regular.ttf') format('truetype'); font-display: swap; }
+
+.only-hardcore, .only-art { display: none; }
+:root:not([data-skin='color'], #x) .only-color { display: none; }
+:root[data-skin='hardcore'] .only-hardcore, :root[data-skin='art'] .only-art { display: block; }
+
+/* ---------- what both editions drop from the colour look ---------- */
+
+:root:not([data-skin='color'], #x) {
+	--shadow: transparent;
+	--card: transparent;
+	--disp-w: 700;
+	--bw-s: 1px;
+}
+:root:not([data-skin='color'], #x) :is(.nul, .foot .end) { display: none; }
+:root:not([data-skin='color'], #x) :is(a.btn, a.card, .card.link):is(:hover, :active) { transform: none; }
+:root:not([data-skin='color'], #x) .led { transform: none; }
+:root:not([data-skin='color'], #x) .band { --line: var(--x-line); --shadow: transparent; --card: transparent; --card-fg: initial; --card-muted: initial; --dot-off: var(--x-off); }
+:root:not([data-skin='color'], #x) .band:is(.blue, .green, .plate, .amber) { color: var(--x-fg); --fg: var(--x-fg); --muted: var(--x-muted); --accent: var(--x-accent); }
+:root:not([data-skin='color'], #x) .band.edge { border-block-width: 0; }
+:root:not([data-skin='color'], #x) .head { padding-block: 40px 44px; }
+:root:not([data-skin='color'], #x) .head h1 { font-size: clamp(2rem, 4.6vw, 3.2rem); }
+:root:not([data-skin='color'], #x) .hero { grid-template-columns: 1fr; padding-block: 40px 44px; }
+:root:not([data-skin='color'], #x) .hero .say { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 56px; align-items: end; }
+:root:not([data-skin='color'], #x) .hero .say h1 { grid-row: 1 / span 2; margin: 0; font-size: clamp(2rem, 4.4vw, 3.4rem); }
+:root:not([data-skin='color'], #x) .hero .say .lede { margin-bottom: 20px; }
+:root:not([data-skin='color'], #x) .hero .say .acts { margin: 0; }
+:root:not([data-skin='color'], #x) .areas { margin-top: 44px; padding-top: 56px; }
+:root:not([data-skin='color'], #x) .areas li { transform: none; padding: 4px 16px 4px 0; border-width: 0; box-shadow: none; }
+:root:not([data-skin='color'], #x) .areas li + li { padding-left: 20px; border-left: 1px solid var(--line); }
+:root:not([data-skin='color'], #x) .areas li, :root:not([data-skin='color'], #x) .areas li strong { color: var(--fg); }
+:root:not([data-skin='color'], #x) .areas strong { font-size: 1.05rem; }
+:root:not([data-skin='color'], #x) .areas ul { gap: 0; }
+:root:not([data-skin='color'], #x) :is(.areas h2, .event h2, .section-head h2) { font-size: 1.6rem; }
+:root:not([data-skin='color'], #x) .posts strong { font-size: 1.12rem; }
+:root:not([data-skin='color'], #x) .facts div { box-shadow: none; }
+:root:not([data-skin='color'], #x) :is(.cards .num, .steps .num, details[open] summary::before) { background: none; color: var(--accent); }
+:root:not([data-skin='color'], #x) .cards .x { background: none; color: var(--accent); width: auto; }
+:root:not([data-skin='color'], #x) .timeline li.is-now { background: none; }
+:root:not([data-skin='color'], #x) :is(.live.now, .btn.primary) { background: var(--accent); color: var(--bg); }
+:root:not([data-skin='color'], #x) aside a[aria-current='page'] { background: none; color: var(--accent); border-color: transparent; box-shadow: none; }
+:root:not([data-skin='color'], #x) aside a { padding-inline: 0; font-size: 1rem; }
+:root:not([data-skin='color'], #x) aside a:hover { border-color: transparent; color: var(--accent); }
+:root:not([data-skin='color'], #x) .events .title { font-size: 1.5rem; }
+:root:not([data-skin='color'], #x) .full { font-size: 1.3rem; }
+:root:not([data-skin='color'], #x) .foot .wrap { padding-block: 18px 26px; }
+:root:not([data-skin='color'], #x) .foot .right { margin-left: 0; flex: 1; justify-content: space-between; }
+:root:not([data-skin='color'], #x) .chip { padding: 0 8px; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.78rem; line-height: 1.7; --chip: transparent; --chip-fg: var(--muted); border-color: var(--line); }
+@media (max-width: 860px) {
+	:root:not([data-skin='color'], #x) .hero .say { grid-template-columns: 1fr; }
+	:root:not([data-skin='color'], #x) .hero .say h1 { margin-bottom: 16px; }
+	:root:not([data-skin='color'], #x) .areas li, :root:not([data-skin='color'], #x) .areas li + li { padding: 12px 12px 12px 0; border-left: 0; }
+}
+
+/* ---------- hardcore: the brand kit's four colours and nothing else ---------- */
+
+:root[data-skin='hardcore'] {
+	--bg: #0b0b0b;
+	--fg: #edede6;
+	--muted: #8f8d85;
+	--line: #262624;
+	--soft: #262624;
+	--code: #161615;
+	--accent: #ff4a1c;
+	--dot-on: #edede6;
+	--dot-off: #262624;
+	--raise: #141413;
+	--x-fg: var(--fg); --x-muted: var(--muted); --x-line: var(--line); --x-accent: var(--accent); --x-off: var(--dot-off);
+	/* the kit's other plate, for the one band that is inverted */
+	--inv-bg: #f2f0ea; --inv-fg: #111110; --inv-muted: #5f5d56; --inv-line: #d9d6cc; --inv-accent: #c8370f;
+	--disp: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Noto Sans CJK SC', sans-serif;
+	--bw: 1px;
+	--r: 8px;
+	--r-pill: 6px;
+}
+@media (prefers-color-scheme: light) {
+	:root[data-skin='hardcore'] {
+		--bg: #f2f0ea; --fg: #111110; --muted: #5f5d56; --line: #d9d6cc; --soft: #d9d6cc; --code: #e8e5dc; --accent: #c8370f; --dot-on: #111110; --dot-off: #d9d6cc; --raise: #e9e6dd;
+		--inv-bg: #0b0b0b; --inv-fg: #edede6; --inv-muted: #8f8d85; --inv-line: #262624; --inv-accent: #ff4a1c;
+	}
+}
+:root[data-skin='hardcore']:not(#x) .top .brand { background: none; border: 0; padding: 0; color: var(--fg); --dot-on: var(--fg); }
+:root[data-skin='hardcore']:not(#x) .top .links { font-size: 0.95rem; font-weight: 400; gap: 22px; color: var(--muted); }
+:root[data-skin='hardcore']:not(#x) .top .links a { padding: 0; }
+:root[data-skin='hardcore']:not(#x) .top .links a:is(:hover, [aria-current='page']) { background: none; color: var(--fg); }
+:root[data-skin='hardcore']:not(#x) .top .links .lang { padding: 2px 10px; margin: 0; border: 1px solid var(--line); }
+:root[data-skin='hardcore']:not(#x) .top nav { height: 56px; }
+:root[data-skin='hardcore']:not(#x) .skins { border-width: 1px; border-color: var(--line); color: var(--muted); }
+:root[data-skin='hardcore']:not(#x) .skins button + button { border-left: 1px solid var(--line); }
+
+:root[data-skin='hardcore']:not(#x) .btn { min-height: 42px; padding: 0 18px; font-size: 0.98rem; font-weight: 600; color: var(--fg); }
+:root[data-skin='hardcore']:not(#x) .btn.go { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+:root[data-skin='hardcore']:not(#x) a.btn:hover { border-color: var(--accent); }
+:root[data-skin='hardcore']:not(#x) a.btn.go:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+:root[data-skin='hardcore']:not(#x) .more { font-size: 1rem; font-weight: 600; border-bottom: 0; }
+
+:root[data-skin='hardcore']:not(#x) .band:is(.blue, .green, .plate) { background: var(--raise); }
+:root[data-skin='hardcore']:not(#x) .band.amber { background: var(--inv-bg); color: var(--inv-fg); --bg: var(--inv-bg); --fg: var(--inv-fg); --muted: var(--inv-muted); --line: var(--inv-line); --accent: var(--inv-accent); --dot-on: var(--inv-fg); --dot-off: var(--inv-line); }
+:root[data-skin='hardcore']:not(#x) .band.amber .btn { color: var(--inv-fg); }
+
+/* every LED panel goes back to the kit's plate: all dots lit, the letters switched off, the red dot in its place */
+:root[data-skin='hardcore']:not(#x) .led { background: none; border: 0; border-radius: 0; padding: 0; box-shadow: none; }
+:root[data-skin='hardcore']:not(#x) .led .field { fill: var(--dot-on); }
+:root[data-skin='hardcore']:not(#x) .led .lit { fill: var(--dot-off); opacity: 1; animation: none; }
+:root[data-skin='hardcore']:not(#x) .led .socket { fill: var(--terminator); stroke: none; }
+
+:root[data-skin='hardcore']:not(#x) .ribbon { transform: none; max-width: 1072px; margin: 0 auto; padding: 14px 18px; justify-content: flex-start; gap: 4px 14px; background: var(--raise); color: var(--fg); border: 0; border-radius: 8px; font-size: 0.95rem; font-weight: 400; }
+:root[data-skin='hardcore']:not(#x) .ribbon .star { display: none; }
+:root[data-skin='hardcore']:not(#x) .ribbon::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--terminator); }
+:root[data-skin='hardcore']:not(#x) .ribbon b { margin-left: auto; background: none; color: var(--accent); font-weight: 600; padding: 0; }
+:root[data-skin='hardcore']:not(#x) .ribbon:hover b { background: none; color: var(--accent); }
+
+/* projects as a hex dump: the bytes of the name, ending in 00 like every C string */
+:root[data-skin='hardcore']:not(#x) .cards:has(.project) { display: block; border-top: 1px solid var(--line); }
+:root[data-skin='hardcore']:not(#x) .card.project { display: grid; grid-template-columns: 200px 200px minmax(0, 1fr); gap: 2px 24px; padding: 18px 12px; margin: 0 -12px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; align-items: baseline; }
+:root[data-skin='hardcore']:not(#x) .card.project:hover { background: var(--raise); }
+:root[data-skin='hardcore']:not(#x) .card.project .bytes { grid-row: 1 / span 2; color: var(--muted); font-size: 0.86rem; max-width: 24ch; }
+:root[data-skin='hardcore']:not(#x) .card.project .bytes b { color: var(--terminator); font-weight: 400; }
+:root[data-skin='hardcore']:not(#x) .card.project:hover .bytes { color: var(--fg); }
+:root[data-skin='hardcore']:not(#x) .card.project .chip { display: none; }
+:root[data-skin='hardcore']:not(#x) .card.project .name { grid-row: 1 / span 2; font-size: 1.12rem; font-weight: 700; }
+:root[data-skin='hardcore']:not(#x) .card.project:hover .name { color: var(--accent); }
+:root[data-skin='hardcore']:not(#x) .card.project .repo { grid-column: 3; margin: 0; padding: 0; }
+:root[data-skin='hardcore']:not(#x) .card { border-radius: 8px; }
+:root[data-skin='hardcore']:not(#x) .list { border-top-width: 1px; }
+:root[data-skin='hardcore']:not(#x) .foot { background: var(--bg); color: var(--muted); border-top: 1px solid var(--line); }
+:root[data-skin='hardcore']:not(#x) .foot .skins { color: var(--muted); --sw-on: var(--fg); --sw-on-fg: var(--bg); }
+/* the page still ends on the terminator */
+:root[data-skin='hardcore']:not(#x) .foot .right::after { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--terminator); }
+:root[data-skin='hardcore']:not(#x) .prose pre { border-color: var(--line); border-radius: 8px; }
+:root[data-skin='hardcore']:not(#x) .prose blockquote { border-left-color: var(--line); }
+:root[data-skin='hardcore']:not(#x) .tabs { font-size: 0.92rem; font-weight: 400; gap: 4px 20px; }
+:root[data-skin='hardcore']:not(#x) .tabs a { padding: 0; color: var(--muted); }
+:root[data-skin='hardcore']:not(#x) .tabs a:hover { background: none; color: var(--fg); }
+@media (max-width: 860px) {
+	:root[data-skin='hardcore']:not(#x) .card.project { grid-template-columns: 1fr; }
+	:root[data-skin='hardcore']:not(#x) .card.project :is(.bytes, .name) { grid-row: auto; }
+	:root[data-skin='hardcore']:not(#x) .card.project .repo { grid-column: 1; }
+	:root[data-skin='hardcore']:not(#x) .top .links { gap: 14px; }
+}
+
+/* ---------- art: ink, paper, one typeface, the slash ---------- */
+
+:root[data-skin='art'] {
+	--bg: #0b0b0b;
+	--fg: #f2f0ea;
+	--muted: #9a988f;
+	--line: #f2f0ea;
+	--soft: #2a2a28;
+	--code: #161615;
+	--accent: #f2f0ea;
+	--dot-on: #f2f0ea;
+	--dot-off: #2a2a28;
+	--x-fg: var(--fg); --x-muted: var(--muted); --x-line: var(--line); --x-accent: var(--fg); --x-off: var(--dot-off);
+	--disp: 'Songti SC', 'Source Han Serif SC', 'Noto Serif CJK SC', 'STSong', 'SimSun', Georgia, serif;
+	--disp-w: 900;
+	--bw: 1.5px;
+	--r: 0px;
+	--r-pill: 0px;
+	--terminator: var(--fg);
+}
+@media (prefers-color-scheme: light) {
+	:root[data-skin='art'] { --bg: #f2f0ea; --fg: #0b0b0b; --muted: #5f5d56; --line: #0b0b0b; --soft: #d9d6cc; --code: #e8e5dc; --accent: #0b0b0b; --dot-on: #0b0b0b; --dot-off: #d9d6cc; }
+}
+:root[data-skin='art']:not(#x) .led { display: none; }
+:root[data-skin='art']:not(#x) .top .brand { background: none; border: 0; padding: 0; color: var(--fg); font-family: 'Major Mono Display', ui-monospace, monospace; font-weight: 400; font-size: 1.25rem; }
+:root[data-skin='art']:not(#x) .top .brand .mark { display: none; }
+:root[data-skin='art']:not(#x) .top .links { font-family: inherit; font-size: 1rem; font-weight: 400; gap: 0; }
+:root[data-skin='art']:not(#x) .top .links a { padding: 0; }
+:root[data-skin='art']:not(#x) .top .links a:is(:hover, [aria-current='page']) { background: none; color: var(--fg); text-decoration: underline; text-underline-offset: 6px; }
+:root[data-skin='art']:not(#x) .top .links a + a::before { content: '/'; display: inline-block; margin: 0 14px; color: var(--muted); text-decoration: none; }
+:root[data-skin='art']:not(#x) .top .links .lang { border: 0; margin: 0; font-size: 1rem; }
+:root[data-skin='art']:not(#x) .skins { border-width: 1.5px; }
+:root[data-skin='art']:not(#x) .skins button + button { border-left-width: 1.5px; }
+
+:root[data-skin='art']:not(#x) .btn, :root[data-skin='art']:not(#x) .btn.go { min-height: 0; padding: 0; border: 0; background: none; color: var(--fg); font-family: inherit; font-size: 1.1rem; font-weight: 400; }
+:root[data-skin='art']:not(#x) :is(.btn, .more)::before { content: '/ '; }
+:root[data-skin='art']:not(#x) a.btn:hover, :root[data-skin='art']:not(#x) .more:hover { text-decoration: underline; text-underline-offset: 6px; }
+:root[data-skin='art']:not(#x) .btn.soon { color: var(--muted); }
+:root[data-skin='art']:not(#x) .btn.primary { background: none; color: var(--fg); }
+:root[data-skin='art']:not(#x) .more { font-family: inherit; font-size: 1rem; font-weight: 400; border-bottom: 0; }
+:root[data-skin='art']:not(#x) .acts { gap: 10px 34px; }
+:root[data-skin='art']:not(#x) .chip { border: 0; padding: 0; font-family: inherit; font-size: 0.9rem; }
+:root[data-skin='art']:not(#x) .hero { padding-top: 30px; }
+:root[data-skin='art']:not(#x) .hero .say { grid-template-columns: 1fr; }
+:root[data-skin='art']:not(#x) .hero .say h1 { margin-bottom: 22px; max-width: 13em; font-size: clamp(2rem, 4.3vw, 3.5rem); line-height: 1.22; }
+:root[data-skin='art']:not(#x) .hero .say .lede { max-width: 33em; margin-bottom: 26px; }
+
+:root[data-skin='art']:not(#x) .band:is(.blue, .green, .plate, .amber) { background: var(--bg); border-block: 1.5px solid var(--line); }
+:root[data-skin='art']:not(#x) .band + .band, :root[data-skin='art']:not(#x) .ribbon + .band { border-top-width: 0; }
+:root[data-skin='art']:not(#x) .areas { margin-top: 0; }
+:root[data-skin='art']:not(#x) .areas .dot-icon { display: none; }
+:root[data-skin='art']:not(#x) .areas li { display: flex; gap: 10px; padding-block: 2px; }
+:root[data-skin='art']:not(#x) .areas li::before { content: '/'; color: var(--muted); }
+:root[data-skin='art']:not(#x) .areas strong { font-size: 1.2rem; }
+:root[data-skin='art']:not(#x) .head h1.mono, :root[data-skin='art']:not(#x) .card.project .name { font-family: 'Major Mono Display', ui-monospace, monospace; font-weight: 400; letter-spacing: 0; }
+:root[data-skin='art']:not(#x) .head .wrap { grid-template-columns: 1fr; }
+
+:root[data-skin='art']:not(#x) .ribbon { transform: none; margin: 0; padding: 16px max(32px, calc((100vw - 1120px) / 2 + 24px)); justify-content: flex-start; gap: 4px 20px; background: none; color: var(--fg); border-block: 1.5px solid var(--line); font-size: 1.15rem; }
+:root[data-skin='art']:not(#x) .ribbon .star { display: none; }
+:root[data-skin='art']:not(#x) .ribbon::before { content: '/0//'; font-family: 'Major Mono Display', ui-monospace, monospace; font-weight: 400; letter-spacing: 0.1em; }
+:root[data-skin='art']:not(#x) .ribbon b { margin-left: auto; background: none; color: var(--fg); font-family: ui-sans-serif, system-ui, 'PingFang SC', sans-serif; font-size: 1rem; font-weight: 400; padding: 0; }
+:root[data-skin='art']:not(#x) .ribbon b::before { content: '/ '; }
+:root[data-skin='art']:not(#x) .ribbon:hover b { background: none; color: var(--fg); text-decoration: underline; }
+
+/* projects as a catalogue: two columns, hairlines, the names set large in the brand's typeface */
+:root[data-skin='art']:not(#x) .cards:has(.project) { grid-template-columns: 1fr 1fr; gap: 0; border-top: 1.5px solid var(--line); }
+:root[data-skin='art']:not(#x) .card.project { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 4px 20px; padding: 26px 28px 28px 0; border: 0; border-bottom: 1px solid var(--soft); }
+:root[data-skin='art']:not(#x) .cards li:nth-child(even) .card.project { padding-left: 28px; border-left: 1px solid var(--soft); }
+:root[data-skin='art']:not(#x) .card.project .name { grid-column: 1 / -1; grid-row: 1; font-size: 2rem; line-height: 1.2; }
+:root[data-skin='art']:not(#x) .card.project .chip { grid-row: 2; color: var(--muted); }
+:root[data-skin='art']:not(#x) .card.project p { grid-row: 2; }
+:root[data-skin='art']:not(#x) .card.project .repo { grid-column: 2; }
+:root[data-skin='art']:not(#x) .card.project:hover { background: var(--fg); color: var(--bg); padding-left: 28px; }
+:root[data-skin='art']:not(#x) .card.project:hover :is(p, .chip, .repo) { color: var(--bg); opacity: 0.75; }
+:root[data-skin='art']:not(#x) .list { border-top-width: 1.5px; }
+:root[data-skin='art']:not(#x) .foot { background: var(--bg); color: var(--muted); border-top: 1.5px solid var(--line); }
+:root[data-skin='art']:not(#x) .foot .skins { color: var(--fg); --sw-on: var(--fg); --sw-on-fg: var(--bg); }
+:root[data-skin='art']:not(#x) .foot .mono { font-family: 'Major Mono Display', ui-monospace, monospace; }
+:root[data-skin='art']:not(#x) .prose pre { border-width: 1.5px; }
+:root[data-skin='art']:not(#x) .prose blockquote { border-left: 1.5px solid var(--line); }
+:root[data-skin='art']:not(#x) .tabs { font-family: inherit; font-size: 0.95rem; font-weight: 400; gap: 0; }
+:root[data-skin='art']:not(#x) .tabs a { padding: 0; }
+:root[data-skin='art']:not(#x) .tabs a + a::before { content: '/'; margin: 0 10px; color: var(--muted); }
+:root[data-skin='art']:not(#x) .tabs a:hover { background: none; color: var(--fg); text-decoration: underline; }
+:root[data-skin='art']:not(#x) .timeline li.is-now { border-left-color: var(--fg); }
+@media (max-width: 860px) {
+	:root[data-skin='art']:not(#x) .top .links a + a::before { margin: 0 7px; }
+	:root[data-skin='art']:not(#x) .top .links { font-size: 0.92rem; }
+	:root[data-skin='art']:not(#x) .cards:has(.project) { grid-template-columns: 1fr; }
+	:root[data-skin='art']:not(#x) .card.project, :root[data-skin='art']:not(#x) .cards li:nth-child(even) .card.project { grid-template-columns: 1fr; padding: 20px 0; border-left: 0; }
+	:root[data-skin='art']:not(#x) .card.project :is(.chip, p) { grid-row: auto; }
+	:root[data-skin='art']:not(#x) .card.project .repo { grid-column: 1; }
+	:root[data-skin='art']:not(#x) .card.project:hover { background: none; color: inherit; padding-left: 0; }
+	:root[data-skin='art']:not(#x) .ribbon { padding-inline: 16px; }
+}

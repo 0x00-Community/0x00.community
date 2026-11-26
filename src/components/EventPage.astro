@@ -215,41 +215,41 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 	.btn.primary { background: var(--red); color: #fff; }
 	.acts.end { margin: 64px 0 0; }
 
-	.tag { display: inline-block; margin-left: 8px; padding: 0 8px; border: 2px solid currentColor; border-radius: 999px; font: 500 0.72rem/1.7 ui-sans-serif, system-ui, sans-serif; vertical-align: 0.1em; white-space: nowrap; opacity: 0.75; }
+	.tag { display: inline-block; margin-left: 8px; padding: 0 8px; border: 2px solid currentColor; border-radius: var(--r-pill); font: 500 0.72rem/1.7 ui-sans-serif, system-ui, sans-serif; vertical-align: 0.1em; white-space: nowrap; opacity: 0.75; }
 	.tbd { color: var(--muted); font-style: italic; }
 
 	.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 36px 0 0; }
-	.facts div { padding: 12px 16px; border: 3px solid #111110; border-radius: 14px; background: #fbfaf5; color: #111110; box-shadow: 4px 4px 0 #111110; }
-	.facts dt { font-size: 0.85rem; color: #55534c; }
+	.facts div { padding: 12px 16px; border: var(--bw) solid var(--line); border-radius: var(--r); background: var(--card); color: var(--card-fg); box-shadow: 4px 4px 0 var(--shadow); }
+	.facts dt { font-size: 0.85rem; color: var(--card-muted); }
 	.facts dd { margin: 2px 0 0; font-weight: 700; }
-	.facts .tbd { color: #55534c; }
+	.facts .tbd { color: var(--card-muted); }
 
-	.tabs { position: sticky; top: 0; z-index: 2; display: flex; gap: 4px; margin: -48px 0 0; padding: 12px 0; background: var(--bg); border-bottom: 3px solid var(--line); overflow-x: auto; white-space: nowrap; font-size: 1.1rem; scrollbar-width: none; }
+	.tabs { position: sticky; top: 0; z-index: 2; display: flex; gap: 4px; margin: -48px 0 0; padding: 12px 0; background: var(--bg); border-bottom: var(--bw) solid var(--line); overflow-x: auto; white-space: nowrap; font-size: 1.1rem; scrollbar-width: none; }
 	.tabs::-webkit-scrollbar { display: none; }
-	.tabs a { text-decoration: none; padding: 2px 12px; border-radius: 999px; }
+	.tabs a { text-decoration: none; padding: 2px 12px; border-radius: var(--r-pill); }
 	.tabs a:hover { background: var(--fg); color: var(--bg); }
 
 	section { padding-top: 56px; scroll-margin-top: 52px; }
-	section h2 { font-family: 'Smiley Sans', 'PingFang SC', system-ui, sans-serif; font-weight: 400; font-size: 2.1rem; line-height: 1.2; margin: 0 0 18px; }
-	h3.sub { font-family: 'Smiley Sans', 'PingFang SC', system-ui, sans-serif; font-weight: 400; font-size: 1.4rem; margin: 36px 0 14px; }
+	section h2 { font-family: var(--disp); font-weight: var(--disp-w); font-size: 2.1rem; line-height: 1.2; margin: 0 0 18px; }
+	h3.sub { font-family: var(--disp); font-weight: var(--disp-w); font-size: 1.4rem; margin: 36px 0 14px; }
 	.note { color: var(--muted); margin: 0 0 18px; }
 	.note .more { margin-left: 8px; }
 
 	.cards { gap: 20px; }
 	.cards.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 	.cards.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-	.cards li { border: 3px solid var(--line); border-radius: 16px; padding: 18px 20px 20px; background: var(--card); box-shadow: 5px 5px 0 var(--shadow); }
+	.cards li { border: var(--bw) solid var(--line); border-radius: var(--r); padding: 18px 20px 20px; background: var(--card); box-shadow: 5px 5px 0 var(--shadow); }
 	.cards h3 { margin: 0 0 6px; font-size: 1.08rem; }
 	.cards p { margin: 0; color: var(--muted); font-size: 0.95rem; }
-	.cards .num { display: inline-block; margin-bottom: 12px; padding: 0 10px; border: 2.5px solid var(--line); border-radius: 999px; background: var(--amber); color: #111110; font-size: 0.85rem; font-weight: 700; }
+	.cards .num { display: inline-block; margin-bottom: 12px; padding: 0 10px; border: var(--bw-s) solid var(--line); border-radius: var(--r-pill); background: var(--amber); color: #111110; font-size: 0.85rem; font-weight: 700; }
 	.cards .x { display: inline-grid; place-items: center; width: 1.5em; height: 1.5em; margin-right: 8px; border-radius: 50%; background: var(--red); color: #fff; font-weight: 700; }
 
-	.timeline { list-style: none; padding: 0; margin: 0; border-top: 3px solid var(--line); }
+	.timeline { list-style: none; padding: 0; margin: 0; border-top: var(--bw) solid var(--line); }
 	.timeline li { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 16px; padding: 18px 0 18px 16px; border-bottom: 1px solid var(--soft); border-left: 6px solid transparent; }
 	.timeline .when { font-size: 0.92rem; color: var(--muted); padding-top: 2px; font-variant-numeric: tabular-nums; }
 	.timeline h3 { margin: 0 0 2px; font-size: 1.08rem; }
 	.timeline p { margin: 0; color: var(--muted); }
-	.live { display: none; margin-left: 8px; padding: 0 9px; border-radius: 999px; font: 600 0.72rem/1.8 ui-sans-serif, system-ui, sans-serif; vertical-align: 0.12em; }
+	.live { display: none; margin-left: 8px; padding: 0 9px; border-radius: var(--r-pill); font: 600 0.72rem/1.8 ui-sans-serif, system-ui, sans-serif; vertical-align: 0.12em; }
 	.live.now { background: var(--red); color: #fff; }
 	.live.done { border: 2px solid var(--soft); color: var(--muted); }
 	.timeline li:global(.is-now) { border-left-color: var(--red); background: color-mix(in srgb, var(--amber) 16%, transparent); }
@@ -259,11 +259,11 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 	.steps { list-style: none; padding: 0; margin: 0; }
 	.steps li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px; padding: 0 0 22px; position: relative; }
 	.steps li:not(:last-child)::before { content: ''; position: absolute; left: 18.5px; top: 42px; bottom: 2px; width: 3px; background: var(--soft); }
-	.steps .num { width: 40px; height: 40px; border: 3px solid var(--line); border-radius: 50%; display: grid; place-items: center; background: var(--amber); color: #111110; font-weight: 700; }
+	.steps .num { width: 40px; height: 40px; border: var(--bw) solid var(--line); border-radius: 50%; display: grid; place-items: center; background: var(--amber); color: #111110; font-weight: 700; }
 	.steps h3 { margin: 6px 0 2px; font-size: 1.08rem; }
 	.steps p { margin: 0; color: var(--muted); }
 
-	.points { margin: 0; border-top: 3px solid var(--line); }
+	.points { margin: 0; border-top: var(--bw) solid var(--line); }
 	.points div { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--soft); }
 	.points dt { font-weight: 700; }
 	.points dd { margin: 0; color: var(--muted); }
@@ -271,10 +271,10 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 	.list .plain { font-size: 1.12rem; font-weight: 600; }
 
 	details { border-bottom: 1px solid var(--soft); }
-	details:first-of-type { border-top: 3px solid var(--line); }
+	details:first-of-type { border-top: var(--bw) solid var(--line); }
 	summary { cursor: pointer; padding: 14px 0; font-weight: 600; list-style: none; display: flex; align-items: center; }
 	summary::-webkit-details-marker { display: none; }
-	summary::before { content: '+'; display: grid; place-items: center; width: 24px; height: 24px; margin-right: 12px; border: 2.5px solid var(--line); border-radius: 50%; font-family: ui-monospace, Menlo, monospace; line-height: 1; flex: none; }
+	summary::before { content: '+'; display: grid; place-items: center; width: 24px; height: 24px; margin-right: 12px; border: var(--bw-s) solid var(--line); border-radius: 50%; font-family: ui-monospace, Menlo, monospace; line-height: 1; flex: none; }
 	details[open] summary::before { content: '−'; background: var(--amber); color: #111110; }
 	details p { margin: 0 0 16px 36px; color: var(--muted); }
 

@@ -1,0 +1,38 @@
+---
+// Three looks for one site, like the brand kit's own opening page: the hardcore edition (the dot matrix as drawn), the
+// colour edition (the default) and the art edition. The choice is kept in the visitor's browser.
+import { localeOf, ui } from '../i18n';
+
+const t = ui[localeOf(Astro.url.pathname)];
+const skins = ['hardcore', 'color', 'art'] as const;
+---
+
+<div class="skins" role="group" aria-label={t.skin}>
+	{skins.map((s) => <button type="button" data-skin-set={s} aria-pressed="false">{t.skins[s]}</button>)}
+</div>
+
+<script>
+	const root = document.documentElement;
+	const show = () => {
+		for (const b of document.querySelectorAll<HTMLButtonElement>('[data-skin-set]')) {
+			b.setAttribute('aria-pressed', String(b.dataset.skinSet === root.dataset.skin));
+		}
+	};
+	for (const b of document.querySelectorAll<HTMLButtonElement>('[data-skin-set]')) {
+		b.addEventListener('click', () => {
+			root.dataset.skin = b.dataset.skinSet!;
+			try { localStorage.setItem('skin', root.dataset.skin); } catch {}
+			show();
+		});
+	}
+	show();
+</script>
+
+<style>
+	.skins { display: inline-flex; border: 2px solid currentColor; border-radius: var(--r-pill); overflow: hidden; font-family: ui-sans-serif, system-ui, -apple-system, 'PingFang SC', sans-serif; }
+	button { all: unset; cursor: pointer; padding: 1px 11px; font-size: 0.8rem; line-height: 1.7; white-space: nowrap; }
+	button + button { border-left: 2px solid currentColor; }
+	button:hover { text-decoration: underline; }
+	button[aria-pressed='true'] { background: var(--sw-on, var(--fg)); color: var(--sw-on-fg, var(--bg)); }
+	button:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+</style>

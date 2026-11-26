@@ -1,7 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 import DotIcon from './DotIcon.astro';
+import ArtMark from './ArtMark.astro';
+import ArtWord from './ArtWord.astro';
 import DotPanel from './DotPanel.astro';
+import DotScreen from './DotScreen.astro';
 import Nul from './Nul.astro';
 import ProjectCard from './ProjectCard.astro';
 import { formatDate, href, posts, slugOf, ui, type Locale } from '../i18n';
@@ -17,8 +20,14 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
 ---
 
 <Base wide>
+	<!-- one opening per look: the dot matrix across the page, the LED panel with NUL, or the art wordmark -->
+	<DotScreen class="only-hardcore" text="0X00" label="0x00" />
+	<div class="wrap art only-art">
+		<ArtWord class="word" />
+		<ArtMark class="mark" />
+	</div>
 	<section class="wrap hero">
-		<div>
+		<div class="say">
 			<h1 class="disp">{t.heroTitle}</h1>
 			<p class="lede">{t.heroLede}</p>
 			<p class="acts disp">
@@ -27,7 +36,7 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
 			</p>
 		</div>
 		<!-- The terminator has left its place on the panel (the dashed socket) and stands on top of it: that is NUL. -->
-		<div class="stage">
+		<div class="stage only-color">
 			<span class="spark s1" aria-hidden="true"></span>
 			<span class="spark s2" aria-hidden="true"></span>
 			<span class="spark s3" aria-hidden="true"></span>
@@ -106,15 +115,18 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
 </Base>
 
 <style>
+	.art { position: relative; padding-top: 28px; }
+	.art :global(.word) { width: min(100%, 780px); margin-left: -1.2%; }
+	.art :global(.mark) { position: absolute; right: -150px; top: 8px; width: 440px; pointer-events: none; }
 	.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 48px; align-items: center; padding-block: 36px 84px; }
 	.hero h1 { font-size: clamp(2.5rem, 5.2vw, 4.3rem); line-height: 1.12; margin: 0 0 20px; text-wrap: balance; }
 	.hero .lede { margin-bottom: 28px; max-width: 30em; }
 
 	.stage { position: relative; padding-top: 84px; transform: rotate(-1.5deg); }
-	.stage :global(.logo) { --led: var(--amber); --glow: var(--blue); border-radius: 22px; padding: 14px; }
+	.stage :global(.logo) { --led: var(--amber); --glow: var(--blue); border-radius: var(--r); padding: 14px; }
 	/* NUL stands above the socket it came out of: the terminator is the 27th of the panel's 29 columns */
 	.stage :global(.nul) { position: absolute; width: 25%; left: 78.5%; top: -8px; transform: rotate(5deg); animation: hop 0.5s 1.5s cubic-bezier(0.3, 1.6, 0.5, 1) backwards; }
-	.zero { position: absolute; left: 64%; top: 10px; padding: 2px 12px; border: 3px solid var(--line); border-radius: 12px 12px 2px 12px; background: var(--card); font-size: 1.05rem; transform: rotate(-4deg); animation: hop 0.4s 1.8s ease-out backwards; }
+	.zero { position: absolute; left: 64%; top: 10px; padding: 2px 12px; border: var(--bw) solid var(--line); border-radius: 12px 12px 2px 12px; background: var(--card); font-size: 1.05rem; transform: rotate(-4deg); animation: hop 0.4s 1.8s ease-out backwards; }
 	@keyframes hop { from { opacity: 0; translate: 0 70px; scale: 0.4; } }
 	.spark { position: absolute; z-index: 1; width: var(--w); aspect-ratio: 1; background: var(--c); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
 	.s1 { --w: 38px; --c: var(--amber); left: -3%; top: 62px; }
@@ -126,37 +138,38 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
 
 	/* the one loud line on the page: what is on right now */
 	.ribbon { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 30px; margin-inline: -24px; padding: 12px 40px; background: var(--red); color: #fff; border-block: 3px solid #111110; transform: rotate(-1.2deg); font-size: 1.3rem; text-decoration: none; }
-	.ribbon b { font-weight: 400; background: #111110; padding: 0 12px; border-radius: 8px; }
+	.ribbon b { font-weight: var(--disp-w); background: #111110; padding: 0 12px; border-radius: 8px; }
 	.ribbon:hover b { background: var(--amber); color: #111110; }
 
 	.areas { margin-top: -14px; padding-top: 86px; }
 	.areas h2, .event h2 { font-size: 2.3rem; line-height: 1.2; margin: 0 0 26px; }
 	.areas ul { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; list-style: none; padding: 0; margin: 0; }
-	.areas li { padding: 18px 16px 16px; border: 3px solid #111110; border-radius: 16px; background: #fbfaf5; color: #111110; box-shadow: 5px 5px 0 #111110; }
+	.areas li { padding: 18px 16px 16px; border: var(--bw) solid var(--line); border-radius: var(--r); background: var(--card); color: var(--card-fg); box-shadow: 5px 5px 0 var(--shadow); }
 	.areas li:nth-child(odd) { transform: rotate(-1.5deg); }
 	.areas li:nth-child(even) { transform: rotate(1.2deg) translateY(8px); }
 	.areas :global(.icon) { width: 56px; margin-bottom: 12px; }
-	.areas strong { display: block; font-size: 1.3rem; font-weight: 400; line-height: 1.3; }
+	.areas strong { display: block; font-size: 1.3rem; font-weight: var(--disp-w); line-height: 1.3; }
 	.areas .compiler { color: #e2330a; } .areas .runtime { color: #0f9d5b; } .areas .gc { color: #2148e0; } .areas .gpu { color: #c98600; }
-	.areas li strong { color: #111110; }
+	.areas li strong { color: var(--card-fg); }
 
 	.block { padding-block: 72px; }
 
 	.event { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 44px; align-items: center; }
-	.event h3 { font-size: 1.9rem; margin: 0 0 6px; font-weight: 400; line-height: 1.25; }
+	.event h3 { font-size: 1.9rem; margin: 0 0 6px; font-weight: var(--disp-w); line-height: 1.25; }
 	.event p { margin: 0 0 22px; font-size: 1.05rem; }
 	.event .acts { align-items: center; margin: 0; }
 	.event :global(.sign) { --glow: var(--red); transform: rotate(1.2deg); }
 
 	.posts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; list-style: none; padding: 0; margin: 0; }
-	.posts a { display: block; height: 100%; padding-top: 14px; border-top: 3px solid var(--line); text-decoration: none; }
+	.posts a { display: block; height: 100%; padding-top: 14px; border-top: var(--bw) solid var(--line); text-decoration: none; }
 	.posts time { font-size: 0.82rem; }
-	.posts strong { display: block; margin: 10px 0 6px; font-size: 1.4rem; font-weight: 400; line-height: 1.35; }
+	.posts strong { display: block; margin: 10px 0 6px; font-size: 1.4rem; font-weight: var(--disp-w); line-height: 1.35; }
 	.posts span { color: var(--muted); font-size: 0.95rem; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 	.posts a:hover strong { color: var(--accent); }
 
 	@media (max-width: 860px) {
 		.hero { grid-template-columns: 1fr; gap: 12px; padding-block: 16px 60px; }
+		.art :global(.mark) { display: none; }
 		.ribbon { margin-inline: -16px; font-size: 1.05rem; gap: 2px 14px; }
 		.ribbon .star { display: none; }
 		.areas ul { grid-template-columns: 1fr 1fr; }
