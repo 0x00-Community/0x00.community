@@ -45,7 +45,7 @@ export interface Event {
 	 * (800×1000, for a phone). The files are in public/events/. Without one the page sets the name in type.
 	 */
 	banner?: { alt: L; wide: L; tall: L };
-	/** Where teams sign up, claim, submit and see the leaderboard: the contest's own site. Empty until it is public. */
+	/** Where people sign up: a path on this site (localized by the page) or a full URL. Empty until there is one. */
 	registerUrl: string;
 	registerNote: L;
 	/** The frozen rules, once they are public. */
@@ -85,7 +85,7 @@ export const starHunter: Event = {
 		wide: { en: '/events/star-hunter.en.svg', 'zh-CN': '/events/star-hunter.zh-CN.svg' },
 		tall: { en: '/events/star-hunter.en.tall.svg', 'zh-CN': '/events/star-hunter.zh-CN.tall.svg' },
 	},
-	registerUrl: '',
+	registerUrl: '/events/star-hunter/register/',
 	registerNote: { en: 'Registration opens November 27', 'zh-CN': '报名入口 11 月 27 日开放' },
 	rulesUrl: '',
 	rulesNote: {

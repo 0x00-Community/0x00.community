@@ -9,6 +9,7 @@ const { locale, event } = Astro.props;
 const t = ui[locale];
 const e = t.event;
 const tabs = Object.entries(e.tabs) as [keyof typeof e.tabs, string][];
+const registerUrl = event.registerUrl.startsWith('/') ? href(locale, event.registerUrl) : event.registerUrl;
 const hasGuide = !!(await guide(locale, event.slug));
 const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 'tbd' ? e.tbd : '');
 ---
@@ -22,7 +23,7 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 					{/* the banner is the title: its words are the h1 too, for a screen reader and a crawler */}
 					<h1 class="sr-only">{event.name}: {event.fullName[locale]}</h1>
 					{/* it is drawn with a "register now" button on it: a link to the registration once there is one, till then to how to enter */}
-					<a class="banner" href={event.registerUrl || '#enter'}>
+					<a class="banner" href={registerUrl || '#enter'}>
 						<picture>
 							<source media="(max-width: 600px)" srcset={event.banner.tall[locale]} width="800" height="1000" />
 							<img src={event.banner.wide[locale]} width="1600" height="720" alt={event.banner.alt[locale]} />
@@ -43,10 +44,10 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 			)}
 			<p class="lede">{event.summary[locale]}</p>
 			<p class="acts disp">
-				{event.registerUrl
-					? <a class="btn primary" href={event.registerUrl}>{e.register} →</a>
+				{registerUrl
+					? <a class="btn primary" href={registerUrl}>{e.register} →</a>
 					: <span class="btn soon">{event.registerNote[locale]}</span>}
-				{hasGuide && <a class:list={['btn', event.registerUrl ? 'go' : 'primary']} href={href(locale, `/events/${event.slug}/guide/`)}>{e.guide} →</a>}
+				{hasGuide && <a class:list={['btn', registerUrl ? 'go' : 'primary']} href={href(locale, `/events/${event.slug}/guide/`)}>{e.guide} →</a>}
 				<a class="btn" href="#timeline">{e.seeTimeline}</a>
 			</p>
 			<dl class="facts">
@@ -205,8 +206,8 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 	</section>
 
 	<p class="acts disp end">
-		{event.registerUrl
-			? <a class="btn primary" href={event.registerUrl}>{e.register} →</a>
+		{registerUrl
+			? <a class="btn primary" href={registerUrl}>{e.register} →</a>
 			: <span class="btn soon">{event.registerNote[locale]}</span>}
 	</p>
 </Base>
