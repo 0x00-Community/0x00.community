@@ -46,7 +46,7 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 				{event.registerUrl
 					? <a class="btn primary" href={event.registerUrl}>{e.register} →</a>
 					: <span class="btn soon">{event.registerNote[locale]}</span>}
-				{hasGuide && <a class="btn" href={href(locale, `/events/${event.slug}/guide/`)}>{e.guide}</a>}
+				{hasGuide && <a class:list={['btn', event.registerUrl ? 'go' : 'primary']} href={href(locale, `/events/${event.slug}/guide/`)}>{e.guide} →</a>}
 				<a class="btn" href="#timeline">{e.seeTimeline}</a>
 			</p>
 			<dl class="facts">
