@@ -1,15 +1,16 @@
 ---
 // The hardcore edition as the brand kit draws it, across the full width of the page: every dot is lit, the letters are
 // the dots switched off, and one red terminator closes the word. The field of dots is a CSS pattern; only the letters
-// are SVG, set on the same grid.
-import { panel, RADIUS } from '../lib/dots';
+// are SVG, set on the same grid. Where scripts run and motion is welcome, a canvas takes over and a slow swell
+// rolls through the lit dots, like a sea; the letters and the terminator hold still.
+import { panel, rows, RADIUS } from '../lib/dots';
 
 interface Props { text: string; label?: string; class?: string }
 const { text, label = text } = Astro.props;
 const p = panel(text, 0);
 ---
 
-<div class:list={['screen', Astro.props.class]}>
+<div class:list={['screen', Astro.props.class]} data-rows={rows(text).join('|')}>
 	<svg role="img" aria-label={label} viewBox={`0 0 ${p.width} ${p.height}`}>
 		<rect class="ground" width={p.width} height={p.height} />
 		<path class="on" d={p.field} />
@@ -17,6 +18,84 @@ const p = panel(text, 0);
 		<circle class="end" cx={p.end.x} cy={p.end.y} r={RADIUS} />
 	</svg>
 </div>
+
+<script>
+	// Drawn at most 30 times a second, only while the screen is on the page and in view, and never under reduced motion.
+	const still = matchMedia('(prefers-reduced-motion: reduce)');
+	for (const screen of document.querySelectorAll<HTMLElement>('.screen[data-rows]')) {
+		const svg = screen.querySelector('svg')!;
+		const letters = screen.dataset.rows!.split('|');
+		const canvas = document.createElement('canvas');
+		canvas.setAttribute('aria-hidden', 'true');
+		screen.append(canvas);
+		const ctx = canvas.getContext('2d')!;
+		let p = 0, x0 = 0, w = 0, h = 0, on = '', off = '', end = '', seen = true, frame = 0, last = 0;
+
+		const measure = () => {
+			w = screen.clientWidth;
+			h = screen.clientHeight;
+			if (!w || !h) return false;
+			p = h / 11;
+			x0 = svg.getBoundingClientRect().left - screen.getBoundingClientRect().left;
+			const dpr = Math.min(devicePixelRatio || 1, 2);
+			canvas.width = Math.round(w * dpr);
+			canvas.height = Math.round(h * dpr);
+			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+			on = getComputedStyle(svg.querySelector('.on')!).fill;
+			off = getComputedStyle(svg.querySelector('.off')!).fill;
+			end = getComputedStyle(svg.querySelector('.end')!).fill;
+			return true;
+		};
+		// The sea, in size only: no dot leaves its place. A long wave travels to the right and a slower one crosses it at
+		// an angle; a dot is full on a crest and shrinks to about a third in a trough. Close to the word the dots hardly
+		// shrink, so it stays readable; the letters and the terminator do not change at all.
+		const dot = (c: number, r: number, k: number) => {
+			const cx = x0 + (c + 0.5) * p, cy = (r + 0.5) * p, rad = p * 0.357 * k;
+			ctx.moveTo(cx + rad, cy);
+			ctx.arc(cx, cy, rad, 0, Math.PI * 2);
+		};
+		const draw = (now: number) => {
+			frame = requestAnimationFrame(draw);
+			if (!seen || now - last < 33) return;
+			last = now;
+			const t = now / 1000;
+			const width = letters[0]!.length;
+			ctx.clearRect(0, 0, w, h);
+			ctx.fillStyle = on;
+			ctx.beginPath();
+			for (let c = Math.floor(-x0 / p) - 1; (c - 1) * p + x0 < w; c++) {
+				// how far this column is from the word, in dots: 0 beside it, 1 from five dots away
+				const away = Math.min(1, Math.max(0, -c - 1, c - width - 2) / 5);
+				for (let r = 0; r < 11; r++) {
+					const isLetter = r >= 2 && r < 9 && c >= 0 && c < width && letters[r - 2]![c] === '1';
+					if (isLetter || (r === 8 && c === width + 1)) continue;
+					const crest = 0.5 + 0.35 * Math.sin(c * 0.26 + r * 0.2 - t * 1.9) + 0.15 * Math.sin(c * 0.09 - r * 0.45 - t * 0.8);
+					dot(c, r, 1 - (0.1 + 0.56 * away) * (1 - crest));
+				}
+			}
+			ctx.fill();
+			ctx.fillStyle = off;
+			ctx.beginPath();
+			letters.forEach((row, r) => [...row].forEach((bit, c) => bit === '1' && dot(c, r + 2, 1)));
+			ctx.fill();
+			ctx.fillStyle = end;
+			ctx.beginPath();
+			dot(width + 1, 8, 1);
+			ctx.fill();
+		};
+		const start = () => {
+			cancelAnimationFrame(frame);
+			const live = !still.matches && measure();
+			screen.classList.toggle('live', live);
+			if (live) frame = requestAnimationFrame(draw);
+		};
+		// resizing, switching looks (the screen appears or goes) and the system theme all come through here
+		new ResizeObserver(start).observe(screen);
+		new IntersectionObserver(([e]) => { seen = e!.isIntersecting; }).observe(screen);
+		still.addEventListener('change', start);
+		matchMedia('(prefers-color-scheme: dark)').addEventListener('change', start);
+	}
+</script>
 
 <style>
 	/* --p is the pitch; the pattern starts where the page's text column starts, so the word lines up with the text */
@@ -26,6 +105,11 @@ const p = panel(text, 0);
 	.on { fill: var(--dot-on); }
 	.off { fill: var(--dot-off); }
 	.end { fill: var(--terminator); }
+	/* once the canvas draws, it replaces the still picture */
+	.screen :global(canvas) { position: absolute; inset: 0; width: 100%; height: 100%; display: none; }
+	.screen:global(.live) { background-image: none; }
+	.screen:global(.live) svg { visibility: hidden; }
+	.screen:global(.live) :global(canvas) { display: block; }
 	@media (max-width: 860px) {
 		.screen { --p: calc((100vw - 32px) / 29); --x: 16px; }
 	}
