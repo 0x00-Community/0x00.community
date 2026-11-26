@@ -350,6 +350,14 @@ export const starHunter: Event = {
 	],
 	resources: [
 		{
+			title: { en: 'Participant guide', 'zh-CN': '选手指南' },
+			body: {
+				en: 'Claim a repository for your app, install acdev, develop and push.',
+				'zh-CN': '给应用领取仓库、安装 acdev、开发和提交。',
+			},
+			href: { en: '/events/star-hunter/guide/', 'zh-CN': '/zh-CN/events/star-hunter/guide/' },
+		},
+		{
 			title: { en: 'Dopame OS', 'zh-CN': 'Dopame OS' },
 			body: { en: 'What you are migrating to.', 'zh-CN': '要迁移到的系统。' },
 			href: { en: 'https://dopame.ai/en/', 'zh-CN': 'https://dopame.ai/zh/' },

@@ -55,6 +55,7 @@ export const ui = {
 			rulesFull: 'Read the full rules →',
 			prizes: 'Prizes',
 			details: 'Details →',
+			guide: 'Participant guide',
 		},
 		notFound: 'This page is not here.',
 		notFoundLede: 'The address may be mistyped, or the page may have moved.',
@@ -112,6 +113,7 @@ export const ui = {
 			rulesFull: '看完整规则 →',
 			prizes: '奖项',
 			details: '看详情 →',
+			guide: '选手指南',
 		},
 		notFound: '这个页面不存在。',
 		notFoundLede: '可能是地址写错了，也可能是页面挪了地方。',
@@ -161,3 +163,7 @@ export const formatDate = (locale: Locale, date: Date) =>
 
 export type Post = CollectionEntry<'blog'> | CollectionEntry<'community'>;
 export type Doc = CollectionEntry<'docs'>;
+
+/** The participant guide of an event, if it has one in this language. */
+export const guide = async (locale: Locale, slug: string) =>
+	(await getCollection('guides', (e) => split(e.id).locale === locale && split(e.id).slug === slug))[0];
