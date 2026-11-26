@@ -1,38 +1,50 @@
 ---
 // NUL, the mascot: a quarter rest with a face. In numbered notation a rest is written 0, one beat of nothing that
 // still holds its place, which is what the byte 0x00 (NUL in ASCII) is. A proposal on top of the brand kit, not part
-// of it. It is one colour: the body takes --nul-line, the eyes and the smile take --nul-eye (the ground behind it).
+// of it. The body takes --nul-fill and its outline --nul-line; the face is always ink.
 interface Props { class?: string; label?: string }
 const { label } = Astro.props;
 ---
 
-<svg class:list={['nul', Astro.props.class]} viewBox="0 0 150 250" role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
+<svg class:list={['nul', Astro.props.class]} viewBox="0 0 150 215" role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
 	<!-- a halo in the ground's colour, for when NUL stands on a field of dots; invisible unless --nul-halo is set -->
 	<g class="halo">
-		<path d="M72 62 102 104" stroke-width="33" />
-		<path d="M102 104 64 144" stroke-width="51" />
-		<path d="M64 144 98 180" stroke-width="33" />
-		<path d="M98 180C70 163 44 179 50 206 54 222 68 230 84 228" stroke-width="40" />
-		<ellipse cx="60" cy="42" rx="36" ry="31" transform="rotate(-14 60 42)" stroke-width="20" />
+		<path d="M62 50 92 96" stroke-width="64" />
+		<path d="M92 96 64 128" stroke-width="68" />
+		<path d="M64 128 92 158" stroke-width="58" />
+		<path d="M92 158C70 146 48 158 52 178 56 192 70 198 84 196" stroke-width="54" />
+		<circle cx="62" cy="50" r="52" />
 	</g>
-	<g class="body">
-		<path d="M72 62 102 104" stroke-width="13" />
-		<path d="M102 104 64 144" stroke-width="31" />
-		<path d="M64 144 98 180" stroke-width="13" />
-		<path d="M98 180C70 163 44 179 50 206 54 222 68 230 84 228" stroke-width="20" />
+	<g class="line">
+		<path d="M62 50 92 96" stroke-width="44" />
+		<path d="M92 96 64 128" stroke-width="48" />
+		<path d="M64 128 92 158" stroke-width="38" />
+		<path d="M92 158C70 146 48 158 52 178 56 192 70 198 84 196" stroke-width="34" />
+		<circle cx="62" cy="50" r="42" />
 	</g>
-	<ellipse class="head" cx="60" cy="42" rx="36" ry="31" transform="rotate(-14 60 42)" />
-	<ellipse class="eye" cx="47" cy="40" rx="6" ry="9" />
-	<ellipse class="eye" cx="72" cy="45" rx="6" ry="9" />
-	<path class="smile" d="M51 58q8 7 16 3" />
+	<g class="fill">
+		<path d="M62 50 92 96" stroke-width="32" />
+		<path d="M92 96 64 128" stroke-width="36" />
+		<path d="M64 128 92 158" stroke-width="26" />
+		<path d="M92 158C70 146 48 158 52 178 56 192 70 198 84 196" stroke-width="22" />
+		<circle cx="62" cy="50" r="36" />
+	</g>
+	<ellipse class="shine" cx="43" cy="33" rx="9" ry="5" transform="rotate(-35 43 33)" />
+	<circle class="face" cx="50" cy="52" r="4.8" />
+	<circle class="face" cx="75" cy="56" r="4.8" />
+	<path class="smile" d="M57 64q6 5 12 1.500" />
 </svg>
 
 <style>
 	.nul { display: block; overflow: visible; }
-	.halo { fill: none; stroke: var(--nul-halo, none); stroke-linecap: round; stroke-linejoin: round; }
-	.halo ellipse { fill: var(--nul-halo, none); }
-	.body { fill: none; stroke: var(--nul-line); stroke-linecap: round; stroke-linejoin: round; }
-	.head { fill: var(--nul-line); }
-	.eye { fill: var(--nul-eye, var(--bg)); }
-	.smile { fill: none; stroke: var(--nul-eye, var(--bg)); stroke-width: 4; stroke-linecap: round; }
+	g { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+	.halo { stroke: var(--nul-halo, none); }
+	.halo circle { fill: var(--nul-halo, none); stroke: none; }
+	.line { stroke: var(--nul-line); }
+	.line circle { fill: var(--nul-line); stroke: none; }
+	.fill { stroke: var(--nul-fill); }
+	.fill circle { fill: var(--nul-fill); stroke: none; }
+	.shine { fill: #fff; opacity: 0.7; }
+	.face { fill: #111110; }
+	.smile { fill: none; stroke: #111110; stroke-width: 3.6; stroke-linecap: round; }
 </style>

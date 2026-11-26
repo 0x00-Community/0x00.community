@@ -124,6 +124,7 @@ const other = locales.find((l) => l !== locale)!;
 		--dot-on: #edede6;
 		--dot-off: #2e2e2b;
 		--nul-line: #edede6;
+		--nul-fill: var(--amber);
 		color-scheme: dark;
 		font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Noto Sans CJK SC', sans-serif;
 	}
@@ -170,9 +171,9 @@ const other = locales.find((l) => l !== locale)!;
 	main.wrap { padding-block: 48px 72px; }
 
 	/* footer: always the dark plate */
-	.foot { background: #0b0b0b; color: #edede6; --nul-line: #edede6; --nul-eye: #0b0b0b; border-top: var(--bw) solid var(--line); }
+	.foot { background: #0b0b0b; color: #edede6; --nul-line: #edede6; border-top: var(--bw) solid var(--line); }
 	.foot .wrap { display: flex; align-items: center; gap: 18px; padding-block: 28px; }
-	.foot .nul { height: 66px; width: auto; flex: none; }
+	.foot .nul { height: 60px; width: auto; flex: none; }
 	.foot .end { font-size: 1.35rem; }
 	.foot .right { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 20px; color: #8f8d85; font-size: 0.88rem; }
 	.foot .skins { color: #edede6; --sw-on: #edede6; --sw-on-fg: #0b0b0b; }
@@ -180,7 +181,7 @@ const other = locales.find((l) => l !== locale)!;
 	.foot a:hover { color: #edede6; }
 
 	/* full-width colour bands; inside one, outlines and cards go back to ink on paper whatever the theme */
-	.band { padding-block: 64px; --line: #111110; --shadow: #111110; --nul-line: #111110; --nul-eye: #fbfaf5; --card: #fbfaf5; --card-fg: #111110; --card-muted: #55534c; --dot-off: #dedbd0; }
+	.band { padding-block: 64px; --line: #111110; --shadow: #111110; --nul-line: #111110; --card: #fbfaf5; --card-fg: #111110; --card-muted: #55534c; --dot-off: #dedbd0; }
 	.band.blue { background: var(--blue); color: #fff; --fg: #fff; --muted: #dbe3ff; --accent: #fff; }
 	.band.amber { background: var(--amber); color: #111110; --fg: #111110; --muted: #4a3a12; --accent: #111110; }
 	.band.green { background: var(--green); color: #111110; --fg: #111110; --muted: #123d28; --accent: #111110; }

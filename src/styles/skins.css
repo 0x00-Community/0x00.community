@@ -3,7 +3,7 @@
  * pages into the brand kit's two editions, of which hardcore is the one a visitor sees first:
  *
  *   hardcore   the dot matrix as the kit draws it: four colours, hairlines, one red terminator; NUL the mascot is
- *              drawn in the text colour
+ *              drawn in the kit's paper white
  *   art        ink and paper only, Major Mono Display, the slash
  *
  * Pieces that exist for one look only carry .only-hardcore / .only-color / .only-art.
@@ -20,6 +20,7 @@
 /* ---------- what both editions drop from the colour look ---------- */
 
 :root:not([data-skin='color'], #x) {
+	--nul-fill: #f6f4ec;
 	--shadow: transparent;
 	--card: transparent;
 	--disp-w: 700;
@@ -141,10 +142,10 @@
 :root[data-skin='hardcore']:not(#x) .list { border-top-width: 1px; }
 :root[data-skin='hardcore']:not(#x) .foot { background: var(--bg); color: var(--muted); border-top: 1px solid var(--line); }
 :root[data-skin='hardcore']:not(#x) .foot .skins { color: var(--muted); --sw-on: var(--fg); --sw-on-fg: var(--bg); }
-/* NUL, in the text colour: no colour of its own. It still stands where the page ends. */
-:root[data-skin='hardcore']:not(#x) .foot { --nul-line: var(--fg); --nul-eye: var(--bg); }
+/* NUL in the kit's paper white, outlined in the text colour. It still stands where the page ends. */
+:root[data-skin='hardcore']:not(#x) .foot { --nul-line: var(--fg); }
 :root[data-skin='hardcore']:not(#x) .foot .wrap { padding-block: 20px; }
-:root[data-skin='hardcore']:not(#x) .foot .nul { height: 52px; }
+:root[data-skin='hardcore']:not(#x) .foot .nul { height: 48px; }
 :root[data-skin='hardcore']:not(#x) .foot .end { font-size: 1rem; color: var(--fg); }
 :root[data-skin='hardcore']:not(#x) .stage .nul { --nul-line: var(--fg); }
 :root[data-skin='hardcore']:not(#x) .prose pre { border-color: var(--line); border-radius: 8px; }
