@@ -4,21 +4,43 @@ import PageHead from './PageHead.astro';
 import ProjectGrid from './ProjectGrid.astro';
 import { href, ui, type Locale } from '../i18n';
 import { org, projects, type Project } from '../data/projects';
+// What GitHub says about each repository, snapshotted by scripts/fetch-projects.mjs: the site never calls GitHub itself.
+import github from '../data/github.json';
 
 interface Props { locale: Locale; project: Project }
 const { locale, project } = Astro.props;
 const t = ui[locale];
 const repo = `${org}/${project.name}`;
-const others = projects.filter((p) => p.name !== project.name).slice(0, 3);
+const gh = (github.repos as Record<string, { language: string | null; license: string | null; topics: string[] }>)[project.name];
+// the same kind first, then the rest
+const others = [
+	...projects.filter((p) => p.name !== project.name && p.kind === project.kind),
+	...projects.filter((p) => p.name !== project.name && p.kind !== project.kind),
+].slice(0, 3);
 ---
 
 <Base title={project.name} description={project.desc[locale]}>
 	<PageHead slot="band" tone="blue" title={project.name} lede={project.desc[locale]} word={project.name} mono>
 		<p slot="crumb" class="eyebrow"><a href={href(locale, '/projects/')}>{t.projectsTitle}</a> / {t.kinds[project.kind]}</p>
-		<p class="acts disp"><a class="btn go" href={repo}>{t.repo} →</a></p>
+		<p class="acts disp">
+			{project.site && <a class="btn go" href={project.site[locale]}>{project.siteName?.[locale] ?? t.projectSite} ↗</a>}
+			<a class:list={['btn', { go: !project.site }]} href={repo}>{t.repo} →</a>
+		</p>
 	</PageHead>
+
+	<dl class="facts">
+		<div><dt>{t.facts.kind}</dt><dd>{t.kinds[project.kind]}</dd></div>
+		{gh?.language && <div><dt>{t.facts.language}</dt><dd>{gh.language}</dd></div>}
+		{gh?.license && <div><dt>{t.facts.license}</dt><dd class="mono">{gh.license}</dd></div>}
+		{project.site && <div class="repo"><dt>{t.projectSite}</dt><dd><a class="mono" href={project.site[locale]}>{project.site[locale].replace(/^https:\/\//, '').replace(/\/$/, '')}</a></dd></div>}
+		<div class="repo"><dt>{t.repo}</dt><dd><a class="mono" href={repo}>github.com/{org.split('/').pop()}/{project.name}</a></dd></div>
+		{gh?.topics.length ? (
+			<div class="topics"><dt>{t.facts.topics}</dt><dd>{gh.topics.map((x) => <span class="chip mono">{x}</span>)}</dd></div>
+		) : null}
+	</dl>
+
 	<div class="section-head">
-		<h2 class="disp">{t.featured}</h2>
+		<h2 class="disp">{t.moreProjects}</h2>
 		<a class="more" href={href(locale, '/projects/')}>{t.allProjects}</a>
 	</div>
 	<ProjectGrid locale={locale} projects={others} />
@@ -26,4 +48,12 @@ const others = projects.filter((p) => p.name !== project.name).slice(0, 3);
 
 <style>
 	.acts { margin: 24px 0 0; }
+	.facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0; margin: 0 0 64px; border-top: var(--bw) solid var(--line); }
+	.facts div { padding: 14px 18px 16px 0; border-bottom: 1px solid var(--soft); }
+	.facts .repo, .facts .topics { grid-column: 1 / -1; }
+	.facts dt { font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; }
+	.facts dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+	.facts .repo a { font-weight: 400; }
+	.facts .topics dd { display: flex; flex-wrap: wrap; gap: 6px; font-weight: 400; }
+	.facts .chip { font-size: 0.8rem; }
 </style>

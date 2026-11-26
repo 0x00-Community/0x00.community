@@ -53,8 +53,11 @@
 :root:not([data-skin='color'], #x) .cards .x { background: none; color: var(--accent); width: auto; }
 :root:not([data-skin='color'], #x) .timeline li.is-now { background: none; }
 :root:not([data-skin='color'], #x) :is(.live.now, .btn.primary) { background: var(--accent); color: var(--bg); }
-:root:not([data-skin='color'], #x) aside a[aria-current='page'] { background: none; color: var(--accent); border-color: transparent; box-shadow: none; }
+:root:not([data-skin='color'], #x) aside a[aria-current] { background: none; color: var(--accent); border-color: transparent; box-shadow: none; }
 :root:not([data-skin='color'], #x) aside a { padding-inline: 0; font-size: 1rem; }
+/* the current page or section: ink and bold, the others muted */
+:root:not([data-skin='color'], #x) aside a { color: var(--muted); }
+:root:not([data-skin='color'], #x) aside a[aria-current] { color: var(--fg); font-weight: 700; }
 :root:not([data-skin='color'], #x) aside a:hover { border-color: transparent; color: var(--accent); }
 :root:not([data-skin='color'], #x) .events .title { font-size: 1.8rem; }
 :root:not([data-skin='color'], #x) .full { font-size: 1.7rem; }
@@ -79,21 +82,23 @@
 	--line: #262624;
 	--soft: #262624;
 	--code: #161615;
-	--accent: #ff4a1c;
+	/* links and marks are ink: red is kept for the terminator, its 00s in the projects list and the one button on the
+	   event strip */
+	--accent: #edede6;
 	--dot-on: #edede6;
 	--dot-off: #262624;
 	--raise: #141413;
 	--x-fg: var(--fg); --x-muted: var(--muted); --x-line: var(--line); --x-accent: var(--accent); --x-off: var(--dot-off);
-	/* the kit's other plate, for the one band that is inverted */
-	--inv-bg: #f2f0ea; --inv-fg: #111110; --inv-muted: #5f5d56; --inv-line: #d9d6cc; --inv-accent: #c8370f;
+	/* the kit's other plate, for the one strip that is inverted */
+	--inv-bg: #f2f0ea; --inv-fg: #111110; --inv-muted: #5f5d56; --inv-line: #d9d6cc;
 	--bw: 1px;
 	--r: 8px;
 	--r-pill: 6px;
 }
 @media (prefers-color-scheme: light) {
 	:root[data-skin='hardcore'] {
-		--bg: #f2f0ea; --fg: #111110; --muted: #5f5d56; --line: #d9d6cc; --soft: #d9d6cc; --code: #e8e5dc; --accent: #c8370f; --dot-on: #111110; --dot-off: #d9d6cc; --raise: #e9e6dd;
-		--inv-bg: #0b0b0b; --inv-fg: #edede6; --inv-muted: #8f8d85; --inv-line: #262624; --inv-accent: #ff4a1c;
+		--bg: #f2f0ea; --fg: #111110; --muted: #5f5d56; --line: #d9d6cc; --soft: #d9d6cc; --code: #e8e5dc; --accent: #111110; --dot-on: #111110; --dot-off: #d9d6cc; --raise: #e9e6dd;
+		--inv-bg: #0b0b0b; --inv-fg: #edede6; --inv-muted: #8f8d85; --inv-line: #262624;
 	}
 }
 :root[data-skin='hardcore']:not(#x) .top .brand { background: none; border: 0; padding: 0; color: var(--fg); --dot-on: var(--fg); }
@@ -108,31 +113,36 @@
 :root[data-skin='hardcore']:not(#x) .skins button + button { border-left: 1px solid var(--line); }
 
 :root[data-skin='hardcore']:not(#x) .btn { min-height: 42px; padding: 0 18px; font-size: 0.98rem; font-weight: 600; color: var(--fg); }
-:root[data-skin='hardcore']:not(#x) .btn.go { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-:root[data-skin='hardcore']:not(#x) a.btn:hover { border-color: var(--accent); }
-:root[data-skin='hardcore']:not(#x) a.btn.go:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+:root[data-skin='hardcore']:not(#x) :is(.btn.go, .btn.primary) { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+:root[data-skin='hardcore']:not(#x) a.btn:hover { border-color: var(--fg); }
+:root[data-skin='hardcore']:not(#x) :is(a.btn.go, a.btn.primary):hover { opacity: 0.82; }
 :root[data-skin='hardcore']:not(#x) .more { font-size: 1rem; font-weight: 600; border-bottom: 0; }
+:root[data-skin='hardcore']:not(#x) :is(.more, .list a.title):hover, :root[data-skin='hardcore']:not(#x) .posts a:hover strong { text-decoration: underline; text-underline-offset: 4px; }
+:root[data-skin='hardcore']:not(#x) .prose a { text-decoration-color: var(--muted); text-underline-offset: 3px; }
+:root[data-skin='hardcore']:not(#x) .prose a:hover { text-decoration-color: currentColor; }
+:root[data-skin='hardcore']:not(#x) .timeline li.is-now { border-left-color: var(--fg); }
 
-:root[data-skin='hardcore']:not(#x) .band:is(.blue, .green, .plate) { background: var(--raise); }
-:root[data-skin='hardcore']:not(#x) .band.amber { background: var(--inv-bg); color: var(--inv-fg); --bg: var(--inv-bg); --fg: var(--inv-fg); --muted: var(--inv-muted); --line: var(--inv-line); --accent: var(--inv-accent); --dot-on: var(--inv-fg); --dot-off: var(--inv-line); }
-:root[data-skin='hardcore']:not(#x) .band.amber .btn { color: var(--inv-fg); }
+/* every section's band is the same raised grey, events included; the strip on the home page is the only inverted one */
+:root[data-skin='hardcore']:not(#x) .band:is(.blue, .green, .plate, .amber) { background: var(--raise); }
+/* the home page already leads with the event strip: no second block for the same event */
+:root[data-skin='hardcore']:not(#x) .event-band { display: none; }
 
 /* every LED panel goes back to the kit's plate: all dots lit, the letters switched off, the red dot in its place */
 :root[data-skin='hardcore']:not(#x) .led { background: none; border: 0; border-radius: 0; padding: 0; box-shadow: none; }
 :root[data-skin='hardcore']:not(#x) .led .field { fill: var(--dot-on); }
 :root[data-skin='hardcore']:not(#x) .led .lit { fill: var(--dot-off); opacity: 1; animation: none; }
 
-/* what is on right now: the one inverted strip on the page, with the terminator blinking in front of it */
+/* what is on right now: the one inverted strip on the page. Its dot is grey and still: the terminator in the hero is
+   the page's one red dot, and the only thing on the first screen that blinks. */
 :root[data-skin='hardcore']:not(#x) .ribbon { transform: none; max-width: 1072px; margin: 0 auto; padding: 16px 16px 16px 22px; justify-content: flex-start; gap: 6px 16px; background: var(--inv-bg); color: var(--inv-fg); border: 0; border-radius: 10px; font-size: 1.08rem; font-weight: 400; }
 :root[data-skin='hardcore']:not(#x) .ribbon { width: calc(100% - 48px); }
 :root[data-skin='hardcore']:not(#x) .ribbon > span:nth-child(2) { font-weight: 700; }
 :root[data-skin='hardcore']:not(#x) .ribbon > span:nth-child(4) { color: var(--inv-muted); }
 :root[data-skin='hardcore']:not(#x) .ribbon .star { display: none; }
-:root[data-skin='hardcore']:not(#x) .ribbon::before { content: ''; width: 11px; height: 11px; border-radius: 50%; background: var(--terminator); animation: ribbon-blink 1.6s steps(2, jump-none) infinite; }
-@keyframes ribbon-blink { 50% { opacity: 0.25; } }
-@media (prefers-reduced-motion: reduce) {
-	:root[data-skin='hardcore']:not(#x) .ribbon::before { animation: none; }
-}
+:root[data-skin='hardcore']:not(#x) .ribbon::before { content: ''; flex: none; width: 11px; height: 11px; border-radius: 50%; background: var(--inv-muted); }
+/* Star Hunter's mark: a star in the yellow of its banner, outlined in ink so it holds on both the paper and the ink
+   strip. Still, like the dot it replaces. */
+:root[data-skin='hardcore']:not(#x) .ribbon[data-event='star-hunter']::before { width: 20px; height: 20px; border-radius: 0; margin: -3px -3px 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.2l2.8 6.6 7.1.6-5.4 4.7 1.6 7-6.1-3.7-6.1 3.7 1.6-7-5.4-4.7 7.1-.6z' fill='%23FFC403' stroke='%23111110' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
 :root[data-skin='hardcore']:not(#x) .ribbon b { margin-left: auto; padding: 6px 16px; border-radius: 6px; background: var(--terminator); color: #fff; font-size: 0.98rem; font-weight: 600; }
 :root[data-skin='hardcore']:not(#x) .ribbon:hover b { background: var(--inv-fg); color: var(--inv-bg); }
 
@@ -140,17 +150,19 @@
 :root[data-skin='hardcore']:not(#x) .cards:has(.project) { display: block; border-top: 1px solid var(--line); }
 :root[data-skin='hardcore']:not(#x) .card.project { display: grid; grid-template-columns: 200px 200px minmax(0, 1fr); gap: 2px 24px; padding: 18px 12px; margin: 0 -12px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; align-items: baseline; }
 :root[data-skin='hardcore']:not(#x) .card.project:hover { background: var(--raise); }
-:root[data-skin='hardcore']:not(#x) .card.project .bytes { grid-row: 1 / span 2; display: flex; flex-wrap: wrap; gap: 6px 0.7ch; max-width: 22ch; color: var(--muted); font-size: 0.86rem; line-height: 1.2; }
+:root[data-skin='hardcore']:not(#x) .card.project .bytes { grid-column: 1; grid-row: 1 / span 3; align-self: start; display: flex; flex-wrap: wrap; gap: 6px 0.7ch; max-width: 22ch; color: var(--muted); font-size: 0.86rem; line-height: 1.2; }
 /* each byte with its letter above it, the way a hex dump prints the text beside the bytes */
 :root[data-skin='hardcore']:not(#x) .card.project .byte { display: inline-flex; flex-direction: column; align-items: center; }
 :root[data-skin='hardcore']:not(#x) .card.project .byte i { font-style: normal; font-size: 0.72rem; opacity: 0.75; }
 :root[data-skin='hardcore']:not(#x) .card.project .byte.end { color: var(--terminator); }
 :root[data-skin='hardcore']:not(#x) .card.project .byte.end i { opacity: 1; }
 :root[data-skin='hardcore']:not(#x) .card.project:hover .bytes { color: var(--fg); }
-:root[data-skin='hardcore']:not(#x) .card.project .chip { display: none; }
-:root[data-skin='hardcore']:not(#x) .card.project .name { grid-row: 1 / span 2; font-size: 1.12rem; font-weight: 700; }
+/* the kind of project, as a small tag under its name */
+:root[data-skin='hardcore']:not(#x) .card.project .chip { grid-column: 2; grid-row: 2; justify-self: start; margin-top: 4px; }
+:root[data-skin='hardcore']:not(#x) .card.project .name { grid-column: 2; grid-row: 1; font-size: 1.12rem; font-weight: 700; }
+:root[data-skin='hardcore']:not(#x) .card.project p { grid-column: 3; grid-row: 1 / span 2; }
 :root[data-skin='hardcore']:not(#x) .card.project:hover .name { color: var(--accent); }
-:root[data-skin='hardcore']:not(#x) .card.project .repo { grid-column: 3; margin: 0; padding: 0; }
+:root[data-skin='hardcore']:not(#x) .card.project .repo { grid-column: 3; grid-row: 3; margin: 0; padding: 0; }
 :root[data-skin='hardcore']:not(#x) .card { border-radius: 8px; }
 :root[data-skin='hardcore']:not(#x) .list { border-top-width: 1px; }
 :root[data-skin='hardcore']:not(#x) .foot { background: var(--bg); color: var(--muted); border-top: 1px solid var(--line); }
@@ -168,10 +180,16 @@
 :root[data-skin='hardcore']:not(#x) .tabs a:hover { background: none; color: var(--fg); }
 @media (max-width: 860px) {
 	:root[data-skin='hardcore']:not(#x) .card.project { grid-template-columns: 1fr; }
-	:root[data-skin='hardcore']:not(#x) .card.project :is(.bytes, .name) { grid-row: auto; }
-	:root[data-skin='hardcore']:not(#x) .card.project .repo { grid-column: 1; }
+	:root[data-skin='hardcore']:not(#x) .card.project :is(.bytes, .name, .chip, p, .repo) { grid-column: 1; grid-row: auto; }
+	:root[data-skin='hardcore']:not(#x) .card.project .name { order: 1; }
+	:root[data-skin='hardcore']:not(#x) .card.project .chip { order: 2; margin: 2px 0 4px; }
+	:root[data-skin='hardcore']:not(#x) .card.project p { order: 3; }
+	:root[data-skin='hardcore']:not(#x) .card.project .repo { order: 4; }
 	:root[data-skin='hardcore']:not(#x) .top .links { gap: 14px; }
 	:root[data-skin='hardcore']:not(#x) .ribbon { width: calc(100% - 32px); padding: 14px 16px; font-size: 1rem; }
+	/* on a phone the section's word is a small sign under the title, not a second headline */
+	:root[data-skin='hardcore']:not(#x) .head .word { max-width: 168px; }
+	:root[data-skin='hardcore']:not(#x) .head .wrap { gap: 18px; }
 	:root[data-skin='hardcore']:not(#x) .ribbon b { margin-left: 27px; }
 }
 

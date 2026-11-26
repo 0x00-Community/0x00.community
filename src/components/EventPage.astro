@@ -28,7 +28,8 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 							<img src={event.banner.wide[locale]} width="1600" height="720" alt={event.banner.alt[locale]} />
 						</picture>
 					</a>
-					<p class="tagline">{event.tagline[locale]}</p>
+					{/* the banner already carries the tagline along its bottom edge: read out, not shown twice */}
+					<p class="tagline sr-only">{event.tagline[locale]}</p>
 				</>
 			) : (
 				<div class="intro">
@@ -231,13 +232,13 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 	/* the banner, framed like a poster on the page's own ground, with no band behind it; never cropped, it is drawn to
 	   be seen whole */
 	.poster { padding-top: 28px; }
-	.banner { display: block; border: var(--bw) solid var(--line); border-radius: var(--r); overflow: hidden; box-shadow: 8px 8px 0 var(--red); }
+	.banner { display: block; border: var(--bw) solid var(--line); border-radius: var(--r); overflow: hidden; box-shadow: 6px 6px 0 var(--shadow); }
 	.banner img { display: block; width: 100%; height: auto; }
-	.poster .tagline { margin-top: 28px; font-size: 1.15rem; }
-	.poster .lede { margin-top: 8px; color: var(--muted); }
+	.poster .lede { margin-top: 28px; color: var(--muted); }
 	.intro :global(.sign) { --glow: var(--red); transform: rotate(1.4deg); }
 
-	.btn.primary { background: var(--red); color: #fff; }
+	/* the page's main action takes the site's primary button, not the terminator's red */
+	.btn.primary { background: var(--amber); color: #111110; }
 	.acts.end { margin: 64px 0 0; }
 
 	.tag { display: inline-block; margin-left: 8px; padding: 0 8px; border: 2px solid currentColor; border-radius: var(--r-pill); font: 500 0.72rem/1.7 ui-sans-serif, system-ui, sans-serif; vertical-align: 0.1em; white-space: nowrap; opacity: 0.75; }

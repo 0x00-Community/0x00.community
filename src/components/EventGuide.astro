@@ -9,7 +9,9 @@ interface Props { locale: Locale; event: Event }
 const { locale, event } = Astro.props;
 const t = ui[locale];
 const doc = (await guide(locale, event.slug))!;
-const { Content } = await render(doc);
+const { Content, headings } = await render(doc);
+// the guide is long: its sections, for the table of contents beside it
+const sections = headings.filter((h) => h.depth === 2);
 ---
 
 <Base title={`${doc.data.title} · ${event.name}`} description={doc.data.description}>
@@ -18,12 +20,109 @@ const { Content } = await render(doc);
 			<a href={href(locale, '/events/')}>{t.eventsTitle}</a> / <a href={href(locale, `/events/${event.slug}/`)}>{event.name}</a>
 		</p>
 	</PageHead>
-	<article class="prose">
-		<Content />
-	</article>
+	<div class="guide" data-prev={t.event.prevSection} data-next={t.event.nextSection}>
+		<aside aria-label={t.event.onThisPage}>
+			<ul class="disp">
+				<li><a class="all" href="#">{t.event.onThisPage}</a></li>
+				{sections.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+			</ul>
+		</aside>
+		<div class="body">
+			<article class="prose">
+				<Content />
+			</article>
+			<p class="back"><a class="more" href={href(locale, `/events/${event.slug}/`)}>← {event.name}</a></p>
+		</div>
+	</div>
 </Base>
 
+<script>
+	// The guide opens whole. A section in the table of contents (or an address ending in #that-section) shows that
+	// section alone; "On this page" shows the whole guide again. Switching changes only the column on the right: the page
+	// does not move, unless the reader had scrolled below the top of the guide, which is then brought back into view.
+	// Without scripts it is one page with ordinary anchors.
+	const guideEl = document.querySelector<HTMLElement>('.guide');
+	const article = guideEl?.querySelector<HTMLElement>('article');
+	if (guideEl && article) {
+		const links = [...guideEl.querySelectorAll<HTMLAnchorElement>('aside a:not(.all)')];
+		const all = guideEl.querySelector<HTMLAnchorElement>('aside a.all')!;
+		const idOf = (hash: string) => decodeURIComponent(hash.replace(/^#/, ''));
+		const ids = links.map((a) => idOf(a.hash));
+		// the article's blocks grouped under the heading they follow; the opening paragraphs belong to no section
+		const groups = new Map<string, HTMLElement[]>(ids.map((id) => [id, []]));
+		const opening: HTMLElement[] = [];
+		let at = '';
+		for (const el of [...article.children] as HTMLElement[]) {
+			if (el.tagName === 'H2' && groups.has(el.id)) at = el.id;
+			(at ? groups.get(at)! : opening).push(el);
+		}
+		const pager = document.createElement('nav');
+		pager.className = 'pager';
+		article.after(pager);
+
+		const show = (id: string, moved: boolean) => {
+			const one = groups.has(id) ? id : '';
+			for (const el of opening) el.hidden = !!one;
+			for (const [key, els] of groups) for (const el of els) el.hidden = !!one && key !== one;
+			all.toggleAttribute('aria-current', !one);
+			if (!one) all.setAttribute('aria-current', 'page');
+			for (const a of links) {
+				if (idOf(a.hash) === one) a.setAttribute('aria-current', 'location');
+				else a.removeAttribute('aria-current');
+			}
+			const i = ids.indexOf(one);
+			const step = (j: number, label: string, cls: string) =>
+				j >= 0 && j < ids.length ? `<a class="${cls}" href="#${encodeURIComponent(ids[j]!)}"><small>${label}</small><span>${links[j]!.textContent}</span></a>` : '<span></span>';
+			pager.innerHTML = one ? step(i - 1, guideEl.dataset.prev!, 'prev') + step(i + 1, guideEl.dataset.next!, 'next') : '';
+			pager.hidden = !one;
+			history.replaceState(null, '', one ? `#${encodeURIComponent(one)}` : location.pathname + location.search);
+			if (moved) {
+				const top = guideEl.getBoundingClientRect().top;
+				if (top < 0) scrollBy({ top: top - 24 });
+			}
+		};
+
+		guideEl.addEventListener('click', (e) => {
+			const a = (e.target as Element).closest<HTMLAnchorElement>('a');
+			if (!a || a.origin !== location.origin || a.pathname !== location.pathname) return;
+			const id = idOf(a.hash);
+			if (id && !groups.has(id)) return; // an anchor that is not a section: let the browser handle it
+			e.preventDefault();
+			show(id, true);
+		});
+		addEventListener('hashchange', () => show(idOf(location.hash), true));
+
+		show(idOf(location.hash), false);
+		// arriving at a section: keep the page head in view
+		if (location.hash) requestAnimationFrame(() => scrollTo({ top: 0 }));
+	}
+</script>
+
 <style>
-	.prose { max-width: 720px; }
+	.guide { display: grid; grid-template-columns: 220px minmax(0, 720px); gap: 56px; align-items: start; }
+	aside { position: sticky; top: 24px; }
+	aside ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+	aside a { display: block; padding: 3px 16px; border: 2.5px solid transparent; border-radius: var(--r-pill); text-decoration: none; font-size: 1.05rem; line-height: 1.4; }
+	/* "On this page": the whole guide, set apart from its sections */
+	aside a.all { margin-bottom: 6px; font-size: 0.92rem; }
+	aside a:hover { border-color: var(--line); }
+	aside a[aria-current] { background: var(--amber); color: #111110; border-color: var(--line); box-shadow: 3px 3px 0 var(--shadow); }
 	.prose > :global(:first-child) { margin-top: 0; }
+	.prose :global(h2) { scroll-margin-top: 24px; }
+	/* a section shown alone starts at its heading */
+	.prose :global(h2:not([hidden]):first-of-type), .prose :global([hidden] + h2) { margin-top: 0; }
+	.body :global(.pager) { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--soft); }
+	.body :global(.pager a) { display: flex; flex-direction: column; gap: 2px; text-decoration: none; }
+	.body :global(.pager .next) { grid-column: 2; text-align: right; }
+	.body :global(.pager small) { color: var(--muted); font-size: 0.85rem; }
+	.body :global(.pager span) { font-weight: 700; }
+	.body :global(.pager a:hover span) { text-decoration: underline; text-underline-offset: 4px; }
+	.back { margin-top: 40px; }
+	@media (max-width: 860px) {
+		.guide { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+		aside { position: static; padding-bottom: 16px; border-bottom: 1px solid var(--soft); }
+		aside ul { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+		aside a { padding: 2px 10px; font-size: 0.98rem; }
+		aside a.all { margin-bottom: 0; }
+	}
 </style>

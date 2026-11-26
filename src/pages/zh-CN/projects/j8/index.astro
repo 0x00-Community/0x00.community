@@ -1,0 +1,10 @@
+---
+// j8's page here, like every project's. Its book lives on its own domain: deeper paths under /projects/j8/ still go
+// there (see [...path].ts), and this page links to it. A static route, so it wins over the redirect for /projects/j8/.
+import ProjectPage from '../../../../components/ProjectPage.astro';
+import { projects } from '../../../../data/projects';
+
+const project = projects.find((p) => p.name === 'j8')!;
+---
+
+<ProjectPage locale="zh-CN" project={project} />
