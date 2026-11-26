@@ -47,7 +47,7 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
 	</section>
 
 	{event && (
-		<a class="ribbon disp" href={href(locale, `/events/${event.slug}/`)}>
+		<a class="ribbon disp" data-event={event.slug} href={href(locale, `/events/${event.slug}/`)}>
 			<span class="star" aria-hidden="true">✦</span>
 			<span>{event.name} {event.fullName[locale]}</span>
 			<span class="star" aria-hidden="true">✦</span>
