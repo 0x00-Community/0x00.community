@@ -3,14 +3,23 @@ import Base from '../layouts/Base.astro';
 import Wordmark from './Wordmark.astro';
 import { formatDate, href, posts, slugOf, ui, type Locale } from '../i18n';
 import { projects } from '../data/projects';
+import { events } from '../data/events';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = ui[locale];
 const latest = (await posts(locale)).slice(0, 3);
+const event = events[0];
 ---
 
 <Base>
+	{event && (
+		<a class="notice" href={href(locale, `/events/${event.slug}/`)}>
+			<span class="dot" aria-hidden="true"></span>
+			<span><b class="mono">{event.name}</b> · {event.fullName[locale]} · {event.facts[1]?.value?.[locale]}</span>
+			<span class="go">{t.event.details}</span>
+		</a>
+	)}
 	<section class="hero">
 		<Wordmark class="wordmark" />
 		<h1>{t.heroTitle}</h1>
@@ -47,6 +56,10 @@ const latest = (await posts(locale)).slice(0, 3);
 </Base>
 
 <style>
+	.notice { display: flex; align-items: center; gap: 10px; padding: 10px 14px; margin: -16px 0 24px; border: 1px solid var(--line); border-radius: 8px; text-decoration: none; font-size: 0.92rem; }
+	.notice:hover { border-color: var(--accent); }
+	.notice .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--terminator); flex: none; }
+	.notice .go { margin-left: auto; color: var(--accent); font-weight: 600; white-space: nowrap; }
 	.hero { padding: 24px 0 16px; }
 	.hero :global(.wordmark) { width: min(100%, 520px); height: auto; margin: 0 0 36px; }
 	h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1.15; margin: 0 0 20px; letter-spacing: -0.02em; }

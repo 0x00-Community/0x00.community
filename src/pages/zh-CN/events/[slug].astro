@@ -1,0 +1,9 @@
+---
+import EventPage from '../../../components/EventPage.astro';
+import { events } from '../../../data/events';
+
+export const getStaticPaths = () => events.map((event) => ({ params: { slug: event.slug }, props: { event } }));
+const { event } = Astro.props;
+---
+
+<EventPage locale="zh-CN" event={event} />
