@@ -53,8 +53,11 @@
 :root:not([data-skin='color'], #x) .cards .x { background: none; color: var(--accent); width: auto; }
 :root:not([data-skin='color'], #x) .timeline li.is-now { background: none; }
 :root:not([data-skin='color'], #x) :is(.live.now, .btn.primary) { background: var(--accent); color: var(--bg); }
-:root:not([data-skin='color'], #x) aside a[aria-current='page'] { background: none; color: var(--accent); border-color: transparent; box-shadow: none; }
+:root:not([data-skin='color'], #x) aside a[aria-current] { background: none; color: var(--accent); border-color: transparent; box-shadow: none; }
 :root:not([data-skin='color'], #x) aside a { padding-inline: 0; font-size: 1rem; }
+/* the current page or section: ink and bold, the others muted */
+:root:not([data-skin='color'], #x) aside a { color: var(--muted); }
+:root:not([data-skin='color'], #x) aside a[aria-current] { color: var(--fg); font-weight: 700; }
 :root:not([data-skin='color'], #x) aside a:hover { border-color: transparent; color: var(--accent); }
 :root:not([data-skin='color'], #x) .events .title { font-size: 1.8rem; }
 :root:not([data-skin='color'], #x) .full { font-size: 1.7rem; }
@@ -117,8 +120,6 @@
 :root[data-skin='hardcore']:not(#x) :is(.more, .list a.title):hover, :root[data-skin='hardcore']:not(#x) .posts a:hover strong { text-decoration: underline; text-underline-offset: 4px; }
 :root[data-skin='hardcore']:not(#x) .prose a { text-decoration-color: var(--muted); text-underline-offset: 3px; }
 :root[data-skin='hardcore']:not(#x) .prose a:hover { text-decoration-color: currentColor; }
-:root[data-skin='hardcore']:not(#x) aside a { color: var(--muted); }
-:root[data-skin='hardcore']:not(#x) aside a[aria-current='page'] { color: var(--fg); font-weight: 700; }
 :root[data-skin='hardcore']:not(#x) .timeline li.is-now { border-left-color: var(--fg); }
 
 /* every section's band is the same raised grey, events included; the strip on the home page is the only inverted one */
@@ -149,17 +150,19 @@
 :root[data-skin='hardcore']:not(#x) .cards:has(.project) { display: block; border-top: 1px solid var(--line); }
 :root[data-skin='hardcore']:not(#x) .card.project { display: grid; grid-template-columns: 200px 200px minmax(0, 1fr); gap: 2px 24px; padding: 18px 12px; margin: 0 -12px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; align-items: baseline; }
 :root[data-skin='hardcore']:not(#x) .card.project:hover { background: var(--raise); }
-:root[data-skin='hardcore']:not(#x) .card.project .bytes { grid-row: 1 / span 2; display: flex; flex-wrap: wrap; gap: 6px 0.7ch; max-width: 22ch; color: var(--muted); font-size: 0.86rem; line-height: 1.2; }
+:root[data-skin='hardcore']:not(#x) .card.project .bytes { grid-column: 1; grid-row: 1 / span 3; align-self: start; display: flex; flex-wrap: wrap; gap: 6px 0.7ch; max-width: 22ch; color: var(--muted); font-size: 0.86rem; line-height: 1.2; }
 /* each byte with its letter above it, the way a hex dump prints the text beside the bytes */
 :root[data-skin='hardcore']:not(#x) .card.project .byte { display: inline-flex; flex-direction: column; align-items: center; }
 :root[data-skin='hardcore']:not(#x) .card.project .byte i { font-style: normal; font-size: 0.72rem; opacity: 0.75; }
 :root[data-skin='hardcore']:not(#x) .card.project .byte.end { color: var(--terminator); }
 :root[data-skin='hardcore']:not(#x) .card.project .byte.end i { opacity: 1; }
 :root[data-skin='hardcore']:not(#x) .card.project:hover .bytes { color: var(--fg); }
-:root[data-skin='hardcore']:not(#x) .card.project .chip { display: none; }
-:root[data-skin='hardcore']:not(#x) .card.project .name { grid-row: 1 / span 2; font-size: 1.12rem; font-weight: 700; }
+/* the kind of project, as a small tag under its name */
+:root[data-skin='hardcore']:not(#x) .card.project .chip { grid-column: 2; grid-row: 2; justify-self: start; margin-top: 4px; }
+:root[data-skin='hardcore']:not(#x) .card.project .name { grid-column: 2; grid-row: 1; font-size: 1.12rem; font-weight: 700; }
+:root[data-skin='hardcore']:not(#x) .card.project p { grid-column: 3; grid-row: 1 / span 2; }
 :root[data-skin='hardcore']:not(#x) .card.project:hover .name { color: var(--accent); }
-:root[data-skin='hardcore']:not(#x) .card.project .repo { grid-column: 3; margin: 0; padding: 0; }
+:root[data-skin='hardcore']:not(#x) .card.project .repo { grid-column: 3; grid-row: 3; margin: 0; padding: 0; }
 :root[data-skin='hardcore']:not(#x) .card { border-radius: 8px; }
 :root[data-skin='hardcore']:not(#x) .list { border-top-width: 1px; }
 :root[data-skin='hardcore']:not(#x) .foot { background: var(--bg); color: var(--muted); border-top: 1px solid var(--line); }
@@ -177,8 +180,11 @@
 :root[data-skin='hardcore']:not(#x) .tabs a:hover { background: none; color: var(--fg); }
 @media (max-width: 860px) {
 	:root[data-skin='hardcore']:not(#x) .card.project { grid-template-columns: 1fr; }
-	:root[data-skin='hardcore']:not(#x) .card.project :is(.bytes, .name) { grid-row: auto; }
-	:root[data-skin='hardcore']:not(#x) .card.project .repo { grid-column: 1; }
+	:root[data-skin='hardcore']:not(#x) .card.project :is(.bytes, .name, .chip, p, .repo) { grid-column: 1; grid-row: auto; }
+	:root[data-skin='hardcore']:not(#x) .card.project .name { order: 1; }
+	:root[data-skin='hardcore']:not(#x) .card.project .chip { order: 2; margin: 2px 0 4px; }
+	:root[data-skin='hardcore']:not(#x) .card.project p { order: 3; }
+	:root[data-skin='hardcore']:not(#x) .card.project .repo { order: 4; }
 	:root[data-skin='hardcore']:not(#x) .top .links { gap: 14px; }
 	:root[data-skin='hardcore']:not(#x) .ribbon { width: calc(100% - 32px); padding: 14px 16px; font-size: 1rem; }
 	/* on a phone the section's word is a small sign under the title, not a second headline */
