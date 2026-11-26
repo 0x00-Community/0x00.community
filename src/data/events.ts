@@ -355,7 +355,7 @@ export const starHunter: Event = {
 				en: 'Claim a repository for your app, install acdev, develop and push.',
 				'zh-CN': '给应用领取仓库、安装 acdev、开发和提交。',
 			},
-			href: { en: '/docs/star-hunter-guide/', 'zh-CN': '/zh-CN/docs/star-hunter-guide/' },
+			href: { en: '/events/star-hunter/guide/', 'zh-CN': '/zh-CN/events/star-hunter/guide/' },
 		},
 		{
 			title: { en: 'Dopame OS', 'zh-CN': 'Dopame OS' },

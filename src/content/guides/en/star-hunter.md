@@ -1,7 +1,6 @@
 ---
-title: Star Hunter participant guide
+title: Participant guide
 description: Claim a repository, install acdev, build and submit a Dopame app.
-order: 4
 ---
 
 You build an app on Dopame. For each app we give you a public repository in the GitHub organization [0x00-Migration](https://github.com/0x00-Migration). You push your code there, and reviewers check it by hand.
