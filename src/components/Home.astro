@@ -6,7 +6,7 @@ import ArtWord from './ArtWord.astro';
 import DotPanel from './DotPanel.astro';
 import DotScreen from './DotScreen.astro';
 import Nul from './Nul.astro';
-import ProjectCard from './ProjectCard.astro';
+import ProjectGrid from './ProjectGrid.astro';
 import { formatDate, href, posts, slugOf, ui, type Locale } from '../i18n';
 import { projects } from '../data/projects';
 import { events } from '../data/events';
@@ -73,9 +73,7 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
 			<h2 class="disp">{t.featured}</h2>
 			<a class="more" href={href(locale, '/projects/')}>{t.allProjects}</a>
 		</div>
-		<ul class="cards">
-			{projects.slice(0, 6).map((p) => <li><ProjectCard locale={locale} project={p} /></li>)}
-		</ul>
+		<ProjectGrid locale={locale} projects={projects.slice(0, 6)} />
 	</section>
 
 	{event && (

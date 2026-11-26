@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from './PageHead.astro';
-import ProjectCard from './ProjectCard.astro';
+import ProjectGrid from './ProjectGrid.astro';
 import { href, ui, type Locale } from '../i18n';
 import { org, projects, type Project } from '../data/projects';
 
@@ -21,9 +21,7 @@ const others = projects.filter((p) => p.name !== project.name).slice(0, 3);
 		<h2 class="disp">{t.featured}</h2>
 		<a class="more" href={href(locale, '/projects/')}>{t.allProjects}</a>
 	</div>
-	<ul class="cards">
-		{others.map((p) => <li><ProjectCard locale={locale} project={p} /></li>)}
-	</ul>
+	<ProjectGrid locale={locale} projects={others} />
 </Base>
 
 <style>

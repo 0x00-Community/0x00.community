@@ -6,12 +6,14 @@ import { org, type Kind, type Project } from '../data/projects';
 interface Props { locale: Locale; project: Project; repo?: boolean }
 const { locale, project: p, repo = false } = Astro.props;
 // the name as a C string: its bytes, then the terminator. The hardcore look shows them beside the name.
-const bytes = [...p.name].map((ch) => ch.charCodeAt(0).toString(16).padStart(2, '0'));
+const bytes = [...p.name].map((ch) => ({ ch, hex: ch.charCodeAt(0).toString(16).padStart(2, '0') }));
 const tone: Record<Kind, string> = { runtime: 'green', gc: 'blue', gpu: 'amber', appRuntime: 'green', tooling: '', app: 'red' };
 ---
 
 <article class="card link project">
-	<span class="bytes mono only-hardcore" aria-hidden="true">{bytes.join(' ')} <b>00</b></span>
+	<span class="bytes mono only-hardcore" aria-hidden="true">
+		{bytes.map((b) => <span class="byte"><i>{b.ch}</i>{b.hex}</span>)}<span class="byte end"><i>\0</i>00</span>
+	</span>
 	<span class:list={['chip', 'disp', tone[p.kind]]}>{ui[locale].kinds[p.kind]}</span>
 	<a class="name mono" href={p.site?.[locale] ?? href(locale, `/projects/${p.name}/`)}>{p.name}</a>
 	<p>{p.desc[locale]}</p>
