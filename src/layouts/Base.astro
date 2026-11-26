@@ -27,7 +27,7 @@ const nav = [
 const other = locales.find((l) => l !== locale)!;
 ---
 
-<html lang={locale} data-skin="color">
+<html lang={locale} data-skin="hardcore">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,7 +47,7 @@ const other = locales.find((l) => l !== locale)!;
 		<title>{fullTitle}</title>
 		<!-- the visitor's chosen look, applied before the first paint -->
 		<script is:inline>
-			try { const s = localStorage.getItem('skin'); if (s === 'hardcore' || s === 'art') document.documentElement.dataset.skin = s; } catch {}
+			try { const s = localStorage.getItem('skin'); if (s === 'color' || s === 'art') document.documentElement.dataset.skin = s; } catch {}
 		</script>
 	</head>
 	<body>

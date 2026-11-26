@@ -1,6 +1,6 @@
 /*
- * The two other looks of the site. The default look (colour) lives in Base.astro and the components; this file turns
- * the same pages into the brand kit's two editions:
+ * Two of the site's three looks. The colour look is written in Base.astro and the components; this file turns the same
+ * pages into the brand kit's two editions, of which hardcore is the one a visitor sees first:
  *
  *   hardcore   the dot matrix as the kit draws it: four colours, hairlines, one red terminator
  *   art        ink and paper only, Major Mono Display, the slash
