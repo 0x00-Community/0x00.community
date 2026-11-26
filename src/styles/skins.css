@@ -4,7 +4,7 @@
  *
  *   hardcore   the dot matrix as the kit draws it: four colours, hairlines, one red terminator; NUL the mascot is
  *              drawn in the text colour
- *   art        ink and paper only, Major Mono Display, the slash
+ *   art        ink and paper only, Major Mono Display for names and the wordmark, the slash
  *
  * Pieces that exist for one look only carry .only-hardcore / .only-color / .only-art.
  *
@@ -22,7 +22,8 @@
 :root:not([data-skin='color'], #x) {
 	--shadow: transparent;
 	--card: transparent;
-	--disp-w: 700;
+	--disp: 'Smiley Sans', 'PingFang SC', 'Noto Sans CJK SC', system-ui, sans-serif;
+	--disp-w: 400;
 	--bw-s: 1px;
 }
 :root[data-skin='art']:not(#x) :is(.nul, .foot .end) { display: none; }
@@ -32,20 +33,21 @@
 :root:not([data-skin='color'], #x) .band:is(.blue, .green, .plate, .amber) { color: var(--x-fg); --fg: var(--x-fg); --muted: var(--x-muted); --accent: var(--x-accent); }
 :root:not([data-skin='color'], #x) .band.edge { border-block-width: 0; }
 :root:not([data-skin='color'], #x) .head { padding-block: 40px 44px; }
-:root:not([data-skin='color'], #x) .head h1 { font-size: clamp(2rem, 4.6vw, 3.2rem); }
+:root:not([data-skin='color'], #x) .head h1.disp { font-size: clamp(2.4rem, 5.4vw, 4rem); }
+:root:not([data-skin='color'], #x) .head h1.mono { font-size: clamp(2rem, 4.6vw, 3.2rem); }
 :root:not([data-skin='color'], #x) .hero { grid-template-columns: 1fr; padding-block: 40px 44px; }
 :root:not([data-skin='color'], #x) .hero .say { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 56px; align-items: end; }
-:root:not([data-skin='color'], #x) .hero .say h1 { grid-row: 1 / span 2; margin: 0; font-size: clamp(2rem, 4.4vw, 3.4rem); }
+:root:not([data-skin='color'], #x) .hero .say h1 { grid-row: 1 / span 2; margin: 0; font-size: clamp(2.5rem, 5.2vw, 4.3rem); line-height: 1.12; }
 :root:not([data-skin='color'], #x) .hero .say .lede { margin-bottom: 20px; }
 :root:not([data-skin='color'], #x) .hero .say .acts { margin: 0; }
 :root:not([data-skin='color'], #x) .areas { margin-top: 44px; padding-top: 56px; }
 :root:not([data-skin='color'], #x) .areas li { transform: none; padding: 4px 16px 4px 0; border-width: 0; box-shadow: none; }
 :root:not([data-skin='color'], #x) .areas li + li { padding-left: 20px; border-left: 1px solid var(--line); }
 :root:not([data-skin='color'], #x) .areas li, :root:not([data-skin='color'], #x) .areas li strong { color: var(--fg); }
-:root:not([data-skin='color'], #x) .areas strong { font-size: 1.05rem; }
+:root:not([data-skin='color'], #x) .areas strong { font-size: 1.25rem; }
 :root:not([data-skin='color'], #x) .areas ul { gap: 0; }
-:root:not([data-skin='color'], #x) :is(.areas h2, .event h2, .section-head h2) { font-size: 1.6rem; }
-:root:not([data-skin='color'], #x) .posts strong { font-size: 1.12rem; }
+:root:not([data-skin='color'], #x) :is(.areas h2, .event h2, .section-head h2) { font-size: 2.1rem; }
+:root:not([data-skin='color'], #x) .posts strong { font-size: 1.4rem; }
 :root:not([data-skin='color'], #x) .facts div { box-shadow: none; }
 :root:not([data-skin='color'], #x) :is(.cards .num, .steps .num, details[open] summary::before) { background: none; color: var(--accent); }
 :root:not([data-skin='color'], #x) .cards .x { background: none; color: var(--accent); width: auto; }
@@ -54,8 +56,11 @@
 :root:not([data-skin='color'], #x) aside a[aria-current='page'] { background: none; color: var(--accent); border-color: transparent; box-shadow: none; }
 :root:not([data-skin='color'], #x) aside a { padding-inline: 0; font-size: 1rem; }
 :root:not([data-skin='color'], #x) aside a:hover { border-color: transparent; color: var(--accent); }
-:root:not([data-skin='color'], #x) .events .title { font-size: 1.5rem; }
-:root:not([data-skin='color'], #x) .full { font-size: 1.3rem; }
+:root:not([data-skin='color'], #x) .events .title { font-size: 1.8rem; }
+:root:not([data-skin='color'], #x) .full { font-size: 1.7rem; }
+/* All three looks set their headings in one display face, Smiley Sans. In the two editions the small working parts of
+   the page (links, buttons, tabs, tags) stay in the system face, where an oblique condensed face is hard to read. */
+:root:not([data-skin='color'], #x) :is(.top .links, .btn, .more, .tabs, .ribbon, aside ul) { font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Noto Sans CJK SC', sans-serif; }
 :root[data-skin='art']:not(#x) .foot .wrap { padding-block: 18px 26px; }
 :root[data-skin='art']:not(#x) .foot .right { margin-left: 0; flex: 1; justify-content: space-between; }
 :root:not([data-skin='color'], #x) .chip { padding: 0 8px; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.78rem; line-height: 1.7; --chip: transparent; --chip-fg: var(--muted); border-color: var(--line); }
@@ -81,7 +86,6 @@
 	--x-fg: var(--fg); --x-muted: var(--muted); --x-line: var(--line); --x-accent: var(--accent); --x-off: var(--dot-off);
 	/* the kit's other plate, for the one band that is inverted */
 	--inv-bg: #f2f0ea; --inv-fg: #111110; --inv-muted: #5f5d56; --inv-line: #d9d6cc; --inv-accent: #c8370f;
-	--disp: 'Smiley Sans', 'PingFang SC', 'Noto Sans CJK SC', system-ui, sans-serif;
 	--bw: 1px;
 	--r: 8px;
 	--r-pill: 6px;
@@ -151,17 +155,6 @@
 :root[data-skin='hardcore']:not(#x) .list { border-top-width: 1px; }
 :root[data-skin='hardcore']:not(#x) .foot { background: var(--bg); color: var(--muted); border-top: 1px solid var(--line); }
 :root[data-skin='hardcore']:not(#x) .foot .skins { color: var(--muted); --sw-on: var(--fg); --sw-on-fg: var(--bg); }
-/* Headings are set in the colour look's display face, Smiley Sans, at its sizes; the small working parts of the page
-   (links, buttons, tabs, tags) stay in the system face, where an oblique condensed face would be hard to read. */
-:root[data-skin='hardcore']:not(#x) { --disp-w: 400; }
-:root[data-skin='hardcore']:not(#x) :is(.top .links, .btn, .more, .tabs, .ribbon, aside ul) { font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Noto Sans CJK SC', sans-serif; }
-:root[data-skin='hardcore']:not(#x) .hero .say h1 { font-size: clamp(2.5rem, 5.2vw, 4.3rem); line-height: 1.12; }
-:root[data-skin='hardcore']:not(#x) .head h1.disp { font-size: clamp(2.4rem, 5.4vw, 4rem); }
-:root[data-skin='hardcore']:not(#x) :is(.areas h2, .event h2, .section-head h2) { font-size: 2.1rem; }
-:root[data-skin='hardcore']:not(#x) .areas strong { font-size: 1.25rem; }
-:root[data-skin='hardcore']:not(#x) .posts strong { font-size: 1.4rem; }
-:root[data-skin='hardcore']:not(#x) .events .title { font-size: 1.8rem; }
-:root[data-skin='hardcore']:not(#x) .full { font-size: 1.7rem; }
 /* NUL in the text colour: it has none of its own. It still stands where the page ends. */
 :root[data-skin='hardcore']:not(#x) .foot { --nul-line: var(--fg); }
 :root[data-skin='hardcore']:not(#x) .foot .wrap { padding-block: 20px; }
@@ -195,8 +188,6 @@
 	--dot-on: #f2f0ea;
 	--dot-off: #2a2a28;
 	--x-fg: var(--fg); --x-muted: var(--muted); --x-line: var(--line); --x-accent: var(--fg); --x-off: var(--dot-off);
-	--disp: 'Songti SC', 'Source Han Serif SC', 'Noto Serif CJK SC', 'STSong', 'SimSun', Georgia, serif;
-	--disp-w: 900;
 	--bw: 1.5px;
 	--r: 0px;
 	--r-pill: 0px;
@@ -216,17 +207,17 @@
 :root[data-skin='art']:not(#x) .skins { border-width: 1.5px; }
 :root[data-skin='art']:not(#x) .skins button + button { border-left-width: 1.5px; }
 
-:root[data-skin='art']:not(#x) .btn, :root[data-skin='art']:not(#x) .btn.go { min-height: 0; padding: 0; border: 0; background: none; color: var(--fg); font-family: inherit; font-size: 1.1rem; font-weight: 400; }
+:root[data-skin='art']:not(#x) .btn, :root[data-skin='art']:not(#x) .btn.go { min-height: 0; padding: 0; border: 0; background: none; color: var(--fg); font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Noto Sans CJK SC', sans-serif; font-size: 1.1rem; font-weight: 400; }
 :root[data-skin='art']:not(#x) :is(.btn, .more)::before { content: '/ '; }
 :root[data-skin='art']:not(#x) a.btn:hover, :root[data-skin='art']:not(#x) .more:hover { text-decoration: underline; text-underline-offset: 6px; }
 :root[data-skin='art']:not(#x) .btn.soon { color: var(--muted); }
 :root[data-skin='art']:not(#x) .btn.primary { background: none; color: var(--fg); }
-:root[data-skin='art']:not(#x) .more { font-family: inherit; font-size: 1rem; font-weight: 400; border-bottom: 0; }
+:root[data-skin='art']:not(#x) .more { font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Noto Sans CJK SC', sans-serif; font-size: 1rem; font-weight: 400; border-bottom: 0; }
 :root[data-skin='art']:not(#x) .acts { gap: 10px 34px; }
 :root[data-skin='art']:not(#x) .chip { border: 0; padding: 0; font-family: inherit; font-size: 0.9rem; }
 :root[data-skin='art']:not(#x) .hero { padding-top: 30px; }
 :root[data-skin='art']:not(#x) .hero .say { grid-template-columns: 1fr; }
-:root[data-skin='art']:not(#x) .hero .say h1 { margin-bottom: 22px; max-width: 13em; font-size: clamp(2rem, 4.3vw, 3.5rem); line-height: 1.22; }
+:root[data-skin='art']:not(#x) .hero .say h1 { margin-bottom: 22px; max-width: 9em; }
 :root[data-skin='art']:not(#x) .hero .say .lede { max-width: 33em; margin-bottom: 26px; }
 
 :root[data-skin='art']:not(#x) .band:is(.blue, .green, .plate, .amber) { background: var(--bg); border-block: 1.5px solid var(--line); }

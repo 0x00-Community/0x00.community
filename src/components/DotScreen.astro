@@ -1,16 +1,21 @@
 ---
 // The hardcore edition as the brand kit draws it, across the full width of the page: every dot is lit, the letters are
 // the dots switched off, and one red terminator closes the word. The field of dots is a CSS pattern; only the letters
-// are SVG, set on the same grid. Where scripts run and motion is welcome, a canvas takes over and a slow swell
-// rolls through the lit dots, like a sea; the letters and the terminator hold still.
+// are SVG, set on the same grid.
+//
+// Where scripts run and motion is welcome, a canvas takes over and the screen writes, the way the kit's ident does:
+// first the word, column by column; then the terminator lands; then the `words` unfold after it one at a time, each
+// written slowly, held, and wiped for the next. The word stays, and the terminator is the cursor: it travels ahead of
+// the writing and always closes whatever is written, so there is still one red dot and it is still at the end. All
+// the while a slow swell rolls through the lit dots, in size only.
 import { panel, rows, RADIUS } from '../lib/dots';
 
-interface Props { text: string; label?: string; class?: string }
-const { text, label = text } = Astro.props;
+interface Props { text: string; words?: string[]; label?: string; class?: string }
+const { text, words = [], label = text } = Astro.props;
 const p = panel(text, 0);
 ---
 
-<div class:list={['screen', Astro.props.class]} data-rows={rows(text).join('|')}>
+<div class:list={['screen', Astro.props.class]} data-words={JSON.stringify([text, ...words].map(rows))}>
 	<svg role="img" aria-label={label} viewBox={`0 0 ${p.width} ${p.height}`}>
 		<rect class="ground" width={p.width} height={p.height} />
 		<path class="on" d={p.field} />
@@ -22,14 +27,21 @@ const p = panel(text, 0);
 <script>
 	// Drawn at most 30 times a second, only while the screen is on the page and in view, and never under reduced motion.
 	const still = matchMedia('(prefers-reduced-motion: reduce)');
-	for (const screen of document.querySelectorAll<HTMLElement>('.screen[data-rows]')) {
+	for (const screen of document.querySelectorAll<HTMLElement>('.screen[data-words]')) {
 		const svg = screen.querySelector('svg')!;
-		const letters = screen.dataset.rows!.split('|');
+		const [base, ...others]: string[][] = JSON.parse(screen.dataset.words!);
+		const baseWidth = base![0]!.length;
+		const nameAt = baseWidth + 4; // a name starts a space after the word (three columns and the gaps around them)
 		const canvas = document.createElement('canvas');
-		canvas.setAttribute('aria-hidden', 'true');
+		// while the canvas draws, the still picture is hidden: the canvas carries its name for a screen reader
+		canvas.setAttribute('role', 'img');
+		canvas.setAttribute('aria-label', svg.getAttribute('aria-label') ?? '');
 		screen.append(canvas);
 		const ctx = canvas.getContext('2d')!;
 		let p = 0, x0 = 0, w = 0, h = 0, on = '', off = '', end = '', seen = true, frame = 0, last = 0;
+		// the writing: how much of the word is written, whether the terminator is lit, which name is up and how much of it
+		let names: string[][] = [], step: 'word' | 'dot' | 'rest' | 'write' | 'hold' | 'wipe' = 'word', since = 0;
+		let wordShown = 0, lit = false, name = 0, nameShown = 0;
 
 		const measure = () => {
 			w = screen.clientWidth;
@@ -44,62 +56,108 @@ const p = panel(text, 0);
 			on = getComputedStyle(svg.querySelector('.on')!).fill;
 			off = getComputedStyle(svg.querySelector('.off')!).fill;
 			end = getComputedStyle(svg.querySelector('.end')!).fill;
+			// only the names that fit between the terminator and the right edge of this screen
+			const room = Math.floor((w - x0) / p) - 3;
+			names = others.filter((rows) => nameAt + rows[0]!.length <= room);
 			return true;
 		};
-		// The sea, in size only: no dot leaves its place. A long wave travels to the right and a slower one crosses it at
-		// an angle; a dot is full on a crest and shrinks to about a third in a trough. Close to the word the dots hardly
-		// shrink, so it stays readable; the letters and the terminator do not change at all.
 		const dot = (c: number, r: number, k: number) => {
 			const cx = x0 + (c + 0.5) * p, cy = (r + 0.5) * p, rad = p * 0.357 * k;
 			ctx.moveTo(cx + rad, cy);
 			ctx.arc(cx, cy, rad, 0, Math.PI * 2);
 		};
+		const to = (next: typeof step, now: number) => { step = next; since = now; };
+		const advance = (now: number) => {
+			if (!since) since = now;
+			const dt = now - since;
+			const current = names[name];
+			if (step === 'word') {
+				wordShown = Math.min(baseWidth, Math.floor((dt - 350) / 45));
+				if (wordShown === baseWidth && dt > 350 + baseWidth * 45 + 200) to('dot', now);
+			} else if (step === 'dot') {
+				// the terminator lands, blinks once like a cursor, and stays
+				lit = !(dt > 260 && dt < 460);
+				if (dt > 1300) to(names.length ? 'write' : 'rest', now);
+			} else if (step === 'write') {
+				nameShown = Math.min(current![0]!.length, Math.floor(dt / 70));
+				if (nameShown === current![0]!.length) to('hold', now);
+			} else if (step === 'hold') {
+				lit = !(dt > 260 && dt < 460); // it blinks once where it lands
+				if (dt > 2600) to('wipe', now);
+			} else if (step === 'wipe') {
+				nameShown = current![0]!.length - Math.floor(dt / 22);
+				if (nameShown <= 0) { nameShown = 0; name = (name + 1) % names.length; to('rest', now); }
+			} else if (names.length && dt > 700) {
+				to('write', now);
+			}
+		};
+		// The sea, in size only: no dot leaves its place. A long wave travels to the right and a slower one crosses it at
+		// an angle, about five seconds a wave; a dot is full on a crest and a little over half its size in a trough. It is
+		// texture behind the writing, not a second act. Close to what is written the dots hardly shrink at all.
 		const draw = (now: number) => {
 			frame = requestAnimationFrame(draw);
 			if (!seen || now - last < 33) return;
 			last = now;
+			advance(now);
 			const t = now / 1000;
-			const width = letters[0]!.length;
+			const current = names[name];
+			// the terminator: one column after the last thing written
+			const endCol = nameShown > 0 ? nameAt + nameShown : baseWidth + 1;
+			const written = endCol + 1;
+			const isOff = (c: number, r: number) => {
+				if (r < 2 || r > 8 || c < 0) return false;
+				if (c < wordShown) return base![r - 2]![c] === '1';
+				const n = c - nameAt;
+				return n >= 0 && n < nameShown && current![r - 2]![n] === '1';
+			};
 			ctx.clearRect(0, 0, w, h);
 			ctx.fillStyle = on;
 			ctx.beginPath();
 			for (let c = Math.floor(-x0 / p) - 1; (c - 1) * p + x0 < w; c++) {
-				// how far this column is from the word, in dots: 0 beside it, 1 from five dots away
-				const away = Math.min(1, Math.max(0, -c - 1, c - width - 2) / 5);
+				// how far this column is from what is written, in dots: 0 beside it, 1 from five dots away
+				const away = Math.min(1, Math.max(0, -c - 1, c - written) / 5);
 				for (let r = 0; r < 11; r++) {
-					const isLetter = r >= 2 && r < 9 && c >= 0 && c < width && letters[r - 2]![c] === '1';
-					if (isLetter || (r === 8 && c === width + 1)) continue;
-					const crest = 0.5 + 0.35 * Math.sin(c * 0.26 + r * 0.2 - t * 1.9) + 0.15 * Math.sin(c * 0.09 - r * 0.45 - t * 0.8);
-					dot(c, r, 1 - (0.1 + 0.56 * away) * (1 - crest));
+					if (isOff(c, r) || (lit && r === 8 && c === endCol)) continue;
+					const crest = 0.5 + 0.35 * Math.sin(c * 0.26 + r * 0.2 - t * 1.2) + 0.15 * Math.sin(c * 0.09 - r * 0.45 - t * 0.5);
+					dot(c, r, 1 - (0.08 + 0.34 * away) * (1 - crest));
 				}
 			}
 			ctx.fill();
 			ctx.fillStyle = off;
 			ctx.beginPath();
-			letters.forEach((row, r) => [...row].forEach((bit, c) => bit === '1' && dot(c, r + 2, 1)));
+			for (let c = 0; c < written; c++) for (let r = 2; r < 9; r++) if (isOff(c, r)) dot(c, r, 1);
 			ctx.fill();
-			ctx.fillStyle = end;
-			ctx.beginPath();
-			dot(width + 1, 8, 1);
-			ctx.fill();
+			if (lit) {
+				ctx.fillStyle = end;
+				ctx.beginPath();
+				dot(endCol, 8, 1);
+				ctx.fill();
+			}
 		};
 		const start = () => {
 			cancelAnimationFrame(frame);
 			const live = !still.matches && measure();
 			screen.classList.toggle('live', live);
-			if (live) frame = requestAnimationFrame(draw);
+			if (!live) return;
+			// begin again from the bare field
+			step = 'word'; since = 0; wordShown = 0; lit = false; name = 0; nameShown = 0;
+			frame = requestAnimationFrame(draw);
 		};
-		// resizing, switching looks (the screen appears or goes) and the system theme all come through here
-		new ResizeObserver(start).observe(screen);
+		// switching looks (the screen appears or goes) and the system settings come through here; so does resizing, but
+		// only a change of width starts the writing over
+		let width = -1;
+		new ResizeObserver(() => { if (screen.clientWidth !== width) { width = screen.clientWidth; start(); } }).observe(screen);
 		new IntersectionObserver(([e]) => { seen = e!.isIntersecting; }).observe(screen);
 		still.addEventListener('change', start);
-		matchMedia('(prefers-color-scheme: dark)').addEventListener('change', start);
+		matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (screen.classList.contains('live')) measure(); });
 	}
 </script>
 
 <style>
-	/* --p is the pitch; the pattern starts where the page's text column starts, so the word lines up with the text */
-	.screen { --p: 22px; --x: max(24px, calc((100vw - 1120px) / 2 + 24px)); position: relative; height: calc(var(--p) * 11); background: radial-gradient(circle closest-side, var(--dot-on) 71%, transparent 75%) var(--x) 0 / var(--p) var(--p); }
+	/* --p is the pitch; the pattern starts where the page's text column starts, so the word lines up with the text. On
+	   a desktop the pitch gives a little, so that 68 dots fit between there and the right edge: room for the word, its
+	   terminator and the longest name after it. */
+	.screen { --x: max(24px, calc((100vw - 1120px) / 2 + 24px)); --p: clamp(16px, calc((100vw - var(--x) - 24px) / 68), 22px); position: relative; height: calc(var(--p) * 11); background: radial-gradient(circle closest-side, var(--dot-on) 71%, transparent 75%) var(--x) 0 / var(--p) var(--p); }
 	svg { position: absolute; left: var(--x); top: calc(var(--p) * 2); height: calc(var(--p) * 7); width: auto; }
 	.ground { fill: var(--bg); }
 	.on { fill: var(--dot-on); }
@@ -110,6 +168,8 @@ const p = panel(text, 0);
 	.screen:global(.live) { background-image: none; }
 	.screen:global(.live) svg { visibility: hidden; }
 	.screen:global(.live) :global(canvas) { display: block; }
+	/* where the writing is about to start, the first paint is the bare field, not the finished word */
+	:global(html.motion) .screen svg { visibility: hidden; }
 	@media (max-width: 860px) {
 		.screen { --p: calc((100vw - 32px) / 29); --x: 16px; }
 	}

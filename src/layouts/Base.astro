@@ -2,6 +2,7 @@
 import Mark from '../components/Mark.astro';
 import Nul from '../components/Nul.astro';
 import SkinSwitch from '../components/SkinSwitch.astro';
+import '../styles/smiley-sans.css';
 import '../styles/skins.css';
 import { href, localeOf, locales, switchLocale, ui } from '../i18n';
 
@@ -44,12 +45,15 @@ const other = locales.find((l) => l !== locale)!;
 		<meta property="og:image" content={new URL('/brand/banner-1500x500.png', Astro.site)} />
 		<meta name="twitter:card" content="summary_large_image" />
 		{locales.map((l) => <link rel="alternate" hreflang={l} href={new URL(switchLocale(Astro.url.pathname, l), Astro.site)} />)}
-		<!-- the display face is in the first screen of the two looks most visitors see: fetch it early -->
-		<link rel="preload" href="/fonts/SmileySans-Oblique.woff2" as="font" type="font/woff2" crossorigin />
+		<!-- the slice of the display face that holds the site's own headings: on the first screen of the two looks most
+		     visitors see, so it is fetched early -->
+		<link rel="preload" href="/fonts/smiley/smiley-sans-core.woff2" as="font" type="font/woff2" crossorigin />
 		<title>{fullTitle}</title>
-		<!-- the visitor's chosen look, applied before the first paint -->
+		<!-- the visitor's chosen look, and whether motion is welcome, known before the first paint -->
 		<script is:inline>
 			try { const s = localStorage.getItem('skin'); if (s === 'color' || s === 'art') document.documentElement.dataset.skin = s; } catch {}
+			// lets a part that is about to animate start from its first frame instead of its finished picture
+			if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion');
 		</script>
 	</head>
 	<body>
@@ -94,8 +98,8 @@ const other = locales.find((l) => l !== locale)!;
 </html>
 
 <style is:global>
-	/* Smiley Sans (得意黑), SIL OFL 1.1: the display face. Licence in /fonts/SmileySans-OFL.txt. */
-	@font-face { font-family: 'Smiley Sans'; src: url('/fonts/SmileySans-Oblique.woff2') format('woff2'); font-display: swap; }
+	/* Smiley Sans (得意黑), SIL OFL 1.1, is the display face. It is served in slices: src/styles/smiley-sans.css,
+	   made by scripts/split-smiley.py. Licence in /fonts/SmileySans-OFL.txt. */
 
 	/* Ink, paper and the terminator red are the brand kit's (hardcore edition). Amber, blue and green are the colours
 	   LED matrices come in: the same dot matrix, in colour. */

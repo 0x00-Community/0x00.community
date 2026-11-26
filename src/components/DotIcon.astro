@@ -16,10 +16,11 @@ const i = icon(Astro.props.name);
 	.dot-icon { display: block; }
 	.off { fill: var(--dot-off); }
 	.on { fill: currentColor; }
-	.on circle { transform-box: fill-box; transform-origin: center; animation: dot-pulse 2.8s ease-in-out infinite; animation-delay: calc(var(--o) * 150ms); }
+	/* a quiet ripple: each dot dips to two thirds and comes back, then the pictogram rests for most of the cycle */
+	.on circle { transform-box: fill-box; transform-origin: center; animation: dot-pulse 4.8s ease-in-out infinite; animation-delay: calc(var(--o) * 150ms); }
 	@keyframes dot-pulse {
-		0%, 55%, 100% { transform: scale(1); }
-		25% { transform: scale(0.4); }
+		0%, 30%, 100% { transform: scale(1); }
+		14% { transform: scale(0.64); }
 	}
 	@media (prefers-reduced-motion: reduce) {
 		.on circle { animation: none; }

@@ -21,7 +21,7 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
 
 <Base wide>
 	<!-- one opening per look: the dot matrix across the page, the LED panel with NUL, or the art wordmark -->
-	<DotScreen class="only-hardcore" text="0X00" label="0x00" />
+	<DotScreen class="only-hardcore" text="0X00" words={projects.slice(0, 5).map((p) => p.name)} label="0x00" />
 	<div class="wrap art only-art">
 		<ArtWord class="word" />
 		<ArtMark class="mark" />
