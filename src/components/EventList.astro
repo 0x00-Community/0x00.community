@@ -14,8 +14,10 @@ const t = ui[locale];
 	<PageHead slot="band" tone="amber" title={t.eventsTitle} lede={t.eventsLede} word="EVENTS" />
 	<ul class="events">
 		{events.map((e) => (
-			<li class="card link">
-				<DotPanel class="sign" text={e.name} />
+			<li class:list={['card', 'link', { cover: e.banner }]}>
+				{e.banner
+					? <img class="art" src={e.banner.wide[locale]} width="1600" height="720" alt={e.banner.alt[locale]} loading="lazy" />
+					: <DotPanel class="sign" text={e.name} />}
 				<div>
 					<a class="title disp" href={href(locale, `/events/${e.slug}/`)}>{e.fullName[locale]}</a>
 					<p>{e.summary[locale]}</p>
@@ -33,11 +35,16 @@ const t = ui[locale];
 	.events { list-style: none; padding: 0; margin: 0; display: grid; gap: 28px; }
 	.events li { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 32px; align-items: center; padding: 28px; }
 	.events :global(.sign) { --glow: var(--red); box-shadow: 6px 6px 0 var(--glow); }
+	/* an event with a banner wears it as its cover, whole and uncropped */
+	.events li.cover { grid-template-columns: 1fr; gap: 0; padding: 0; overflow: hidden; }
+	.cover .art { display: block; width: 100%; height: auto; border-bottom: var(--bw) solid var(--line); }
+	.cover > div { padding: 24px 28px 28px; }
 	.title { font-size: 1.9rem; line-height: 1.25; text-decoration: none; }
 	.title::after { content: ''; position: absolute; inset: 0; border-radius: 15px; }
 	.events p { margin: 8px 0 0; font-size: 1rem; }
 	.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px !important; color: var(--card-fg, var(--fg)) !important; }
 	@media (max-width: 860px) {
 		.events li { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+		.cover > div { padding: 18px 20px 22px; }
 	}
 </style>

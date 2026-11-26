@@ -13,17 +13,33 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 ---
 
 <Base title={`${event.name} · ${event.fullName[locale]}`} description={event.summary[locale]}>
-	<header slot="band" class="band amber edge hero">
+	<header slot="band" class:list={['band', 'edge', 'hero', event.banner ? 'plate poster' : 'amber']}>
 		<div class="wrap">
-			<div class="intro">
-				<div>
+			{event.banner ? (
+				<>
 					<p class="eyebrow"><a href={href(locale, '/events/')}>{t.eventsTitle}</a> / {event.host[locale]}</p>
-					<h1 class="disp">{event.name}</h1>
-					<p class="full disp">{event.fullName[locale]}</p>
+					{/* the banner is the title: its words are the h1 too, for a screen reader and a crawler */}
+					<h1 class="sr-only">{event.name}: {event.fullName[locale]}</h1>
+					{/* it is drawn with a "register now" button on it: a link to the registration once there is one, till then to how to enter */}
+					<a class="banner" href={event.registerUrl || '#enter'}>
+						<picture>
+							<source media="(max-width: 600px)" srcset={event.banner.tall[locale]} width="800" height="1000" />
+							<img src={event.banner.wide[locale]} width="1600" height="720" alt={event.banner.alt[locale]} />
+						</picture>
+					</a>
 					<p class="tagline">{event.tagline[locale]}</p>
+				</>
+			) : (
+				<div class="intro">
+					<div>
+						<p class="eyebrow"><a href={href(locale, '/events/')}>{t.eventsTitle}</a> / {event.host[locale]}</p>
+						<h1 class="disp">{event.name}</h1>
+						<p class="full disp">{event.fullName[locale]}</p>
+						<p class="tagline">{event.tagline[locale]}</p>
+					</div>
+					<DotPanel class="sign" text={event.name} />
 				</div>
-				<DotPanel class="sign" text={event.name} />
-			</div>
+			)}
 			<p class="lede">{event.summary[locale]}</p>
 			<p class="acts disp">
 				{event.registerUrl
@@ -210,6 +226,12 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 	.full { margin: 12px 0 0; font-size: 1.9rem; line-height: 1.25; }
 	.tagline { margin: 8px 0 0; font-weight: 600; }
 	.hero .lede { margin: 28px 0 24px; max-width: 48em; color: inherit; }
+	/* the banner, framed like a poster on the dark plate; never cropped, it is drawn to be seen whole */
+	.poster { padding-top: 28px; }
+	.banner { display: block; border: var(--bw) solid var(--line); border-radius: var(--r); overflow: hidden; box-shadow: 8px 8px 0 var(--red); }
+	.banner img { display: block; width: 100%; height: auto; }
+	.poster .tagline { margin-top: 28px; font-size: 1.15rem; }
+	.poster .lede { margin-top: 8px; color: var(--muted); }
 	.intro :global(.sign) { --glow: var(--red); transform: rotate(1.4deg); }
 
 	.btn.primary { background: var(--red); color: #fff; }
