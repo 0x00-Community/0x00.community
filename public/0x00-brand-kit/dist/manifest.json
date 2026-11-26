@@ -1,0 +1,428 @@
+{
+ "files": [
+  {
+   "path": "dist/art/gif/0x00-art-word-dark.gif",
+   "size": 2501837
+  },
+  {
+   "path": "dist/art/gif/0x00-art-word-light.gif",
+   "size": 2400106
+  },
+  {
+   "path": "dist/art/png/0x00-art-avatar-1024.png",
+   "size": 50113
+  },
+  {
+   "path": "dist/art/png/0x00-art-lockup-dark.png",
+   "size": 124032
+  },
+  {
+   "path": "dist/art/png/0x00-art-lockup-light.png",
+   "size": 124013
+  },
+  {
+   "path": "dist/art/png/0x00-art-long-dark.png",
+   "size": 111695
+  },
+  {
+   "path": "dist/art/png/0x00-art-long-light.png",
+   "size": 111762
+  },
+  {
+   "path": "dist/art/png/0x00-art-mark-dark.png",
+   "size": 59688
+  },
+  {
+   "path": "dist/art/png/0x00-art-mark-light.png",
+   "size": 59653
+  },
+  {
+   "path": "dist/art/png/0x00-art-mark-simple-dark.png",
+   "size": 11733
+  },
+  {
+   "path": "dist/art/png/0x00-art-mark-simple-light.png",
+   "size": 11737
+  },
+  {
+   "path": "dist/art/png/0x00-art-mark-simple-transparent-white.png",
+   "size": 10656
+  },
+  {
+   "path": "dist/art/png/0x00-art-mark-simple-transparent.png",
+   "size": 9792
+  },
+  {
+   "path": "dist/art/png/0x00-art-mark-transparent-white.png",
+   "size": 54563
+  },
+  {
+   "path": "dist/art/png/0x00-art-mark-transparent.png",
+   "size": 49950
+  },
+  {
+   "path": "dist/art/png/0x00-art-word-dark.png",
+   "size": 111151
+  },
+  {
+   "path": "dist/art/png/0x00-art-word-light.png",
+   "size": 111137
+  },
+  {
+   "path": "dist/art/png/0x00-art-word-slash-dark.png",
+   "size": 71458
+  },
+  {
+   "path": "dist/art/png/0x00-art-word-slash-light.png",
+   "size": 71440
+  },
+  {
+   "path": "dist/art/png/0x00-art-word-slash-transparent-white.png",
+   "size": 66814
+  },
+  {
+   "path": "dist/art/png/0x00-art-word-slash-transparent.png",
+   "size": 61093
+  },
+  {
+   "path": "dist/art/png/0x00-art-word-transparent-white.png",
+   "size": 105933
+  },
+  {
+   "path": "dist/art/png/0x00-art-word-transparent.png",
+   "size": 97174
+  },
+  {
+   "path": "dist/art/svg/0x00-art-lockup-dark.svg",
+   "size": 49655
+  },
+  {
+   "path": "dist/art/svg/0x00-art-lockup-light.svg",
+   "size": 49655
+  },
+  {
+   "path": "dist/art/svg/0x00-art-long-dark.svg",
+   "size": 27043
+  },
+  {
+   "path": "dist/art/svg/0x00-art-long-light.svg",
+   "size": 27043
+  },
+  {
+   "path": "dist/art/svg/0x00-art-mark-dark.svg",
+   "size": 23922
+  },
+  {
+   "path": "dist/art/svg/0x00-art-mark-light.svg",
+   "size": 23922
+  },
+  {
+   "path": "dist/art/svg/0x00-art-mark-simple-dark.svg",
+   "size": 6167
+  },
+  {
+   "path": "dist/art/svg/0x00-art-mark-simple-light.svg",
+   "size": 6167
+  },
+  {
+   "path": "dist/art/svg/0x00-art-mark-simple-transparent-white.svg",
+   "size": 6118
+  },
+  {
+   "path": "dist/art/svg/0x00-art-mark-simple-transparent.svg",
+   "size": 6118
+  },
+  {
+   "path": "dist/art/svg/0x00-art-mark-transparent-white.svg",
+   "size": 23873
+  },
+  {
+   "path": "dist/art/svg/0x00-art-mark-transparent.svg",
+   "size": 23873
+  },
+  {
+   "path": "dist/art/svg/0x00-art-word-dark.svg",
+   "size": 24911
+  },
+  {
+   "path": "dist/art/svg/0x00-art-word-light.svg",
+   "size": 24911
+  },
+  {
+   "path": "dist/art/svg/0x00-art-word-slash-dark.svg",
+   "size": 24900
+  },
+  {
+   "path": "dist/art/svg/0x00-art-word-slash-light.svg",
+   "size": 24900
+  },
+  {
+   "path": "dist/art/svg/0x00-art-word-slash-transparent-white.svg",
+   "size": 24851
+  },
+  {
+   "path": "dist/art/svg/0x00-art-word-slash-transparent.svg",
+   "size": 24851
+  },
+  {
+   "path": "dist/art/svg/0x00-art-word-transparent-white.svg",
+   "size": 24862
+  },
+  {
+   "path": "dist/art/svg/0x00-art-word-transparent.svg",
+   "size": 24862
+  },
+  {
+   "path": "dist/art/video/0x00-art-lockup-dark-1080.mp4",
+   "size": 749372
+  },
+  {
+   "path": "dist/art/video/0x00-art-lockup-light-1080.mp4",
+   "size": 749616
+  },
+  {
+   "path": "dist/art/video/0x00-art-lockup-vertical-1080x1920.mp4",
+   "size": 758377
+  },
+  {
+   "path": "dist/art/video/0x00-art-mark-dark-1080.mp4",
+   "size": 512303
+  },
+  {
+   "path": "dist/art/video/0x00-art-word-dark-1080.mp4",
+   "size": 703375
+  },
+  {
+   "path": "dist/art/video/0x00-art-word-dark-4k.mp4",
+   "size": 1683077
+  },
+  {
+   "path": "dist/art/video/0x00-art-word-light-1080.mp4",
+   "size": 707801
+  },
+  {
+   "path": "dist/art/video/0x00-art-word-light-4k.mp4",
+   "size": 1682271
+  },
+  {
+   "path": "dist/gif/0x00-ident-horizontal.gif",
+   "size": 107504
+  },
+  {
+   "path": "dist/gif/loader-byte.gif",
+   "size": 34620
+  },
+  {
+   "path": "dist/gif/loader-cursor.gif",
+   "size": 58003
+  },
+  {
+   "path": "dist/gif/loader-orbit.gif",
+   "size": 7047
+  },
+  {
+   "path": "dist/gif/loader-progress.gif",
+   "size": 13656
+  },
+  {
+   "path": "dist/loaders/loader-byte-dark.svg",
+   "size": 974
+  },
+  {
+   "path": "dist/loaders/loader-byte-light.svg",
+   "size": 974
+  },
+  {
+   "path": "dist/loaders/loader-cursor-dark.svg",
+   "size": 15246
+  },
+  {
+   "path": "dist/loaders/loader-cursor-light.svg",
+   "size": 15246
+  },
+  {
+   "path": "dist/loaders/loader-orbit-dark.svg",
+   "size": 857
+  },
+  {
+   "path": "dist/loaders/loader-orbit-light.svg",
+   "size": 857
+  },
+  {
+   "path": "dist/loaders/loader-progress-dark.svg",
+   "size": 2684
+  },
+  {
+   "path": "dist/loaders/loader-progress-light.svg",
+   "size": 2684
+  },
+  {
+   "path": "dist/png/0x00-horizontal-dark.png",
+   "size": 168934
+  },
+  {
+   "path": "dist/png/0x00-horizontal-light.png",
+   "size": 179265
+  },
+  {
+   "path": "dist/png/0x00-horizontal-transparent.png",
+   "size": 164713
+  },
+  {
+   "path": "dist/png/0x00-long-dark.png",
+   "size": 357744
+  },
+  {
+   "path": "dist/png/0x00-long-light.png",
+   "size": 381103
+  },
+  {
+   "path": "dist/png/0x00-long-transparent.png",
+   "size": 355023
+  },
+  {
+   "path": "dist/png/0x00-micro-dark.png",
+   "size": 8964
+  },
+  {
+   "path": "dist/png/0x00-micro-light.png",
+   "size": 9120
+  },
+  {
+   "path": "dist/png/0x00-micro-transparent.png",
+   "size": 8071
+  },
+  {
+   "path": "dist/png/0x00-square-dark.png",
+   "size": 174970
+  },
+  {
+   "path": "dist/png/0x00-square-light.png",
+   "size": 184253
+  },
+  {
+   "path": "dist/png/0x00-square-transparent.png",
+   "size": 169924
+  },
+  {
+   "path": "dist/png/avatar-1024.png",
+   "size": 174970
+  },
+  {
+   "path": "dist/png/banner-1500x500.png",
+   "size": 362800
+  },
+  {
+   "path": "dist/png/favicon-16.png",
+   "size": 179
+  },
+  {
+   "path": "dist/png/favicon-180.png",
+   "size": 1789
+  },
+  {
+   "path": "dist/png/favicon-192.png",
+   "size": 2637
+  },
+  {
+   "path": "dist/png/favicon-32.png",
+   "size": 274
+  },
+  {
+   "path": "dist/png/favicon-48.png",
+   "size": 421
+  },
+  {
+   "path": "dist/png/favicon-512.png",
+   "size": 8964
+  },
+  {
+   "path": "dist/png/wallpaper-3840x2160.png",
+   "size": 146409
+  },
+  {
+   "path": "dist/png/wallpaper-phone-1170x2532.png",
+   "size": 1569362
+  },
+  {
+   "path": "dist/png/watermark-600.png",
+   "size": 48442
+  },
+  {
+   "path": "dist/svg/0x00-horizontal-dark.svg",
+   "size": 12373
+  },
+  {
+   "path": "dist/svg/0x00-horizontal-light.svg",
+   "size": 12373
+  },
+  {
+   "path": "dist/svg/0x00-horizontal-transparent.svg",
+   "size": 12346
+  },
+  {
+   "path": "dist/svg/0x00-long-dark.svg",
+   "size": 28365
+  },
+  {
+   "path": "dist/svg/0x00-long-light.svg",
+   "size": 28365
+  },
+  {
+   "path": "dist/svg/0x00-long-transparent.svg",
+   "size": 28338
+  },
+  {
+   "path": "dist/svg/0x00-micro-dark.svg",
+   "size": 544
+  },
+  {
+   "path": "dist/svg/0x00-micro-light.svg",
+   "size": 544
+  },
+  {
+   "path": "dist/svg/0x00-micro-transparent.svg",
+   "size": 499
+  },
+  {
+   "path": "dist/svg/0x00-square-dark.svg",
+   "size": 14023
+  },
+  {
+   "path": "dist/svg/0x00-square-light.svg",
+   "size": 14023
+  },
+  {
+   "path": "dist/svg/0x00-square-transparent.svg",
+   "size": 13996
+  },
+  {
+   "path": "dist/svg/banner-1500x500.svg",
+   "size": 72651
+  },
+  {
+   "path": "dist/svg/favicon.svg",
+   "size": 538
+  },
+  {
+   "path": "dist/svg/wallpaper-3840x2160.svg",
+   "size": 202516
+  },
+  {
+   "path": "dist/video/0x00-ident-horizontal-4k.mp4",
+   "size": 235740
+  },
+  {
+   "path": "dist/video/0x00-ident-square-1080.mp4",
+   "size": 122609
+  },
+  {
+   "path": "dist/video/0x00-ident-studio-4k.mp4",
+   "size": 340778
+  },
+  {
+   "path": "dist/video/0x00-ident-vertical-1080x1920.mp4",
+   "size": 131597
+  }
+ ]
+}

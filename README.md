@@ -39,4 +39,4 @@ wrangler.jsonc                Worker configuration
 
 The j8 book has its own domain, [j8.app238.com](https://j8.app238.com/) (Worker `j8-mdbook`, source in the j8 repository's `mdbook/`). `/projects/j8/<path>` (and `/zh-CN/projects/j8/<path>`) answer with a 301 to the same path there, and the project lists link to it directly.
 
-Deploying requires `CLOUDFLARE_ACCOUNT_ID` to point at the account that owns the `0x00.community` zone.
+The Worker lives in the Cloudflare account `0x00-Foundation`, which owns the `0x00.community` zone; `wrangler.jsonc` pins its `account_id`.

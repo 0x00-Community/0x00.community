@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0X00 开场动画</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0B0B0B; overflow: hidden; }
+  canvas { display: block; width: 100%; height: 100%; object-fit: contain; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script src="../lib/dotfont.js"></script>
+<script>
+(() => {
+'use strict';
+
+// 参数：?preset=horizontal|long|square&w=3840&h=2160&theme=dark|light&live=1
+const q = new URLSearchParams(location.search);
+const preset = q.get('preset') || 'horizontal';
+const W = Number(q.get('w') || 1920);
+const H = Number(q.get('h') || 1080);
+const theme = q.get('theme') || 'dark';
+const live = q.get('live') === '1';
+const FRAC = { horizontal: 0.5, long: 0.78, square: 0.62 };
+const frac = Number(q.get('frac') || FRAC[preset] || 0.5);
+
+const col = COLORS[theme];
+document.body.style.background = col.bg;
+const grid = PRESETS[preset]();
+const cvs = document.getElementById('c');
+cvs.width = W;
+cvs.height = H;
+const ctx = cvs.getContext('2d');
+
+// 点阵在画面里的尺寸：横向占 frac，方形按短边算
+const base = preset === 'square' ? Math.min(W, H) : W;
+const pitch = Math.min((base * frac) / grid.cols, (H * 0.8) / grid.rows);
+const radius = pitch * (5 / 14);
+const ox = (W - grid.cols * pitch) / 2;
+const oy = (H - grid.rows * pitch) / 2;
+
+// 时间线（秒）
+const SWEEP_START = 0.15, SWEEP_LEN = 0.45;      // 通电：从左到右扫亮
+const WRITE_START = 0.85, WRITE_STEP = 0.035;    // 写字：按列把字形点关掉
+const writeEnd = WRITE_START + grid.writeCols * WRITE_STEP;
+const RED_ON = writeEnd + 0.25;                  // 终止符：亮、灭、再亮并停住
+const RED_OFF = RED_ON + 0.3;
+const RED_ON2 = RED_ON + 0.55;
+const DURATION = RED_ON2 + 1.8;
+window.DURATION = DURATION;
+
+function renderAt(t) {
+  ctx.fillStyle = col.bg;
+  ctx.fillRect(0, 0, W, H);
+  const buckets = { on: new Path2D(), off: new Path2D(), red: new Path2D() };
+  let any = { on: false, off: false, red: false };
+  grid.cells.forEach((row, r) => row.forEach((cell, c) => {
+    const lit = t >= SWEEP_START + (c / Math.max(1, grid.cols - 1)) * SWEEP_LEN;
+    if (!lit) return;
+    let s = 'on';
+    if (cell.s === 'off' && t >= WRITE_START + cell.order * WRITE_STEP) s = 'off';
+    if (cell.s === 'red') {
+      const redVisible = (t >= RED_ON && t < RED_OFF) || t >= RED_ON2;
+      s = redVisible ? 'red' : (t >= RED_ON ? 'off' : 'on');
+    }
+    const x = ox + (c + 0.5) * pitch;
+    const y = oy + (r + 0.5) * pitch;
+    buckets[s].moveTo(x + radius, y);
+    buckets[s].arc(x, y, radius, 0, Math.PI * 2);
+    any[s] = true;
+  }));
+  for (const s of ['on', 'off', 'red']) {
+    if (!any[s]) continue;
+    ctx.fillStyle = col[s];
+    ctx.fill(buckets[s]);
+  }
+}
+window.renderAt = renderAt;
+window.frameDataURL = () => cvs.toDataURL('image/png');
+
+if (live) {
+  const LOOP = DURATION + 1;
+  const t0 = performance.now();
+  const tick = (now) => {
+    renderAt(((now - t0) / 1000) % LOOP);
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+} else {
+  renderAt(DURATION);
+}
+window.ready = true;
+})();
+</script>
+</body>
+</html>
