@@ -2,7 +2,8 @@
  * Two of the site's three looks. The colour look is written in Base.astro and the components; this file turns the same
  * pages into the brand kit's two editions, of which hardcore is the one a visitor sees first:
  *
- *   hardcore   the dot matrix as the kit draws it: four colours, hairlines, one red terminator
+ *   hardcore   the dot matrix as the kit draws it: four colours, hairlines, one red terminator; NUL the mascot is
+ *              drawn in those colours and stands in for the terminator where it appears
  *   art        ink and paper only, Major Mono Display, the slash
  *
  * Pieces that exist for one look only carry .only-hardcore / .only-color / .only-art.
@@ -24,7 +25,7 @@
 	--disp-w: 700;
 	--bw-s: 1px;
 }
-:root:not([data-skin='color'], #x) :is(.nul, .foot .end) { display: none; }
+:root[data-skin='art']:not(#x) :is(.nul, .foot .end) { display: none; }
 :root:not([data-skin='color'], #x) :is(a.btn, a.card, .card.link):is(:hover, :active) { transform: none; }
 :root:not([data-skin='color'], #x) .led { transform: none; }
 :root:not([data-skin='color'], #x) .band { --line: var(--x-line); --shadow: transparent; --card: transparent; --card-fg: initial; --card-muted: initial; --dot-off: var(--x-off); }
@@ -55,8 +56,8 @@
 :root:not([data-skin='color'], #x) aside a:hover { border-color: transparent; color: var(--accent); }
 :root:not([data-skin='color'], #x) .events .title { font-size: 1.5rem; }
 :root:not([data-skin='color'], #x) .full { font-size: 1.3rem; }
-:root:not([data-skin='color'], #x) .foot .wrap { padding-block: 18px 26px; }
-:root:not([data-skin='color'], #x) .foot .right { margin-left: 0; flex: 1; justify-content: space-between; }
+:root[data-skin='art']:not(#x) .foot .wrap { padding-block: 18px 26px; }
+:root[data-skin='art']:not(#x) .foot .right { margin-left: 0; flex: 1; justify-content: space-between; }
 :root:not([data-skin='color'], #x) .chip { padding: 0 8px; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.78rem; line-height: 1.7; --chip: transparent; --chip-fg: var(--muted); border-color: var(--line); }
 @media (max-width: 860px) {
 	:root:not([data-skin='color'], #x) .hero .say { grid-template-columns: 1fr; }
@@ -114,7 +115,6 @@
 :root[data-skin='hardcore']:not(#x) .led { background: none; border: 0; border-radius: 0; padding: 0; box-shadow: none; }
 :root[data-skin='hardcore']:not(#x) .led .field { fill: var(--dot-on); }
 :root[data-skin='hardcore']:not(#x) .led .lit { fill: var(--dot-off); opacity: 1; animation: none; }
-:root[data-skin='hardcore']:not(#x) .led .socket { fill: var(--terminator); stroke: none; }
 
 :root[data-skin='hardcore']:not(#x) .ribbon { transform: none; max-width: 1072px; margin: 0 auto; padding: 14px 18px; justify-content: flex-start; gap: 4px 14px; background: var(--raise); color: var(--fg); border: 0; border-radius: 8px; font-size: 0.95rem; font-weight: 400; }
 :root[data-skin='hardcore']:not(#x) .ribbon .star { display: none; }
@@ -141,8 +141,12 @@
 :root[data-skin='hardcore']:not(#x) .list { border-top-width: 1px; }
 :root[data-skin='hardcore']:not(#x) .foot { background: var(--bg); color: var(--muted); border-top: 1px solid var(--line); }
 :root[data-skin='hardcore']:not(#x) .foot .skins { color: var(--muted); --sw-on: var(--fg); --sw-on-fg: var(--bg); }
-/* the page still ends on the terminator */
-:root[data-skin='hardcore']:not(#x) .foot .right::after { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--terminator); }
+/* NUL, in the kit's own colours: terminator red, outlined in the text colour. It still stands where the page ends. */
+:root[data-skin='hardcore']:not(#x) .foot { --nul-line: var(--fg); }
+:root[data-skin='hardcore']:not(#x) .foot .wrap { padding-block: 20px; }
+:root[data-skin='hardcore']:not(#x) .foot .nul { width: 44px; }
+:root[data-skin='hardcore']:not(#x) .foot .end { font-size: 1rem; color: var(--fg); }
+:root[data-skin='hardcore']:not(#x) .stage .nul { --nul-line: var(--fg); }
 :root[data-skin='hardcore']:not(#x) .prose pre { border-color: var(--line); border-radius: 8px; }
 :root[data-skin='hardcore']:not(#x) .prose blockquote { border-left-color: var(--line); }
 :root[data-skin='hardcore']:not(#x) .tabs { font-size: 0.92rem; font-weight: 400; gap: 4px 20px; }

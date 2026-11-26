@@ -2,20 +2,25 @@
 // The hardcore edition as the brand kit draws it, across the full width of the page: every dot is lit, the letters are
 // the dots switched off, and one red terminator closes the word. The field of dots is a CSS pattern; only the letters
 // are SVG, set on the same grid.
-import { panel, RADIUS } from '../lib/dots';
+// With `mascot`, the terminator has left its place (a dashed socket) and stands beside it: that is NUL.
+import Nul from './Nul.astro';
+import { panel, PITCH, RADIUS } from '../lib/dots';
 
-interface Props { text: string; label?: string; class?: string }
-const { text, label = text } = Astro.props;
+interface Props { text: string; label?: string; mascot?: string; class?: string }
+const { text, label = text, mascot } = Astro.props;
 const p = panel(text, 0);
 ---
 
-<div class:list={['screen', Astro.props.class]}>
+<div class:list={['screen', Astro.props.class]} style={`--end:${p.end.x / PITCH}`}>
 	<svg role="img" aria-label={label} viewBox={`0 0 ${p.width} ${p.height}`}>
 		<rect class="ground" width={p.width} height={p.height} />
 		<path class="on" d={p.field} />
 		<path class="off" d={p.columns.join('')} />
-		<circle class="end" cx={p.end.x} cy={p.end.y} r={RADIUS} />
+		{mascot
+			? <circle class="socket" cx={p.end.x} cy={p.end.y} r={RADIUS - 1} />
+			: <circle class="end" cx={p.end.x} cy={p.end.y} r={RADIUS} />}
 	</svg>
+	{mascot && <Nul class="walker" label={mascot} />}
 </div>
 
 <style>
@@ -26,7 +31,11 @@ const p = panel(text, 0);
 	.on { fill: var(--dot-on); }
 	.off { fill: var(--dot-off); }
 	.end { fill: var(--terminator); }
+	.socket { fill: none; stroke: var(--terminator); stroke-width: 2; stroke-dasharray: 3 2.5; }
+	/* NUL stands on the terminator's row, three dots to the right of the socket it came out of */
+	.screen :global(.walker) { --nul-halo: var(--bg); --nul-line: var(--fg); position: absolute; width: auto; height: calc(var(--p) * 6.2); top: calc(var(--p) * 2.4); left: calc(var(--x) + var(--p) * (var(--end) + 3.4)); translate: -50% 0; }
 	@media (max-width: 860px) {
+		.screen :global(.walker) { height: calc(var(--p) * 4.4); top: calc(var(--p) * 4.2); left: calc(var(--x) + var(--p) * (var(--end) + 2.3)); }
 		.screen { --p: calc((100vw - 32px) / 29); --x: 16px; }
 	}
 </style>
