@@ -1,0 +1,22 @@
+---
+// One page for every address that is not there, whatever its language: it cannot know which one was asked for, so it
+// answers in both.
+import Base from '../layouts/Base.astro';
+import { href, locales, ui } from '../i18n';
+---
+
+<Base title="404">
+	<p class="eyebrow mono">404</p>
+	{locales.map((l) => (
+		<section lang={l}>
+			<h1 class="page-title">{ui[l].notFound}</h1>
+			<p class="lede">{ui[l].notFoundLede}</p>
+			<p><a class="more" href={href(l)}>{ui[l].backHome}</a></p>
+		</section>
+	))}
+</Base>
+
+<style>
+	section + section { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--line); }
+	.lede { margin-bottom: 16px; }
+</style>
