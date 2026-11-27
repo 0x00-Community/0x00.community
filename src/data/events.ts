@@ -231,7 +231,7 @@ export const starHunter: Event = {
 		{
 			id: 'finals',
 			name: { en: 'Finals', 'zh-CN': '决赛展示' },
-			what: { en: 'The top 6 by project points demo their apps on Dopame OS and answer the judges online: 8 minutes of demo, 5 of questions.', 'zh-CN': '按项目分前 6 名进决赛，线上演示 8 分钟、答辩 5 分钟。' },
+			what: { en: 'The top 6 by project points go to the finals: a 5-minute online demo on Dopame OS, then 3 minutes with the organizers.', 'zh-CN': '按项目分前 6 名进决赛，线上演示 5 分钟，和主办方交流 3 分钟。' },
 			when: { en: 'Dec 11 (Fri) 14:00–17:00', 'zh-CN': '12/11（周五）14:00–17:00' },
 			start: '2026-12-11',
 			end: '2026-12-11',
@@ -292,8 +292,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Review, finals, results', 'zh-CN': '验收、决赛展示、公布结果' },
 			body: {
-				en: 'Submissions are reviewed on a clean Dopame OS and each entrant gets the result on Dec 10. The top 6 by project points demo online, then the rankings are announced.',
-				'zh-CN': '作品在干净的验收环境里验收，12 月 10 日把结果发给本人；按项目分前 6 名进决赛，线上演示和答辩，之后公布名次。',
+				en: 'Submissions are reviewed on a clean Dopame OS and each entrant gets the result on Dec 10. The top 6 by project points demo online and talk with the organizers, then the rankings are announced.',
+				'zh-CN': '作品在干净的验收环境里验收，12 月 10 日把结果发给本人；按项目分前 6 名进决赛，线上演示并和主办方交流，之后公布名次。',
 			},
 		},
 	],
