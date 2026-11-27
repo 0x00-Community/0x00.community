@@ -96,7 +96,7 @@ export const starHunter: Event = {
 		wide: { en: '/events/star-hunter.en.svg', 'zh-CN': '/events/star-hunter.zh-CN.svg' },
 		tall: { en: '/events/star-hunter.en.tall.svg', 'zh-CN': '/events/star-hunter.zh-CN.tall.svg' },
 	},
-	registerUrl: '',
+	registerUrl: 'https://xcnv4iceks69.feishu.cn/share/base/shrcnHUJ4KVMm0clMn8LeSAbXJd',
 	registerNote: { en: 'Registration opens November 27', 'zh-CN': '报名入口 11 月 27 日开放' },
 	rulesUrl: '',
 	rulesNote: {
@@ -105,9 +105,9 @@ export const starHunter: Event = {
 	},
 	facts: [
 		{ label: { en: 'Format', 'zh-CN': '形式' }, value: { en: 'Fully online', 'zh-CN': '全程线上' } },
-		{ label: { en: 'Main round', 'zh-CN': '正式赛' }, value: { en: 'Dec 1 – Dec 7, 2026', 'zh-CN': '2026 年 12 月 1 日 – 12 月 7 日' } },
-		{ label: { en: 'Team size', 'zh-CN': '组队' }, value: { en: '1–4 people', 'zh-CN': '1–4 人一队' }, state: 'tentative' },
-		{ label: { en: 'Who can enter', 'zh-CN': '谁能参加' }, value: { en: 'Anyone: students and professionals', 'zh-CN': '谁都能报，学生、在职都可以' } },
+		{ label: { en: 'Main round', 'zh-CN': '正式赛' }, value: { en: 'Dec 1 – Dec 7, 2026, closing at 23:59:59', 'zh-CN': '2026 年 12 月 1 日 – 12 月 7 日 23:59:59' } },
+		{ label: { en: 'Entry', 'zh-CN': '参赛' }, value: { en: 'Individual: one person, no teams', 'zh-CN': '一人参赛，不组队' } },
+		{ label: { en: 'Who can enter', 'zh-CN': '谁能参加' }, value: { en: 'Anyone aged 13 or over: students and professionals', 'zh-CN': '13 岁以上谁都能报，学生、在职都可以' } },
 		{ label: { en: 'Prizes', 'zh-CN': '奖金' }, state: 'tbd' },
 		{ label: { en: 'Time zone', 'zh-CN': '时区' }, value: { en: 'Beijing time (UTC+8)', 'zh-CN': '北京时间' }, state: 'tentative' },
 	],
@@ -147,7 +147,7 @@ export const starHunter: Event = {
 		},
 		{
 			title: { en: 'A warm-up round', 'zh-CN': '热身赛' },
-			body: { en: 'Nov 27 – 29: every team migrates the same small project and goes through claiming a repository, building, submitting and review once.', 'zh-CN': '11/27 – 11/29，所有队迁移同一个指定的小项目，把领取仓库、开发、提交、验收走一遍。' },
+			body: { en: 'Nov 27 – 29: everyone migrates the same small project and goes through claiming a repository, building, submitting and review once.', 'zh-CN': '11/27 – 11/29，所有人迁移同一个指定的小项目，把领取仓库、开发、提交、验收走一遍。' },
 		},
 		{
 			title: { en: 'A workshop', 'zh-CN': 'Workshop' },
@@ -190,8 +190,8 @@ export const starHunter: Event = {
 	phases: [
 		{
 			id: 'signup',
-			name: { en: 'Registration and teams', 'zh-CN': '报名和组队' },
-			what: { en: 'Register, form a team. Teams lock when registration closes.', 'zh-CN': '报名、组队，截止时锁队。' },
+			name: { en: 'Registration', 'zh-CN': '报名' },
+			what: { en: 'Fill in the registration form. You enter alone; there are no teams.', 'zh-CN': '填报名表。一人参赛，不组队。' },
 			when: { en: 'Nov 27 (Fri) – Nov 30 (Mon) 23:59', 'zh-CN': '11/27（周五）– 11/30（周一）23:59' },
 			start: '2026-11-27',
 			end: '2026-11-30',
@@ -201,8 +201,8 @@ export const starHunter: Event = {
 			id: 'warmup',
 			name: { en: 'Warm-up round', 'zh-CN': '热身赛' },
 			what: {
-				en: 'Every team migrates the same small project, to go through claiming a repository, building, submitting and review once.',
-				'zh-CN': '每队迁移同一个指定的小项目，把领仓库、开发、提交、验收走一遍。',
+				en: 'Everyone migrates the same small project, to go through claiming a repository, building, submitting and review once.',
+				'zh-CN': '每人迁移同一个指定的小项目，把领仓库、开发、提交、验收走一遍。',
 			},
 			when: { en: 'Nov 27 (Fri) – Nov 29 (Sun) 23:59', 'zh-CN': '11/27（周五）– 11/29（周日）23:59' },
 			start: '2026-11-27',
@@ -234,7 +234,7 @@ export const starHunter: Event = {
 		{
 			id: 'finals',
 			name: { en: 'Finals', 'zh-CN': '决赛展示' },
-			what: { en: 'Shortlisted teams demo their apps on Dopame OS and answer the judges, online.', 'zh-CN': '入围的队线上演示和答辩。' },
+			what: { en: 'Shortlisted entrants demo their apps on Dopame OS and answer the judges, online.', 'zh-CN': '入围的选手线上演示和答辩。' },
 			when: { en: 'Dec 11 (Fri)', 'zh-CN': '12/11（周五）' },
 			start: '2026-12-11',
 			end: '2026-12-11',
@@ -252,7 +252,7 @@ export const starHunter: Event = {
 		{
 			id: 'payout',
 			name: { en: 'Prizes paid', 'zh-CN': '领奖' },
-			what: { en: 'Winning teams fill in the payout form; prizes are paid within two weeks of the results.', 'zh-CN': '获奖的队填领奖表，公布结果后 2 周内发完。' },
+			what: { en: 'Winners fill in the payout form themselves; prizes are paid within two weeks of the results.', 'zh-CN': '获奖人自己填领奖表，公布结果后 2 周内发完。' },
 			when: { en: 'Dec 11 (Fri) – Dec 25 (Fri)', 'zh-CN': '12/11（周五）– 12/25（周五）' },
 			start: '2026-12-11',
 			end: '2026-12-25',
@@ -261,10 +261,10 @@ export const starHunter: Event = {
 	],
 	steps: [
 		{
-			title: { en: 'Register and form a team', 'zh-CN': '报名、组队' },
+			title: { en: 'Register', 'zh-CN': '报名' },
 			body: {
-				en: 'Sign up with an email address on the contest site. The captain creates the team and shares a 6-character invite code; one person, one team. A team of one is fine.',
-				'zh-CN': '在比赛官网用邮箱注册。队长建队，把 6 位邀请码发给队友；一人只能在一队，一个人也能成队。',
+				en: 'Press Register on this page and fill in the form. You enter alone, with your own GitHub account.',
+				'zh-CN': '点本页的「立即报名」，填报名表。一人参赛，不组队；领仓库、推代码都用你自己的 GitHub 账号。',
 			},
 			state: 'tentative',
 		},
@@ -278,30 +278,30 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Play the warm-up', 'zh-CN': '打热身赛' },
 			body: {
-				en: 'One small project, the same for every team: the whole path from repository to review, before the clock starts.',
-				'zh-CN': '所有队迁移同一个指定的小项目，在正式赛之前把整条路走通一遍。',
+				en: 'One small project, the same for everyone: the whole path from repository to review, before the clock starts.',
+				'zh-CN': '所有人迁移同一个指定的小项目，在正式赛之前把整条路走通一遍。',
 			},
 		},
 		{
 			title: { en: 'Claim a project', 'zh-CN': '认领项目' },
 			body: {
-				en: 'Claiming opens on December 1. Every project is claimed before it is worked on, and belongs to one team at a time.',
-				'zh-CN': '12 月 1 日开赛日开放认领。所有项目都要先认领再做，一个项目同一时间只归一队。',
+				en: 'Claiming opens on December 1. Every project is claimed before it is worked on, and belongs to one person at a time.',
+				'zh-CN': '12 月 1 日开赛日开放认领。所有项目都要先认领再做，一个项目同一时间只归一人。',
 			},
 		},
 		{
 			title: { en: 'Migrate and submit', 'zh-CN': '迁移、提交' },
 			body: {
-				en: 'Four things per project: the repository of the migrated code, a download link to the packaged Dopame OS app, a write-up (what you changed, how to check the core features) and a demo video. The last submission before the deadline is the one reviewed.',
-				'zh-CN': '每个项目交四样：迁移后的代码仓库地址、打包好的 Dopame OS 应用的下载链接、一份说明（改了什么、核心功能怎么验）、一段演示视频。以截止前最后一次提交为准。',
+				en: 'Pushing to your own repository in 0x00-Migration is the submission; there is nothing else to hand in. At the deadline the last commit pushed to each repository is recorded and the repository becomes read-only; review uses that version only (tentative).',
+				'zh-CN': '推到自己在 0x00-Migration 的仓库就是提交，不用另外交。截止时记下每个仓库截止前最后一次推送的提交号，仓库改成只读；验收和复核只认这一版（暂定）。',
 			},
 			state: 'tentative',
 		},
 		{
 			title: { en: 'Review, finals, results', 'zh-CN': '验收、决赛展示、公布结果' },
 			body: {
-				en: 'Submissions are reviewed on a clean Dopame OS. Shortlisted teams demo online, then the rankings are announced.',
-				'zh-CN': '作品在干净的验收环境里验收；入围的队线上演示和答辩，之后公布名次。',
+				en: 'Submissions are reviewed on a clean Dopame OS. Shortlisted entrants demo online, then the rankings are announced.',
+				'zh-CN': '作品在干净的验收环境里验收；入围的选手线上演示和答辩，之后公布名次。',
 			},
 		},
 	],
@@ -329,8 +329,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Claims that stall', 'zh-CN': '放回清单' },
 			body: {
-				en: 'A claimed project with no progress for a while goes back on the list for another team. How long, and what counts as progress, comes with the rules.',
-				'zh-CN': '认领后一段时间没有进展，项目放回清单，别的队可以认领。多少天、「进展」看什么，随规则公布。',
+				en: 'A claimed project with no progress for a while goes back on the list for someone else. How long, and what counts as progress, comes with the rules.',
+				'zh-CN': '认领后一段时间没有进展，项目放回清单，别人可以认领。多少天、「进展」看什么，随规则公布。',
 			},
 		},
 	],
@@ -352,8 +352,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'One fixed version', 'zh-CN': '只认一版' },
 			body: {
-				en: 'The commit of your repository and the checksum of your package are recorded when you submit; review looks at that version only.',
-				'zh-CN': '提交时记下仓库当时的提交号和打包文件的校验值，验收和复核只认这一版。',
+				en: 'The last commit pushed to each repository before the deadline is recorded; review rebuilds the app from that commit and ignores the CI results and packages in the repository.',
+				'zh-CN': '截止时记下每个仓库截止前最后一次推送的提交号；验收时按这个提交号重新打包，不认仓库里自动检查的结果和打好的包。',
 			},
 			state: 'tentative',
 		},
@@ -373,14 +373,14 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Ranking', 'zh-CN': '总分和名次' },
 			body: {
-				en: 'Teams are ranked by total score, with special awards on top. Tiers, points per tier and how the two scores combine come with the rules.',
-				'zh-CN': '按总分排名，另设单项奖。分几档、每档几分、两种分怎么合成总分，随规则公布。',
+				en: 'Entrants are ranked by total score; there are no special awards this time. Tiers, points per tier and how the two scores combine come with the rules.',
+				'zh-CN': '按总分排名，这一届不设单项奖。分几档、每档几分、两种分怎么合成总分，随规则公布。',
 			},
 		},
 	],
 	prizes: [
 		{ title: { en: 'Awards and amounts', 'zh-CN': '奖项、名额和金额' }, body: { en: '', 'zh-CN': '' }, state: 'tbd' },
-		{ title: { en: 'Special awards', 'zh-CN': '单项奖' }, body: { en: '', 'zh-CN': '' }, state: 'tbd' },
+		{ title: { en: 'Special awards', 'zh-CN': '单项奖' }, body: { en: 'None this time.', 'zh-CN': '这一届不设。' } },
 		{
 			title: { en: 'Who pays', 'zh-CN': '谁发奖金' },
 			body: {
@@ -406,7 +406,7 @@ export const starHunter: Event = {
 				'zh-CN': '保留原项目的许可证和署名，改动按原项目的许可证公开。',
 			},
 		},
-		{ title: { en: 'AI tools', 'zh-CN': 'AI 工具' }, body: { en: '', 'zh-CN': '' }, state: 'tbd' },
+		{ title: { en: 'AI tools', 'zh-CN': 'AI 工具' }, body: { en: 'Allowed. Say in your repository which AI tools you used; do not paste unpublished development documents into outside AI tools.', 'zh-CN': '准用。在仓库说明里写明用了哪些 AI 工具；没公开的开发文档不要贴给外部 AI 工具。' } },
 	],
 	resources: [
 		{
@@ -442,8 +442,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Questions', 'zh-CN': '答疑' },
 			body: {
-				en: "Technical questions are answered in public by the organizers' engineers, and collected into an FAQ that is updated daily, so every team gets the same answer. How to join comes with registration.",
-				'zh-CN': '技术问题由主办方的工程师公开答，并补进每天更新的「常见问题」，答案对每队都一样。怎么进群随报名公布。',
+				en: "Technical questions are answered in public by the organizers' engineers, and collected into an FAQ that is updated daily, so everyone gets the same answer. How to join comes with registration.",
+				'zh-CN': '技术问题由主办方的工程师公开答，并补进每天更新的「常见问题」，答案对每个人都一样。怎么进群随报名公布。',
 			},
 		},
 	],
@@ -451,15 +451,15 @@ export const starHunter: Event = {
 		{
 			q: { en: 'Who can take part?', 'zh-CN': '谁能参加？' },
 			a: {
-				en: 'Anyone: students and working professionals alike. If you are under 18 you need a signed consent form from a guardian.',
-				'zh-CN': '谁都能报，在校学生、在职的人都可以；未满 18 岁的要交监护人同意书。',
+				en: 'Anyone aged 13 or over: students and working professionals alike. If you are under 18 you need a signed consent form from a guardian.',
+				'zh-CN': '13 岁以上谁都能报，在校学生、在职的人都可以；未满 18 岁的要交监护人同意书。',
 			},
 		},
 		{
 			q: { en: 'Do I have to be somewhere?', 'zh-CN': '要到现场吗？' },
 			a: {
-				en: 'No. Registration, teams, repositories, the warm-up, submission, review, the leaderboard, Q&A, the workshop, the finals, the results and the payout are all online.',
-				'zh-CN': '不用。报名、组队、领仓库、热身赛、提交、验收、排行榜、答疑、workshop、决赛展示、公布结果、领奖都在线上。',
+				en: 'No. Registration, repositories, the warm-up, submission, review, Q&A, the workshop, the finals, the results and the payout are all online.',
+				'zh-CN': '不用。报名、领仓库、热身赛、提交、验收、答疑、workshop、决赛展示、公布结果、领奖都在线上。',
 			},
 		},
 		{
@@ -470,8 +470,8 @@ export const starHunter: Event = {
 			},
 		},
 		{
-			q: { en: 'Can I enter alone?', 'zh-CN': '一个人能参加吗？' },
-			a: { en: 'Yes: teams are 1 to 4 people.', 'zh-CN': '能。1–4 人一队，一个人也能成队。' },
+			q: { en: 'Can I enter as a team?', 'zh-CN': '能组队吗？' },
+			a: { en: 'No. Everyone enters alone this time.', 'zh-CN': '不能。这一届一人参赛，不组队。' },
 			state: 'tentative',
 		},
 		{
@@ -490,8 +490,10 @@ export const starHunter: Event = {
 		},
 		{
 			q: { en: 'Is there an entry fee? May I use AI tools?', 'zh-CN': '收报名费吗？能用 AI 工具吗？' },
-			a: { en: '', 'zh-CN': '' },
-			state: 'tbd',
+			a: {
+				en: 'No entry fee. AI tools are allowed; say in your repository which ones you used, and do not paste unpublished development documents into outside AI tools.',
+				'zh-CN': '不收报名费。能用 AI 工具，在仓库说明里写明用了哪些；没公开的开发文档不要贴给外部 AI 工具。',
+			},
 		},
 	],
 };
