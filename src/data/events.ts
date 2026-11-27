@@ -372,8 +372,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Ranking', 'zh-CN': '总分和名次' },
 			body: {
-				en: 'Finalists rank by total score (project points plus judge points); everyone else by project points. A tie goes to the higher judge score, then stays a tie and the prize is shared. One placing per person; no special awards this time.',
-				'zh-CN': '进决赛的按总分（项目分 + 评委分）排，没进决赛的只按项目分排；同分时评委分高的在前，还一样就并列、奖金平分。名次奖每人最多拿一个，这一届不设单项奖。',
+				en: 'Finalists rank by total score (project points plus judge points); everyone else by project points. A tie goes to the higher judge score, then stays a tie and the prize is shared. One placing per person.',
+				'zh-CN': '进决赛的按总分（项目分 + 评委分）排，没进决赛的只按项目分排；同分时评委分高的在前，还一样就并列、奖金平分。名次奖每人最多拿一个。',
 			},
 		},
 	],
@@ -413,7 +413,6 @@ export const starHunter: Event = {
 				'zh-CN': '迁移完成奖、精选攻略奖和周边可以和名次奖一起拿。所有获奖者另发电子证书。',
 			},
 		},
-		{ title: { en: 'Special awards', 'zh-CN': '单项奖' }, body: { en: 'None this time.', 'zh-CN': '这一届不设。' } },
 		{
 			title: { en: 'Who pays', 'zh-CN': '谁发奖金' },
 			body: {
