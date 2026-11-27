@@ -108,7 +108,7 @@ export const starHunter: Event = {
 		{ label: { en: 'Main round', 'zh-CN': '正式赛' }, value: { en: 'Dec 1 – Dec 7, 2026, closing at 23:59:59', 'zh-CN': '2026 年 12 月 1 日 – 12 月 7 日 23:59:59' } },
 		{ label: { en: 'Entry', 'zh-CN': '参赛' }, value: { en: 'Individual: one person, no teams', 'zh-CN': '一人参赛，不组队' } },
 		{ label: { en: 'Who can enter', 'zh-CN': '谁能参加' }, value: { en: 'Anyone aged 13 or over: students and professionals', 'zh-CN': '13 岁以上谁都能报，学生、在职都可以' } },
-		{ label: { en: 'Prizes', 'zh-CN': '奖金' }, value: { en: 'CNY 50,000 in total, before tax', 'zh-CN': '总额 50,000 元（税前）' } },
+		{ label: { en: 'Prizes', 'zh-CN': '奖金' }, value: { en: 'CNY 45,000 before tax, plus merch', 'zh-CN': '4.5 万元（税前）+ 限定周边' } },
 		{ label: { en: 'Time zone', 'zh-CN': '时区' }, value: { en: 'Beijing time (UTC+8)', 'zh-CN': '北京时间' } },
 	],
 	pitch: {
@@ -372,25 +372,53 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Ranking', 'zh-CN': '总分和名次' },
 			body: {
-				en: 'Finalists rank by total score (project points plus judge points); everyone else by project points. A tie goes to the higher judge score, then stays a tie and the prize is shared. One prize per person; no special awards this time.',
-				'zh-CN': '进决赛的按总分（项目分 + 评委分）排，没进决赛的只按项目分排；同分时评委分高的在前，还一样就并列、奖金平分。一人最多拿一个奖，这一届不设单项奖。',
+				en: 'Finalists rank by total score (project points plus judge points); everyone else by project points. A tie goes to the higher judge score, then stays a tie and the prize is shared. One placing per person; no special awards this time.',
+				'zh-CN': '进决赛的按总分（项目分 + 评委分）排，没进决赛的只按项目分排；同分时评委分高的在前，还一样就并列、奖金平分。名次奖每人最多拿一个，这一届不设单项奖。',
 			},
 		},
 	],
 	prizes: [
 		{
-					title: { en: 'Awards and amounts', 'zh-CN': '奖项、名额和金额' },
-					body: {
-						en: 'CNY 50,000 in total, before tax: first prize 1 × 15,000; second prize 2 × 8,000; third prize 3 × 4,000; merit award 7 × 1,000. First to third go to the 6 finalists by total score, merit awards to the others by project points. A prize with nobody good enough stays empty. Winners also get an electronic certificate.',
-						'zh-CN': '奖金一共 50,000 元（税前）：一等奖 1 名 15,000 元，二等奖 2 名各 8,000 元，三等奖 3 名各 4,000 元，优秀奖 7 名各 1,000 元。一、二、三等奖从进决赛的 6 人里按总分排，优秀奖从没进决赛的人里按项目分排；没人够格的奖空着。获奖者另发电子证书。',
-					},
-				},
+			title: { en: 'Placings', 'zh-CN': '名次奖' },
+			body: {
+				en: 'First prize 1 × CNY 8,000; second prize 2 × 4,000; third prize 3 × 2,000; merit award 7 × 1,000. First to third go to the 6 finalists by total score, merit awards to the others by project points. One placing per person; a placing with nobody good enough stays empty.',
+				'zh-CN': '一等奖 1 名 8,000 元，二等奖 2 名各 4,000 元，三等奖 3 名各 2,000 元，优秀奖 7 名各 1,000 元。一、二、三等奖从进决赛的 6 人里按总分排，优秀奖从没进决赛的人里按项目分排；名次奖每人最多拿一个，没人够格的空着。',
+			},
+		},
+		{
+			title: { en: 'Migration award', 'zh-CN': '迁移完成奖' },
+			body: {
+				en: 'For every project that passes review: tier A CNY 300, B 200, C 100. Each project pays once, to the person who claimed it and passed review; warm-up projects do not count. Up to CNY 10,000 in all: if passed projects add up to more, every award is scaled down by the same ratio.',
+				'zh-CN': '每个通过验收的项目都发：A 档 300 元、B 档 200 元、C 档 100 元。同一个项目只发一次，给最终通过验收的认领人；热身赛项目不发。总额封顶 10,000 元，超过时所有人按同一比例缩减。',
+			},
+		},
+		{
+			title: { en: 'Best guides', 'zh-CN': '精选攻略奖' },
+			body: {
+				en: '30 guides × CNY 200. Write up a migration, packaging or debugging story on Dopame OS that others can follow, on any public platform (Xiaohongshu, Zhihu, X, Bilibili, WeChat and so on), as text or video, tagged #StarHunter with a link to this page. Original work only; the same piece on several platforms counts once; up to 3 per person. Entrants and non-entrants alike. Submit by December 10; picks are announced on December 11.',
+				'zh-CN': '30 篇，每篇 200 元。写你在 Dopame OS 上迁移、打包或排错的实际过程，别人照着能复现；小红书、知乎、X、B 站、公众号等公开平台都可以，图文或视频都行，带上 #StarHunter 话题和本页链接。原创才算，同一篇发到多个平台只算一次，每人最多 3 篇；参赛和不参赛的人都能拿。12 月 10 日截止提交，12 月 11 日公布。',
+			},
+		},
+		{
+			title: { en: 'Star Hunter merch', 'zh-CN': '限定周边' },
+			body: {
+				en: 'Everyone who gets at least one project through review gets a set; the first to get each project running gets a badge; the first 50 to finish the warm-up get stickers; guide authors and finalists get a set with their prize.',
+				'zh-CN': '每个迁成至少一个项目的人一套；每道题「首个跑通」的人加一枚实物徽章；热身赛完成的前 50 人一包贴纸；攻略作者和进决赛的 6 人随奖金寄一套。',
+			},
+		},
+		{
+			title: { en: 'Together', 'zh-CN': '可以叠加' },
+			body: {
+				en: 'The migration award, guide awards and merch come on top of a placing. Every winner also gets an electronic certificate.',
+				'zh-CN': '迁移完成奖、精选攻略奖和周边可以和名次奖一起拿。所有获奖者另发电子证书。',
+			},
+		},
 		{ title: { en: 'Special awards', 'zh-CN': '单项奖' }, body: { en: 'None this time.', 'zh-CN': '这一届不设。' } },
 		{
 			title: { en: 'Who pays', 'zh-CN': '谁发奖金' },
 			body: {
-				en: 'Prizes are paid directly to the winners by the organizers, with individual income tax withheld.',
-				'zh-CN': '奖金由主办方直接发给获奖选手，代扣个税。',
+				en: 'Prizes are paid directly to the winners by the organizers, with individual income tax withheld. All amounts are before tax.',
+				'zh-CN': '奖金由主办方直接发给获奖选手，代扣个税；金额都是税前。',
 			},
 		},
 	],
