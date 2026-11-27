@@ -75,6 +75,9 @@ export interface Event {
 	support?: Point[];
 	/** The players' WeChat group: a QR code in public/events/. */
 	group?: { src: string; alt: L };
+	/** The event's partners, from the organizers' Feishu page «合作伙伴»: logos in public/events/partners/. */
+	/** `width` is the logo's width in CSS pixels on a desktop, set so every logo covers about the same area. */
+	partners?: { name: L; logo: string; width: number }[];
 }
 
 export const starHunter: Event = {
@@ -159,6 +162,16 @@ export const starHunter: Event = {
 		},
 	],
 	group: { src: '/events/star-hunter-group.png', alt: { en: 'QR code of the Star Hunter players’ WeChat group', 'zh-CN': 'Star Hunter 选手微信群二维码' } },
+	partners: [
+		{ name: { en: 'Quankesong', 'zh-CN': '泉客松' }, logo: '/events/partners/quankesong.png', width: 143 },
+		{ name: { en: 'Jikesong', 'zh-CN': '吉客松' }, logo: '/events/partners/jikesong.png', width: 167 },
+		{ name: { en: 'Nankesong', 'zh-CN': '南客松' }, logo: '/events/partners/nankesong.png', width: 132 },
+		{ name: { en: 'IF.Link', 'zh-CN': '东南 IF.Link' }, logo: '/events/partners/iflink.png', width: 166 },
+		{ name: { en: 'Qutansuo', 'zh-CN': '去探索' }, logo: '/events/partners/qutansuo.png', width: 162 },
+		{ name: { en: 'WeYoung, Hangzhou Dianzi University', 'zh-CN': '杭州电子科技大学 未央' }, logo: '/events/partners/hdu.png', width: 53 },
+		{ name: { en: 'OpenDev', 'zh-CN': 'OpenDev' }, logo: '/events/partners/opendev.png', width: 164 },
+		{ name: { en: 'Rebuild-Z', 'zh-CN': 'Rebuild-Z' }, logo: '/events/partners/rebuildz.png', width: 196 },
+	],
 	criteria: [
 		{
 			title: { en: 'Fully packaged', 'zh-CN': '完整打包' },

@@ -45,7 +45,7 @@ export const ui = {
 		event: {
 			tentative: 'Tentative',
 			tbd: 'To be announced',
-			tabs: { overview: 'Overview', timeline: 'Timeline', enter: 'How to enter', projects: 'Projects', review: 'Review', scoring: 'Scoring & prizes', rules: 'Rules', resources: 'Resources', faq: 'FAQ' },
+			tabs: { overview: 'Overview', timeline: 'Timeline', enter: 'How to enter', projects: 'Projects', review: 'Review', scoring: 'Scoring & prizes', rules: 'Rules', resources: 'Resources', faq: 'FAQ', partners: 'Partners' },
 			register: 'Register',
 			seeTimeline: 'See the timeline',
 			now: 'Now',
@@ -62,6 +62,7 @@ export const ui = {
 			whatCounts: 'What counts as a migration',
 			questions: 'Four questions before you start',
 			support: 'New to Dopame OS? You are covered',
+			partners: 'Event partners',
 			joinShort: 'Players’ group',
 			joinTitle: 'Join the players’ WeChat group',
 			joinLede: 'Scan to join: get answers, swap notes on migrating, and hear first who got each project running first.',
@@ -114,7 +115,7 @@ export const ui = {
 		event: {
 			tentative: '暂定',
 			tbd: '待公布',
-			tabs: { overview: '概览', timeline: '时间线', enter: '怎么参加', projects: '项目', review: '验收', scoring: '计分与奖项', rules: '规则要点', resources: '资源', faq: '常见问题' },
+			tabs: { overview: '概览', timeline: '时间线', enter: '怎么参加', projects: '项目', review: '验收', scoring: '计分与奖项', rules: '规则要点', resources: '资源', faq: '常见问题', partners: '合作伙伴' },
 			register: '立即报名',
 			seeTimeline: '看时间线',
 			now: '进行中',
@@ -131,6 +132,7 @@ export const ui = {
 			whatCounts: '什么样的迁移才算数',
 			questions: '动手之前，先回答四个问题',
 			support: '没用过 Dopame OS 也能上场',
+			partners: '赛事合作伙伴',
 			joinShort: '加入选手群',
 			joinTitle: '加入选手微信群',
 			joinLede: '扫码进群：看答疑、交流迁移经验，第一时间看到「首个跑通」播报。',
