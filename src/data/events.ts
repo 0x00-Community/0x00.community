@@ -108,7 +108,7 @@ export const starHunter: Event = {
 		{ label: { en: 'Main round', 'zh-CN': '正式赛' }, value: { en: 'Dec 1 – Dec 7, 2026, closing at 23:59:59', 'zh-CN': '2026 年 12 月 1 日 – 12 月 7 日 23:59:59' } },
 		{ label: { en: 'Entry', 'zh-CN': '参赛' }, value: { en: 'Individual: one person, no teams', 'zh-CN': '一人参赛，不组队' } },
 		{ label: { en: 'Who can enter', 'zh-CN': '谁能参加' }, value: { en: 'Anyone aged 13 or over: students and professionals', 'zh-CN': '13 岁以上谁都能报，学生、在职都可以' } },
-		{ label: { en: 'Prizes', 'zh-CN': '奖金' }, value: { en: 'CNY 45,000 before tax, plus merch', 'zh-CN': '4.5 万元（税前）+ 限定周边' } },
+		{ label: { en: 'Prizes', 'zh-CN': '奖金' }, value: { en: 'CNY 42,000 before tax, plus merch', 'zh-CN': '4.2 万元（税前）+ 限定周边' } },
 		{ label: { en: 'Time zone', 'zh-CN': '时区' }, value: { en: 'Beijing time (UTC+8)', 'zh-CN': '北京时间' } },
 	],
 	pitch: {
@@ -395,8 +395,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Best guides', 'zh-CN': '精选攻略奖' },
 			body: {
-				en: '30 guides × CNY 200. Write up a migration, packaging or debugging story on Dopame OS that others can follow, on any public platform (Xiaohongshu, Zhihu, X, Bilibili, WeChat and so on), as text or video, tagged #StarHunter with a link to this page. Original work only; the same piece on several platforms counts once; up to 3 per person. Entrants and non-entrants alike. Submit by December 10; picks are announced on December 11.',
-				'zh-CN': '30 篇，每篇 200 元。写你在 Dopame OS 上迁移、打包或排错的实际过程，别人照着能复现；小红书、知乎、X、B 站、公众号等公开平台都可以，图文或视频都行，带上 #StarHunter 话题和本页链接。原创才算，同一篇发到多个平台只算一次，每人最多 3 篇；参赛和不参赛的人都能拿。12 月 10 日截止提交，12 月 11 日公布。',
+				en: '30 guides, each CNY 100 to the author plus CNY 100 of paid promotion for the piece. Write up a migration, packaging or debugging story on Dopame OS that others can follow, on any public platform (Xiaohongshu, Zhihu, X, Bilibili, WeChat and so on), as text or video, tagged #StarHunter with a link to this page. Original work only; the same piece on several platforms counts once; up to 3 per person. Entrants and non-entrants alike. Submit by December 10; picks are announced on December 11. Where the platform lets the organizers promote someone else\'s post, they do it; otherwise you promote it yourself and send a screenshot for the CNY 100.',
+				'zh-CN': '30 篇，每篇奖励作者 100 元，另出 100 元给这篇投流推广。写你在 Dopame OS 上迁移、打包或排错的实际过程，别人照着能复现；小红书、知乎、X、B 站、公众号等公开平台都可以，图文或视频都行，带上 #StarHunter 话题和本页链接。原创才算，同一篇发到多个平台只算一次，每人最多 3 篇；参赛和不参赛的人都能拿。12 月 10 日截止提交，12 月 11 日公布。平台支持帮别人投流的，由主办方直接投；不支持的，作者自己投流后凭截图报销 100 元。',
 			},
 		},
 		{
