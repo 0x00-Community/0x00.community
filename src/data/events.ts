@@ -381,8 +381,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Placings', 'zh-CN': '名次奖' },
 			body: {
-				en: 'First prize 1 × CNY 8,000; second prize 2 × 4,000; third prize 3 × 2,000; merit award 7 × 1,000. First to third go to the 6 finalists by total score, merit awards to the others by project points. One placing per person; a placing with nobody good enough stays empty.',
-				'zh-CN': '一等奖 1 名 8,000 元，二等奖 2 名各 4,000 元，三等奖 3 名各 2,000 元，优秀奖 7 名各 1,000 元。一、二、三等奖从进决赛的 6 人里按总分排，优秀奖从没进决赛的人里按项目分排；名次奖每人最多拿一个，没人够格的空着。',
+				en: 'First prize 1 × CNY 6,000; second prize 2 × 4,000; third prize 3 × 2,000; merit award 7 × 1,000. First to third go to the 6 finalists by total score, merit awards to the others by project points. One placing per person; a placing with nobody good enough stays empty.',
+				'zh-CN': '一等奖 1 名 6,000 元，二等奖 2 名各 4,000 元，三等奖 3 名各 2,000 元，优秀奖 7 名各 1,000 元。一、二、三等奖从进决赛的 6 人里按总分排，优秀奖从没进决赛的人里按项目分排；名次奖每人最多拿一个，没人够格的空着。',
 			},
 		},
 		{
