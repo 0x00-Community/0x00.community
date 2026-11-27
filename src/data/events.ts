@@ -96,7 +96,7 @@ export const starHunter: Event = {
 		wide: { en: '/events/star-hunter.en.svg', 'zh-CN': '/events/star-hunter.zh-CN.svg' },
 		tall: { en: '/events/star-hunter.en.tall.svg', 'zh-CN': '/events/star-hunter.zh-CN.tall.svg' },
 	},
-	registerUrl: '',
+	registerUrl: 'https://xcnv4iceks69.feishu.cn/share/base/shrcnHUJ4KVMm0clMn8LeSAbXJd',
 	registerNote: { en: 'Registration opens November 27', 'zh-CN': '报名入口 11 月 27 日开放' },
 	rulesUrl: '',
 	rulesNote: {
@@ -263,8 +263,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Register', 'zh-CN': '报名' },
 			body: {
-				en: 'Fill in the registration form; the link goes on this page when registration opens. You enter alone, with your own GitHub account.',
-				'zh-CN': '填报名表，报名入口开放后放在本页。一人参赛，不组队；领仓库、推代码都用你自己的 GitHub 账号。',
+				en: 'Press Register on this page and fill in the form. You enter alone, with your own GitHub account.',
+				'zh-CN': '点本页的「立即报名」，填报名表。一人参赛，不组队；领仓库、推代码都用你自己的 GitHub 账号。',
 			},
 			state: 'tentative',
 		},
