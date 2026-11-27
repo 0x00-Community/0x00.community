@@ -266,7 +266,6 @@ export const starHunter: Event = {
 				en: 'Press Register on this page and fill in the form. You enter alone, with your own GitHub account.',
 				'zh-CN': '点本页的「立即报名」，填报名表。一人参赛，不组队；领仓库、推代码都用你自己的 GitHub 账号。',
 			},
-			state: 'tentative',
 		},
 		{
 			title: { en: 'Claim a repository, install acdev', 'zh-CN': '领仓库、装 acdev' },
@@ -295,7 +294,6 @@ export const starHunter: Event = {
 				en: 'Pushing to your own repository in 0x00-Migration is the submission; there is nothing else to hand in. At the deadline the last commit pushed to each repository is recorded and the repository becomes read-only; review uses that version only (tentative).',
 				'zh-CN': '推到自己在 0x00-Migration 的仓库就是提交，不用另外交。截止时记下每个仓库截止前最后一次推送的提交号，仓库改成只读；验收和复核只认这一版（暂定）。',
 			},
-			state: 'tentative',
 		},
 		{
 			title: { en: 'Review, finals, results', 'zh-CN': '验收、决赛展示、公布结果' },
@@ -379,7 +377,7 @@ export const starHunter: Event = {
 		},
 	],
 	prizes: [
-		{ title: { en: 'Awards and amounts', 'zh-CN': '奖项、名额和金额' }, body: { en: '', 'zh-CN': '' }, state: 'tbd' },
+		{ title: { en: 'Awards and amounts', 'zh-CN': '奖项、名额和金额' }, body: { en: 'Winners get an electronic certificate. Which awards, how many places and how much are to be announced.', 'zh-CN': '获奖者发电子证书；设哪几个奖、各几个名额、奖金多少，待公布。' } },
 		{ title: { en: 'Special awards', 'zh-CN': '单项奖' }, body: { en: 'None this time.', 'zh-CN': '这一届不设。' } },
 		{
 			title: { en: 'Who pays', 'zh-CN': '谁发奖金' },
@@ -472,7 +470,6 @@ export const starHunter: Event = {
 		{
 			q: { en: 'Can I enter as a team?', 'zh-CN': '能组队吗？' },
 			a: { en: 'No. Everyone enters alone this time.', 'zh-CN': '不能。这一届一人参赛，不组队。' },
-			state: 'tentative',
 		},
 		{
 			q: { en: 'What if the project I claimed cannot be migrated?', 'zh-CN': '认领后发现迁移不了怎么办？' },
