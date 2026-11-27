@@ -11,6 +11,11 @@ const e = t.event;
 const tabs = Object.entries(e.tabs) as [keyof typeof e.tabs, string][];
 const hasGuide = !!(await guide(locale, event.slug));
 const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 'tbd' ? e.tbd : '');
+// the phases worth a stop on the road in the head of the page: the last two share the finals' day or come after it
+const road = event.phases.filter((p) => !['results', 'payout'].includes(p.id));
+const md = (d: string) => `${+d.slice(5, 7)}/${+d.slice(8, 10)}`;
+const short = (p: (typeof road)[number]) => (p.start === p.end ? md(p.start) : `${md(p.start)}–${md(p.end)}`);
+const num = (i: number) => String(i + 1).padStart(2, '0');
 ---
 
 <Base title={`${event.name} · ${event.fullName[locale]}`} description={event.summary[locale]}>
@@ -42,14 +47,32 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 					<DotPanel class="sign" text={event.name} />
 				</div>
 			)}
-			<p class="lede">{event.summary[locale]}</p>
+			{event.pitch ? (
+				<div class="pitch">
+					<p class="pitch-title disp">{event.pitch.title[locale]}</p>
+					<p class="lede">{event.pitch.lede[locale]}</p>
+				</div>
+			) : (
+				<p class="lede">{event.summary[locale]}</p>
+			)}
 			<p class="acts disp">
 				{event.registerUrl
 					? <a class="btn primary" href={event.registerUrl}>{e.register} →</a>
 					: <span class="btn soon">{event.registerNote[locale]}</span>}
 				{hasGuide && <a class:list={['btn', event.registerUrl ? 'go' : 'primary']} href={href(locale, `/events/${event.slug}/guide/`)}>{e.guide} →</a>}
+				{event.group && <a class="btn" href="#join">{e.joinShort}</a>}
 				<a class="btn" href="#timeline">{e.seeTimeline}</a>
 			</p>
+			{/* the road at a glance: one stop per phase, the one running today lit */}
+			<ol class="road" aria-label={e.tabs.timeline}>
+				{road.map((p) => (
+					<li data-start={p.start} data-end={p.end}>
+						<span class="stop" aria-hidden="true"></span>
+						<span class="day mono">{short(p)}</span>
+						<b>{p.name[locale]}<span class="live now">{e.now}</span></b>
+					</li>
+				))}
+			</ol>
 			<dl class="facts">
 				{event.facts.map((f) => (
 					<div>
@@ -71,16 +94,47 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 	<section id="overview">
 		<h2>{e.tabs.overview}</h2>
 		<p>{event.summary[locale]}</p>
+
+		<h3 class="sub">{e.whatCounts}</h3>
 		<p class="note">{event.criteriaNote[locale]}</p>
-		<ol class="cards three">
+		<ol class="cards three big">
 			{event.criteria.map((c, i) => (
 				<li>
-					<span class="num mono">{String(i + 1).padStart(2, '0')}</span>
+					<span class="big-num mono">{num(i)}</span>
 					<h3>{c.title[locale]}</h3>
 					<p>{c.body[locale]}</p>
 				</li>
 			))}
 		</ol>
+
+		{event.questions && (
+			<>
+				<h3 class="sub">{e.questions}</h3>
+				<ol class="cards two qs">
+					{event.questions.map((q, i) => (
+						<li>
+							<span class="q-num mono">Q{i + 1}</span>
+							<h3>{q.title[locale]}</h3>
+							<p>{q.body[locale]}</p>
+						</li>
+					))}
+				</ol>
+			</>
+		)}
+
+		{event.support && (
+			<>
+				<h3 class="sub">{e.support}</h3>
+				<ul class="cards four">
+					{event.support.map((s) => (
+						<li>
+							<h3>{s.title[locale]}{tag(s.state) && <span class="tag">{tag(s.state)}</span>}</h3>
+							<p>{s.body[locale]}</p>
+						</li>
+					))}
+				</ul>
+			</>
+		)}
 	</section>
 
 	<section id="timeline">
@@ -205,6 +259,16 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 		))}
 	</section>
 
+	{event.group && (
+		<div class="join" id="join">
+			<img src={event.group.src} width="360" height="360" alt={event.group.alt[locale]} />
+			<div>
+				<p class="join-title disp">{e.joinTitle}</p>
+				<p>{e.joinLede}</p>
+			</div>
+		</div>
+	)}
+
 	<p class="acts disp end">
 		{event.registerUrl
 			? <a class="btn primary" href={event.registerUrl}>{e.register} →</a>
@@ -215,7 +279,7 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 <script>
 	// Mark the phases that are running today and the ones that are over. Dates in the data are Beijing days (UTC+8).
 	const today = new Date(Date.now() + 8 * 3600 * 1000).toISOString().slice(0, 10);
-	for (const li of document.querySelectorAll<HTMLElement>('.timeline li')) {
+	for (const li of document.querySelectorAll<HTMLElement>('.timeline li, .road li')) {
 		const { start = '', end = '' } = li.dataset;
 		if (today > end) li.classList.add('is-done');
 		else if (today >= start) li.classList.add('is-now');
@@ -236,6 +300,39 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 	.banner img { display: block; width: 100%; height: auto; }
 	.poster .lede { margin-top: 28px; color: var(--muted); }
 	.intro :global(.sign) { --glow: var(--red); transform: rotate(1.4deg); }
+
+	/* the pitch under the banner: the announcement's headline and its question */
+	.pitch { margin-top: 32px; max-width: 46em; }
+	.pitch-title { margin: 0; font-size: clamp(1.9rem, 4.2vw, 2.9rem); line-height: 1.15; }
+	.poster .pitch .lede { margin: 12px 0 24px; color: var(--fg); opacity: 0.86; font-size: 1.08rem; line-height: 1.75; }
+
+	/* the road: one stop per phase on a line, the phase running today lit */
+	.road { list-style: none; margin: 34px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: relative; }
+	.road::before { content: ''; position: absolute; left: 8px; right: 8px; top: 8px; border-top: 2px solid var(--line); }
+	.road li { position: relative; padding: 28px 12px 0 0; }
+	.road .stop { position: absolute; left: 0; top: 0; width: 18px; height: 18px; border-radius: 50%; background: var(--bg); border: 2px solid var(--muted); box-sizing: border-box; }
+	.road .day { display: block; font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+	.road b { display: block; margin-top: 2px; font-size: 1.02rem; }
+	.road .live { margin-left: 6px; }
+	.road li:global(.is-now) .stop { background: var(--fg); border-color: var(--fg); box-shadow: 0 0 0 5px color-mix(in srgb, var(--fg) 18%, transparent); }
+	.road li:global(.is-now) .day { color: var(--fg); }
+	.road li:global(.is-now) .live.now { display: inline-block; }
+	.road li:global(.is-done) { opacity: 0.5; }
+
+	/* the overview, as the announcement tells it: what counts, what you will have to work out, what you are given */
+	.cards.big .big-num { display: block; margin-bottom: 8px; font-size: 1.7rem; font-weight: 700; line-height: 1; }
+	.cards.big h3 { font-family: var(--disp); font-weight: var(--disp-w); font-size: 1.5rem; margin-bottom: 10px; }
+	.cards.qs .q-num { display: inline-block; margin-bottom: 10px; padding: 0 8px; border: var(--bw-s, 1px) solid var(--line); border-radius: var(--r-pill); font-size: 0.85rem; font-weight: 700; }
+	.cards.qs h3 { font-size: 1.15rem; }
+	.cards.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+	.cards.four h3 { font-size: 1.05rem; }
+
+	/* the players' group, before the last call to register */
+	.join { scroll-margin-top: 64px; display: grid; grid-template-columns: 168px minmax(0, 1fr); gap: 28px; align-items: center; margin: 64px 0 0; padding: 22px; border: var(--bw) solid var(--line); border-radius: var(--r); background: var(--card); }
+	.join img { display: block; width: 168px; height: 168px; padding: 10px; background: #fff; border-radius: calc(var(--r) - 2px); box-sizing: border-box; }
+	.join-title { margin: 0 0 6px; font-size: 1.6rem; line-height: 1.2; }
+	.join p:not(.join-title) { margin: 0; color: var(--muted); }
+	.join + .acts.end { margin-top: 28px; }
 
 	/* the page's main action takes the site's primary button, not the terminator's red */
 	.btn.primary { background: var(--amber); color: #111110; }
@@ -308,9 +405,21 @@ const tag = (state?: State) => (state === 'tentative' ? e.tentative : state === 
 		.intro { grid-template-columns: 1fr; gap: 24px; }
 		.full { font-size: 1.5rem; }
 	}
+	@media (max-width: 960px) {
+		.cards.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	}
 	@media (max-width: 720px) {
 		.facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-		.cards.three, .cards.two { grid-template-columns: 1fr; }
+		.cards.three, .cards.two, .cards.four { grid-template-columns: 1fr; }
+		/* on a phone the road runs down the page */
+		.road { grid-template-columns: 1fr; gap: 14px; }
+		.road::before { left: 8px; right: auto; top: 8px; bottom: 8px; border-top: 0; border-left: 2px solid var(--line); }
+		.road li { padding: 0 0 0 32px; }
+		.road .day { display: inline; margin-right: 10px; }
+		.road b { display: inline; }
+		.join { grid-template-columns: 120px minmax(0, 1fr); gap: 18px; padding: 16px; }
+		.join img { width: 120px; height: 120px; padding: 7px; }
+		.join-title { font-size: 1.3rem; }
 		.timeline li { grid-template-columns: 1fr; gap: 4px; }
 		.points div { grid-template-columns: 1fr; gap: 2px; }
 	}

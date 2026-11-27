@@ -64,6 +64,17 @@ export interface Event {
 	code: Point[];
 	resources: { title: L; body: L; href?: L }[];
 	faq: { q: L; a: L; state?: State }[];
+	/**
+	 * The page's own pitch, in the words of the announcement: a headline and the question the event asks. Copy, not
+	 * facts; without it the page opens with the summary.
+	 */
+	pitch?: { title: L; lede: L };
+	/** What a migration makes you work out before you start: copy from the announcement. */
+	questions?: Point[];
+	/** What the organizers give every team, gathered from the facts above (steps, resources) so a newcomer sees it first. */
+	support?: Point[];
+	/** The players' WeChat group: a QR code in public/events/. */
+	group?: { src: string; alt: L };
 }
 
 export const starHunter: Event = {
@@ -100,23 +111,72 @@ export const starHunter: Event = {
 		{ label: { en: 'Prizes', 'zh-CN': '奖金' }, state: 'tbd' },
 		{ label: { en: 'Time zone', 'zh-CN': '时区' }, value: { en: 'Beijing time (UTC+8)', 'zh-CN': '北京时间' }, state: 'tentative' },
 	],
+	pitch: {
+		title: { en: 'Hunt a star, bring it to Dopame OS', 'zh-CN': '猎一颗千星，迁进 Dopame OS' },
+		lede: {
+			en: 'The open-source projects you have starred run on your own machine after a git clone and an install. Take that machine away: on a fresh, clean Dopame OS, with the front end and the back end packaged and every core feature working, does the project still stand?',
+			'zh-CN':
+				'你 Star 过的开源项目，在自己电脑上 git clone、装好依赖就能跑。把熟悉的本机环境抽走，放进一台全新、干净的 Dopame OS，前后端完整打包、核心功能逐项跑通，它还站得住吗？',
+		},
+	},
+	questions: [
+		{
+			title: { en: 'Why does it run the way it does?', 'zh-CN': '它为什么这样运行？' },
+			body: { en: 'Its entry points, its processes, and how the front end talks to the back end.', 'zh-CN': '看清启动入口、进程模型，以及前后端之间怎么通信。' },
+		},
+		{
+			title: { en: 'What does it really depend on?', 'zh-CN': '它真正依赖了什么？' },
+			body: { en: 'Which runtimes, system libraries and outside services it needs, and which are only habit.', 'zh-CN': '分清核心运行时、系统库和外部服务，哪些是必需，哪些只是习惯。' },
+		},
+		{
+			title: { en: 'Do its assumptions still hold?', 'zh-CN': '技术假设变了，还成立吗？' },
+			body: { en: 'With new system boundaries and a new way to package, look again at what it took for granted.', 'zh-CN': '运行边界和打包方式变了，重新审视原来默认的前提。' },
+		},
+		{
+			title: { en: 'Can it ship without your machine?', 'zh-CN': '离开本机，还能独立交付吗？' },
+			body: { en: 'Gather the front end, the back end and what they need into an app that works on a fresh system.', 'zh-CN': '把前后端和运行依赖收拢，做成在全新系统里装上就能用的应用。' },
+		},
+	],
+	support: [
+		{
+			title: { en: 'Build on your own computer', 'zh-CN': '在自己电脑上开发' },
+			body: {
+				en: 'Install the acdev command line tool and you can build: macOS, Linux and Windows all work. acdev dev opens your app in a window and reloads it as you save.',
+				'zh-CN': '装好 acdev 命令行工具就能开发，macOS、Linux、Windows 都支持；acdev dev 打开窗口运行应用，改完代码自动刷新。',
+			},
+		},
+		{
+			title: { en: 'A warm-up round', 'zh-CN': '热身赛' },
+			body: { en: 'Nov 27 – 29: every team migrates the same small project and goes through claiming a repository, building, submitting and review once.', 'zh-CN': '11/27 – 11/29，所有队迁移同一个指定的小项目，把领取仓库、开发、提交、验收走一遍。' },
+		},
+		{
+			title: { en: 'A workshop', 'zh-CN': 'Workshop' },
+			body: { en: 'One session on Nov 28 on the whole path, from claiming a repository to submitting and review, recorded.', 'zh-CN': '11 月 28 日一场，讲从领取仓库到提交、验收的完整流程，留录播。' },
+			state: 'tentative',
+		},
+		{
+			title: { en: 'Docs and answers', 'zh-CN': '文档和答疑' },
+			body: { en: 'The participant guide, the acdev install guide and the app docs; technical questions answered in the open by the organizers’ engineers.', 'zh-CN': '选手指南、acdev 安装文档和应用开发文档；技术问题由主办方的工程师公开答。' },
+		},
+	],
+	group: { src: '/events/star-hunter-group.png', alt: { en: 'QR code of the Star Hunter players’ WeChat group', 'zh-CN': 'Star Hunter 选手微信群二维码' } },
 	criteria: [
 		{
-			title: { en: 'Packaged as a Dopame OS app', 'zh-CN': '打包成 Dopame OS 应用' },
+			title: { en: 'Fully packaged', 'zh-CN': '完整打包' },
 			body: {
 				en: 'The web front end and the back end both go into the app and run on Dopame OS. A shell around a remote website does not count.',
 				'zh-CN': '网页前端和后端都装进这个应用、在 Dopame OS 上跑。只套远程网页的壳不算。',
 			},
 		},
 		{
-			title: { en: 'Installs and opens', 'zh-CN': '装得上、打得开' },
+			title: { en: 'Runs on its own', 'zh-CN': '独立运行' },
 			body: {
 				en: 'On a freshly installed Dopame OS with nothing on it but your app. Working on your own machine is not enough.',
 				'zh-CN': '在一台刚装好的干净 Dopame OS 上，只装你交的应用。在自己的开发机上能用不算数。',
 			},
 		},
 		{
-			title: { en: 'Core features all work', 'zh-CN': '核心功能都能用' },
+			title: { en: 'Features complete', 'zh-CN': '功能完整' },
 			body: {
 				en: 'Every project has a core feature checklist, such as "sign up and log in" or "create, edit and delete a note". Every item on it has to work.',
 				'zh-CN': '每个项目有一份核心功能清单，比如「能注册登录」「能新建、编辑、删除一篇笔记」。清单上的每一项都能用。',
@@ -141,8 +201,8 @@ export const starHunter: Event = {
 			id: 'warmup',
 			name: { en: 'Warm-up round', 'zh-CN': '热身赛' },
 			what: {
-				en: 'Every team migrates the same small project, to go through getting a machine, packaging, submitting and review once.',
-				'zh-CN': '每队迁移同一个指定的小项目，把领环境、打包、提交、验收走一遍。',
+				en: 'Every team migrates the same small project, to go through claiming a repository, building, submitting and review once.',
+				'zh-CN': '每队迁移同一个指定的小项目，把领仓库、开发、提交、验收走一遍。',
 			},
 			when: { en: 'Nov 27 (Fri) – Nov 29 (Sun) 23:59', 'zh-CN': '11/27（周五）– 11/29（周日）23:59' },
 			start: '2026-11-27',
@@ -209,16 +269,16 @@ export const starHunter: Event = {
 			state: 'tentative',
 		},
 		{
-			title: { en: 'Get your machine', 'zh-CN': '领开发环境' },
+			title: { en: 'Claim a repository, install acdev', 'zh-CN': '领仓库、装 acdev' },
 			body: {
-				en: 'The organizers give each team a remote machine or cloud host with Dopame OS and the developer tools installed. Push your code to your own repository as you go; do not keep it only on the remote machine.',
-				'zh-CN': '主办方给每队一台远程机器或云主机，装好 Dopame OS 和开发工具。代码要及时推到本队的仓库，别只存在远程机器上。',
+				en: 'Each app gets a public repository in the 0x00-Migration organization on GitHub. Build on your own computer with acdev (macOS, Linux and Windows); every push runs the checks and the build. The participant guide has the steps.',
+				'zh-CN': '每个应用在 GitHub 的 0x00-Migration 组织下领一个公开仓库；在自己电脑上装好 acdev 开发（macOS、Linux、Windows 都支持），每次推送都会自动检查和构建。步骤见选手指南。',
 			},
 		},
 		{
 			title: { en: 'Play the warm-up', 'zh-CN': '打热身赛' },
 			body: {
-				en: 'One small project, the same for every team: the whole path from machine to review, before the clock starts.',
+				en: 'One small project, the same for every team: the whole path from repository to review, before the clock starts.',
 				'zh-CN': '所有队迁移同一个指定的小项目，在正式赛之前把整条路走通一遍。',
 			},
 		},
@@ -324,8 +384,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Who pays', 'zh-CN': '谁发奖金' },
 			body: {
-				en: 'Prizes are paid directly to the winners by the organizers, with individual income tax withheld. BoHack does not handle prize money.',
-				'zh-CN': '奖金由主办方直接发给获奖选手，代扣个税；BoHack 不经手奖金。',
+				en: 'Prizes are paid directly to the winners by the organizers, with individual income tax withheld.',
+				'zh-CN': '奖金由主办方直接发给获奖选手，代扣个税。',
 			},
 		},
 	],
@@ -375,8 +435,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Workshop', 'zh-CN': 'Workshop' },
 			body: {
-				en: 'One session during the warm-up, on November 28 (tentative): machine, packaging, submission, review. Recorded.',
-				'zh-CN': '只办一场，11 月 28 日热身赛期间（暂定）：讲领环境、打包、提交、验收，留录播。',
+				en: 'One session during the warm-up, on November 28 (tentative): repository, building, submission, review. Recorded.',
+				'zh-CN': '只办一场，11 月 28 日热身赛期间（暂定）：讲领仓库、开发、提交、验收，留录播。',
 			},
 		},
 		{
@@ -398,15 +458,15 @@ export const starHunter: Event = {
 		{
 			q: { en: 'Do I have to be somewhere?', 'zh-CN': '要到现场吗？' },
 			a: {
-				en: 'No. Registration, teams, machines, the warm-up, submission, review, the leaderboard, Q&A, the workshop, the finals, the results and the payout are all online.',
-				'zh-CN': '不用。报名、组队、领开发环境、热身赛、提交、验收、排行榜、答疑、workshop、决赛展示、公布结果、领奖都在线上。',
+				en: 'No. Registration, teams, repositories, the warm-up, submission, review, the leaderboard, Q&A, the workshop, the finals, the results and the payout are all online.',
+				'zh-CN': '不用。报名、组队、领仓库、热身赛、提交、验收、排行榜、答疑、workshop、决赛展示、公布结果、领奖都在线上。',
 			},
 		},
 		{
 			q: { en: 'I do not have a machine running Dopame OS.', 'zh-CN': '我没有装 Dopame OS 的机器怎么办？' },
 			a: {
-				en: 'You do not need one. Each team gets a remote machine or cloud host with Dopame OS and the developer tools installed.',
-				'zh-CN': '不需要。主办方给每队一台远程机器或云主机，装好 Dopame OS 和开发工具。',
+				en: 'You do not need one. You build on your own computer with acdev (macOS, Linux and Windows); review is done on a clean Dopame OS on the organizers’ side.',
+				'zh-CN': '不需要。在自己电脑上装好 acdev 就能开发（macOS、Linux、Windows 都支持），验收由主办方在干净的 Dopame OS 上做。',
 			},
 		},
 		{
