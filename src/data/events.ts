@@ -395,8 +395,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Best guides', 'zh-CN': '精选攻略奖' },
 			body: {
-				en: '30 guides: CNY 200 each for a post on X or Discord, CNY 100 each for a post on a platform in China (Xiaohongshu, Zhihu, Bilibili, WeChat and so on). X and Discord are recommended. It must be your own original post, with pictures or a video, telling a migration, packaging or debugging story on Dopame OS that others can follow, tagged #StarHunter and #0x00Community with a link to this page; the same piece on several platforms counts once; up to 3 per person. Entrants and non-entrants alike. Submit by December 10; picks are announced on December 11.',
-				'zh-CN': '30 篇：发在 X 或 Discord 上的每篇 200 元，发在国内平台（小红书、知乎、B 站、公众号等）的每篇 100 元。推荐发在 X 或 Discord。必须是原创的图文或视频，写你在 Dopame OS 上迁移、打包或排错的实际过程，别人照着能复现，带上 #StarHunter 和 #0x00Community 两个话题和本页链接；同一篇发到多个平台只算一次，每人最多 3 篇；参赛和不参赛的人都能拿。12 月 10 日截止提交，12 月 11 日公布。',
+				en: '20 guides: CNY 200 each for a post on X or Discord, CNY 100 each for a post on a platform in China (Xiaohongshu, Zhihu, Bilibili, WeChat and so on). X and Discord are recommended. It must be your own original post, with pictures or a video, telling a migration, packaging or debugging story on Dopame OS that others can follow, tagged #StarHunter and #0x00Community with a link to this page; the same piece on several platforms counts once; up to 3 per person. Entrants and non-entrants alike. Submit by December 10; picks are announced on December 11.',
+				'zh-CN': '20 篇：发在 X 或 Discord 上的每篇 200 元，发在国内平台（小红书、知乎、B 站、公众号等）的每篇 100 元。推荐发在 X 或 Discord。必须是原创的图文或视频，写你在 Dopame OS 上迁移、打包或排错的实际过程，别人照着能复现，带上 #StarHunter 和 #0x00Community 两个话题和本页链接；同一篇发到多个平台只算一次，每人最多 3 篇；参赛和不参赛的人都能拿。12 月 10 日截止提交，12 月 11 日公布。',
 			},
 		},
 		{
