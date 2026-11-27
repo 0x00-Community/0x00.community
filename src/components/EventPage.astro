@@ -259,6 +259,17 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 		))}
 	</section>
 
+	{event.partners && (
+		<section id="partners">
+			<h2>{e.partners}</h2>
+			<ul class="partners">
+				{event.partners.map((p) => (
+					<li><img src={p.logo} alt={p.name[locale]} title={p.name[locale]} loading="lazy" style={`--w: ${p.width}px`} /></li>
+				))}
+			</ul>
+		</section>
+	)}
+
 	{event.group && (
 		<div class="join" id="join">
 			<img src={event.group.src} width="360" height="360" alt={event.group.alt[locale]} />
@@ -326,6 +337,11 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 	.cards.qs h3 { font-size: 1.15rem; }
 	.cards.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 	.cards.four h3 { font-size: 1.05rem; }
+
+	/* partners: every logo on the same light tile, whatever the look, so their own colours hold */
+	.partners { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+	.partners li { display: grid; place-items: center; height: 104px; padding: 18px 22px; background: #f4f3ec; border: var(--bw) solid var(--line); border-radius: var(--r); }
+	.partners img { display: block; width: var(--w); max-width: 100%; height: auto; }
 
 	/* the players' group, before the last call to register */
 	.join { scroll-margin-top: 64px; display: grid; grid-template-columns: 168px minmax(0, 1fr); gap: 28px; align-items: center; margin: 64px 0 0; padding: 22px; border: var(--bw) solid var(--line); border-radius: var(--r); background: var(--card); }
@@ -411,6 +427,9 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 	@media (max-width: 720px) {
 		.facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 		.cards.three, .cards.two, .cards.four { grid-template-columns: 1fr; }
+		.partners { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+		.partners li { height: 84px; padding: 14px 16px; }
+		.partners img { width: calc(var(--w) * 0.72); }
 		/* on a phone the road runs down the page */
 		.road { grid-template-columns: 1fr; gap: 14px; }
 		.road::before { left: 8px; right: auto; top: 8px; bottom: 8px; border-top: 0; border-left: 2px solid var(--line); }
