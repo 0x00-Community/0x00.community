@@ -402,8 +402,8 @@ export const starHunter: Event = {
 		{
 			title: { en: 'Star Hunter merch', 'zh-CN': '限定周边' },
 			body: {
-				en: 'Everyone who gets at least one project through review gets a set; the first to get each project running gets a badge; the first 50 to finish the warm-up get stickers; guide authors and finalists get a set with their prize.',
-				'zh-CN': '每个迁成至少一个项目的人一套；每道题「首个跑通」的人加一枚实物徽章；热身赛完成的前 50 人一包贴纸；攻略作者和进决赛的 6 人随奖金寄一套。',
+				en: 'Everyone who gets at least one project through review gets a set; the first to get each project running also gets a badge.',
+				'zh-CN': '每个迁成至少一个项目的人一套；每道题「首个跑通」的人加一枚实物徽章。',
 			},
 		},
 		{
