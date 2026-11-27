@@ -108,7 +108,7 @@ export const starHunter: Event = {
 		{ label: { en: 'Main round', 'zh-CN': '正式赛' }, value: { en: 'Dec 1 – Dec 7, 2026, closing at 23:59:59', 'zh-CN': '2026 年 12 月 1 日 – 12 月 7 日 23:59:59' } },
 		{ label: { en: 'Entry', 'zh-CN': '参赛' }, value: { en: 'Individual: one person, no teams', 'zh-CN': '一人参赛，不组队' } },
 		{ label: { en: 'Who can enter', 'zh-CN': '谁能参加' }, value: { en: 'Anyone aged 13 or over: students and professionals', 'zh-CN': '13 岁以上谁都能报，学生、在职都可以' } },
-		{ label: { en: 'Prizes', 'zh-CN': '奖金' }, value: { en: 'CNY 42,000 before tax, plus merch', 'zh-CN': '4.2 万元（税前）+ 限定周边' } },
+		{ label: { en: 'Rewards', 'zh-CN': '奖励' }, value: { en: 'Worth CNY 50,000 in all', 'zh-CN': '总价值 5 万元' } },
 		{ label: { en: 'Time zone', 'zh-CN': '时区' }, value: { en: 'Beijing time (UTC+8)', 'zh-CN': '北京时间' } },
 	],
 	pitch: {
